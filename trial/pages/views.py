@@ -4,12 +4,12 @@ from django.shortcuts import render
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
-    return HttpResponse("<h1> Temp landing login page </h1>")
+    return render(request, "home.html", {})
 
 
 def submitter_landing_view(request, *args, **kwargs):
-    return HttpResponse("<h1> Submitter Landing Page </h1>")
+    return render(request, "submitter_landing.html", {})
 
 
 def rater_landing_view(request, *args, **kwargs):
-    return HttpResponse("<h1> Rater Landing Page </h1>")
+    return render(request, "rater_landing.html", {})

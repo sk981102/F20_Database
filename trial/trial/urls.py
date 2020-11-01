@@ -18,8 +18,8 @@ from django.urls import path
 from pages import views
 
 urlpatterns = [
-    path('', views.home_view, name='home_view'),
-    path('submitter/', views.submitter_landing_view, name='home_view'),
-    path('rater/', views.rater_landing_view, name='home_view'),
+    path('', views.home_view, name='home'),
+    path('submitter/', views.submitter_landing_view),
+    path('rater/', views.rater_landing_view),
     path('admin/', admin.site.urls),
 ]
