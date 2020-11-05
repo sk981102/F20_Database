@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'rater',
     'submitter',
     'pages',
+    'task',
+    'raw_data',
+    'parsed_data',
 ]
 
 MIDDLEWARE = [
