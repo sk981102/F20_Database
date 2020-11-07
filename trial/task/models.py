@@ -11,9 +11,9 @@ class Task(models.Model):
 
     #relationship
     participants = models.ManyToManyField("submitter.Submitter", through='Participate')
-    creator = models.ForeignKey("my_admin.MyAdmin", on_delete=models.RESTRICT,default=0)
+    creator = models.ForeignKey("my_admin.MyAdmin", on_delete=models.CASCADE,default=0)
     # 1:N or M:N Determine
-    raters = models.ForeignKey("rater.Rater", on_delete=models.RESTRICT,default=1)
+    raters = models.ForeignKey("rater.Rater", on_delete=models.CASCADE,default=1)
 
     def __str__(self):
         return self.title
