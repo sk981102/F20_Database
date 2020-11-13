@@ -1,7 +1,6 @@
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 
-#from fallDB.accounts.forms import SignUpForm
 from accounts.forms import SignUpForm
 
 def signup(request):
@@ -9,11 +8,12 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get('ID')
+            raw_password = form.cleaned_data.get('PW')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('home')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+

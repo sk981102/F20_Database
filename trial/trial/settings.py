@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trial',
-    'user_profile',
+    'accounts',
     'rater',
     'submitter',
     'pages',
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'parsed_data',
     'my_admin',
 ]
+
+AUTH_USER_MODEL = 'accounts.UserProfile'
 
 SILENCED_SYSTEM_CHECKS = [
     'django_mysql.W002',

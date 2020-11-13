@@ -13,3 +13,4 @@ def submitter_landing_view(request, *args, **kwargs):
 
 def rater_landing_view(request, *args, **kwargs):
     return render(request, "rater_landing.html", {})
+
