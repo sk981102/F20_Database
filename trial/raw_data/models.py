@@ -8,7 +8,7 @@ class RawData(models.Model):
     extension = models.CharField(max_length=5)
     #schema =
     #mapping = 
-    ordinal = models.PositiveIntegerField()
+    ordinal = models.PositiveIntegerField(default=1)
     period_start = models.DateField()
     period_end = models.DateField()
 
