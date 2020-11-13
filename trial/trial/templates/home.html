@@ -4,7 +4,19 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    Hi {{user.username}}!
+    {% if user.role == 'R'%}
+
+        <meta http-equiv="REFRESH" content="0;url={{'rater'}}">
+    {% endif %}
+
+    {% if user.role == 'A'%}
+        <meta http-equiv="REFRESH" content="0;url={{'admin'}}">
+    {% endif %}
+
+    {% if user.role == 'S'%}
+        <meta http-equiv="REFRESH" content="0;url={{'submitter'}}">
+    {% endif %}
+
     <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
     <p>You are not logged in</p>
