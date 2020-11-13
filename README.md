@@ -1,7 +1,7 @@
 # F20_Database
 연세대학교 2020년 가을학기 Database 조별과제
 
-####실행방법
+#### 실행방법
 1. python 3.8 확인 후 requirements.txt 다운로드 혹은 venv 실
 ```
 #python version check
