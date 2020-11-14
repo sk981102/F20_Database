@@ -7,4 +7,4 @@ from django.utils import timezone
 class SignUpForm(UserCreationForm):
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'email', 'ID', 'PW', 'birthdate', 'phone', 'address', 'gender', 'role')
+        fields = ('first_name', 'last_name', 'username', 'PW','email','birthdate', 'phone', 'address', 'gender', 'role')

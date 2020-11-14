@@ -13,7 +13,7 @@ class UserProfile(AbstractUser):
     """
     계정 Attributes
     user_id : PK (Auto_increment ID, (int))
-    ID : Char
+    username : Char
     PW : Char
     Gender : M/F
     Birthdate : Date
@@ -27,7 +27,7 @@ class UserProfile(AbstractUser):
     user_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=30, default='na')
     last_name = models.CharField(max_length=30, default='na')
-    ID = models.CharField(max_length=10, default="na",unique=True)
+    username = models.CharField(max_length=10,unique=True)
     PW = models.CharField(max_length=12, default="na")
     email = models.EmailField(max_length=254, default='na')
     birthdate = models.DateField(default=timezone.now)
@@ -36,7 +36,8 @@ class UserProfile(AbstractUser):
     gender = models.CharField(max_length=6, choices=GENDER, default="na")
     role = models.CharField(max_length=10, choices=ROLE, default="na")
 
-    USERNAME_FIELD = 'ID'
+    USERNAME_FIELD = 'username'
+    PASSWORD_FIELD = 'PW'
     REQUIRED_FIELDS = ['first_name','last_name']
 
     def save(self, *args, **kwargs):
@@ -51,26 +52,39 @@ class UserProfile(AbstractUser):
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self,first_name, last_name, email, ID, PW, birthdate, phone, address, gender, role,**extrafields):
+    def _create_user(self,first_name, last_name, username, PW,email, birthdate, phone, address, gender, role, **extrafields):
         if not email:
             raise ValueError('The given email must be set')
 
         email = self.normalize_email(email)
-        username = self.model.normalize_username(ID)
-        user = self.model(first_name, last_name, email, username, PW, birthdate, phone, address, gender, role, **extrafields)
+        username = self.model.normalize_username(username)
+        print(self)
+        user = self.model(
+            first_name = first_name,
+            last_name = last_name,
+            username = username,
+            PW = PW,
+            email =email,
+            birthdate = birthdate,
+            phone = phone,
+            address = address,
+            gender = gender,
+            role = role, **extrafields
+        )
         user.set_password(PW)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, ID, PW, role,**extra_fields):
+    def create_user(self, username, PW,email,role,**extra_fields):
+        print(self)
         if role == 'A':
-            self.create_superuser(self,  email, ID, PW, **extra_fields)
+            self.create_superuser(self,username, PW,email, **extra_fields)
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
-        return self._create_user(email, ID, PW, **extra_fields)
+        return self._create_user(email,username, PW, **extra_fields)
 
-    def create_superuser(self,  email, ID, PW, **extra_fields):
+    def create_superuser(self, username, PW, email, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -79,5 +93,5 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser = True')
 
-        return self._create_user(email, ID, PW, **extra_fields)
+        return self._create_user(username, PW, email,**extra_fields)
 

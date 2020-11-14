@@ -9,4 +9,4 @@ class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
     model = UserProfile
 
-admin.site.register(UserProfile, CustomUserAdmin)
+admin.site.register(UserProfile)
