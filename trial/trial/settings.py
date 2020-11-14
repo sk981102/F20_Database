@@ -86,14 +86,23 @@ WSGI_APPLICATION = 'trial.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# For MariaDB
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'Yonsei',
+#         'USER':'myusername',
+#         'PASSWORD':'mypassword',
+#         'HOST':'localhost',
+#         'PORT':'',
+#     }
+# }
+
+# default sqlite
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'Yonsei',
-        'USER':'myusername',
-        'PASSWORD':'mypassword',
-        'HOST':'localhost',
-        'PORT':'',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
