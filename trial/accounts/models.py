@@ -36,6 +36,7 @@ class UserProfile(AbstractUser):
     gender = models.CharField(max_length=6, choices=GENDER, default="na")
     role = models.CharField(max_length=10, choices=ROLE, default="na")
 
+
     USERNAME_FIELD = 'username'
     PASSWORD_FIELD = 'PW'
     REQUIRED_FIELDS = ['first_name','last_name']

@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import RawData
+from .models import RawDataType,RawDataSeqFile
 
-admin.site.register(RawData)
+admin.site.register(RawDataSeqFile)
+admin.site.register(RawDataType)

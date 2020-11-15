@@ -4,24 +4,23 @@ from django.db import models
 # Create your models here.
 class Task(models.Model):
     task_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100,default="")
-    description = models.TextField()
-    min_cycle = models.DurationField()
+    task_name = models.CharField(unique=True, max_length=100)
+    description = models.CharField(max_length=100)
+    mincycle = models.IntegerField()
+    admin = models.ForeignKey('my_admin.MyAdmin', models.DO_NOTHING, db_column='admin')
 
+    class Meta:
+        managed = False
+        db_table = 'task'
 
-    #relationship
-    participants = models.ManyToManyField("submitter.Submitter", through='Participate')
-    creator = models.ForeignKey("my_admin.MyAdmin", on_delete=models.CASCADE,default=0)
-    # 1:N or M:N Determine
-    raters = models.ForeignKey("rater.Rater", on_delete=models.CASCADE,default=1)
+class ApplyTask(models.Model):
+    submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING, primary_key=True)
+    task = models.ForeignKey(Task, models.DO_NOTHING)
+    approved = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.title
-    
-
-class Participate(models.Model):
-    task_id = models.ForeignKey(Task,on_delete=models.CASCADE)
-    submitter_id=models.ForeignKey("submitter.Submitter",on_delete=models.CASCADE)
-    passed = models.BooleanField()
+    class Meta:
+        managed = False
+        db_table = 'apply_task'
+        unique_together = (('submitter', 'task'),)
 
 

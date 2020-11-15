@@ -1,27 +1,21 @@
 from django.db import models
-from task.models import Task
-from submitter.models import Submitter
-from rater.models import Rater
-from raw_data.models import RawData
+
 
 # Create your models here.
 class ParsedData(models.Model):
-
     parsed_id = models.AutoField(primary_key=True)
+    task = models.ForeignKey('task.Task', models.DO_NOTHING)
+    submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING)
+    rater = models.ForeignKey('rater.Rater', models.DO_NOTHING)
+    raw_data_seq_file = models.ForeignKey('raw_data.RawDataSeqFile', models.DO_NOTHING, db_column='raw_data_seq_file')
+    total_tuple_num = models.IntegerField(blank=True, null=True)
+    duplicate_tuple_num = models.IntegerField(blank=True, null=True)
+    column_null_ratio = models.FloatField(blank=True, null=True)
+    quantity_score = models.IntegerField(blank=True, null=True)
+    quality_score = models.IntegerField(blank=True, null=True)
+    evaluated = models.IntegerField()
+    pass_field = models.IntegerField(db_column='pass')  # Field renamed because it was a Python reserved word.
 
-    title = models.ForeignKey(Task, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Submitter, on_delete=models.CASCADE)
-    ordinal = models.ForeignKey(RawData, related_name='brought_ordinal', on_delete=models.CASCADE)
-    period_start =models.ForeignKey(RawData, related_name='brought_period_start', on_delete=models.CASCADE)
-    period_end =models.ForeignKey(RawData, related_name='brought_period_end', on_delete=models.CASCADE)
-    
-    num_tuple = models.PositiveIntegerField()
-    num_duple = models.PositiveIntegerField()
-    percentage_null = models.PositiveIntegerField()
-    
-    score = models.IntegerField()
-    passed = models.BooleanField()
-
-    #relationship
-    parsed_from = models.OneToOneField(RawData, on_delete=models.CASCADE)
-    raters = models.ManyToManyField(Rater)
+    class Meta:
+        managed = False
+        db_table = 'parsed_data'
