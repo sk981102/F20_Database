@@ -39,7 +39,7 @@ class UserProfile(AbstractUser):
 
     USERNAME_FIELD = 'username'
     PASSWORD_FIELD = 'PW'
-    REQUIRED_FIELDS = ['first_name','last_name']
+    REQUIRED_FIELDS = ['first_name','last_name','email']
 
     def save(self, *args, **kwargs):
         created = not self.pk
@@ -54,8 +54,6 @@ class UserProfile(AbstractUser):
 
 class UserManager(BaseUserManager):
     def _create_user(self,first_name, last_name, username, PW,email, birthdate, phone, address, gender, role, **extrafields):
-        if not email:
-            raise ValueError('The given email must be set')
 
         email = self.normalize_email(email)
         username = self.model.normalize_username(username)
@@ -85,7 +83,7 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email,username, PW, **extra_fields)
 
-    def create_superuser(self, username, PW, email, **extra_fields):
+    def create_superuser(self, username,PW, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -94,5 +92,5 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser = True')
 
-        return self._create_user(username, PW, email,**extra_fields)
+        return self._create_user(username, PW, **extra_fields)
 
