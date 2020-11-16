@@ -1,13 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static %}
-<head>
-    <title>Crowd-Source Data Submitter</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<section id="main" class="wrapper">
+  <div class="inner">
+	  <h2>
+		Hi {{user.username}}!
+
+	  </h2>
+      <h4>Your Score: </h4>
+      <a href="#" class="button fit">More Tasks</a>
+	  <p><a href="{% url 'logout' %}">Log Out</a></p>
+	  <hr class="major">
+	  <h4>Approved Tasks</h4>
+	  <div class="table_wrapper">
+		  <table>
+			  <thead>
+			  	<tr>
+					<th>Task</th>
+					<th>Date Approved</th>
+					<th>Submit</th>
+				</tr>
+			  </thead>
+			  <tbody>
+  				<td>Task1</td>
+  				<td>2020.11.15</td>
+  				<td><a href="#">more text</a></td>
+			  </tbody>
+		  </table>
+	  </div>
+      <hr class="major">
+	  <h4>Pending Tasks</h4>
+	  <div class="table_wrapper">
+		  <table>
+			  <thead>
+			  	<tr>
+					<th>Task</th>
+					<th>Date Assigned</th>
+					<th>Status</th>
+				</tr>
+			  </thead>
+			  <tbody>
+  				<td>Task1</td>
+  				<td>2020.11.15</td>
+  				<td>Pending ...</td>
+			  </tbody>
+		  </table>
+	  <hr class="major">
+	  <h4>Past Tasks</h4>
+	  <div class="table_wrapper">
+		  <table>
+			  <thead>
+			  	<tr>
+					<th>Task</th>
+					<th>Date Assigned</th>
+					<th>View</th>
+				</tr>
+			  </thead>
+			  <tbody>
+  				<td>Task1</td>
+  				<td>2020.11.15</td>
+  				<td><a href="#">more text</a></td>
+			  </tbody>
+		  </table>
+	  </div>
+
+
+  </div>
+</section>
+{% endblock %}

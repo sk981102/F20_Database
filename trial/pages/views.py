@@ -8,7 +8,7 @@ def home_view(request, *args, **kwargs):
 
 
 def submitter_landing_view(request, *args, **kwargs):
-    return render(request, "list.html", {})
+    return render(request, "submitter_landing.html", {})
 
 
 def rater_landing_view(request, *args, **kwargs):
