@@ -1,23 +1,22 @@
-<!DOCTYPE html>
 
-<html>
+{% extends 'base.html' %}
 {% load static %}
+{% block content %}
 <head>
 	<meta charset="utf-8">
 	<title>태스크 목록 확인하기 예시 페이지</title>
 	<style>
 		.small {text-indent: 50px;}
-		.big {texxt-indent:100px;}
+		.big {text-indent:100px;}
 	</style>
 	<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 
 </head>
 
 <body>
-<div>
-<h1>제출할 파일수: 3</h1>
-</div>
-<hr>
+	<div>
+		<h1>제출할 파일수: 3</h1>
+	</div><hr>
 <br>
 <br>
 <hr>
@@ -44,4 +43,4 @@
 <hr>
 
 </body>
-</html>
+{% endblock %}

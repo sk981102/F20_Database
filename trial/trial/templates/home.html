@@ -1,11 +1,5 @@
-{% extends 'base.html' %}
-
-
-{% block content %}
-
 {% if user.is_authenticated %}
     {% if user.role == 'R'%}
-
         <meta http-equiv="REFRESH" content="0;url={{'rater'}}">
     {% endif %}
 
@@ -23,10 +17,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 
+	<header id="header">
+        <div class="inner">
+            <a href="{% url 'home' %}" class="logo"><strong>CrowdSource</strong> Data</a>
+            <nav id="nav">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="task_list.html">Tasks</a>
+                <a href="{% url 'signup' %}">My Account</a>
+            </nav>
+            <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+        </div>
+	</header>
     <section id="banner">
 				<div class="inner">
 					<header>
-						<h1>Welcome to CrowdData Sourcing Platform</h1>
+						<h1>Welcome to Data CrowdSourcing Platform</h1>
 					</header>
 
 					<div class="flex ">
@@ -34,7 +39,7 @@
 						<div>
 							<span class="icon fa-car"></span>
 							<h3>Administrate</h3>
-							<p>Administrate Tasks and Gather Data</p>
+							<p>Create Tasks and Gather Data</p>
 						</div>
 
 						<div>
@@ -46,14 +51,14 @@
 						<div>
 							<span class="icon fa-bug"></span>
 							<h3>Rate</h3>
-							<p>Rate the Data Quality</p>
+							<p>Rate and Check Data Quality</p>
 						</div>
 
 					</div>
 
 					<footer>
-						<a class="button" href="{% url 'login' %}">Log In</a>
-                        <a class="button" href="{% url 'signup' %}">Sign Up</a>
+						<a class="button" href="{% url 'login' %}">Log - In</a>
+                        <a class="button" href="{% url 'signup' %}"> Sign Up </a>
 					</footer>
 				</div>
 			</section>
@@ -86,4 +91,6 @@
 			</footer>
 
 {% endif %}
-{% endblock %}
+
+
+

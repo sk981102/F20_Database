@@ -2,13 +2,18 @@
 
 {% block title %}Sign Up{% endblock %}
 {% load static %}
+<body class="subpage">
+  {% block content %}
+  <section id="main" class="wrapper">
+  <div class="inner">
+    <h2 style="text-align:center">Sign Up</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Sign Up</button>
+    </form>
+    </div>
+</section>
 
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
-  <h2 style="text-align:center">Sign-Up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-  </form>
 {% endblock %}
+</body>
