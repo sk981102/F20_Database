@@ -2,15 +2,18 @@
 
 {% block content %}
 <html lang="ko">
-<h3>
-  Welcome. Sign Up!
-</h3>
+<head>
+  <title>Sign Up</title>
+</head>
 <body>
+  <div class="page-header">
+    <h1>Login</h1>
+  </div>
   <div class="container UserProfile">
     <form action="" method="POST">
       {%csrf_token%}
       {{form}}
-      <button type="submit">Save</button>
+      <button type="submit">Login</button>
     </form>
   </div>
 </body>
