@@ -14,3 +14,8 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('username', 'PW')
+
+class ViewUsers(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('first_name', 'last_name', 'username', 'PW','email','birthdate', 'phone', 'address', 'gender', 'role')

@@ -6,6 +6,9 @@ from django.shortcuts import render
 def home_view(request, *args, **kwargs):
     return render(request, "home.html", {})
 
+def admin_landing_view(request, *args, **kwargs):
+    return render(request, "admin_landing.html", {})
+
 
 def submitter_landing_view(request, *args, **kwargs):
     return render(request, "submitter_landing.html", {})

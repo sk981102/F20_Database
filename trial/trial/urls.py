@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pages import views
-from accounts.views import signup, signin
+from accounts.views import signup, signin, viewusers
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -26,6 +26,8 @@ urlpatterns = [
     path('task/', include('task.urls'),name='task'),
     path('rater/', views.rater_landing_view, name='rater'),
     path('admin/', admin.site.urls, name='admin'),
-    path('signup/', signup, name='signup'),
+    path('signup/', signup , name='signup'),
     path('login/', signin, name='signin'),
+    path('viewusers/', viewusers, name='viewusers'),
+    path('PJadmin/', views.admin_landing_view, name='admin'),
 ]

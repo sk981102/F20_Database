@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import SignUpForm, LoginForm
 from django.http import HttpResponse
+from .models import UserProfile
 
 def signup(request):
     if request.method == 'POST':
@@ -38,3 +39,8 @@ def signin(request):
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
+
+def viewusers(request):
+    form = UserProfile.objects.all()
+    #content = {'viewusers' : form}
+    return render(request, 'viewusers.html', {'form': form})
