@@ -36,3 +36,8 @@ CREATE DATABASE Yonsei;
 python migrate.py migrate
 python migrate.py runserver
 ``` 
+
+models.py의 정보를 변경할 경우
+``` 
+python migrate.py makemigrations
+``` 
