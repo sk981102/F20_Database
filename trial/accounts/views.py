@@ -41,6 +41,6 @@ def signin(request):
         return render(request, 'login.html', {'form': form})
 
 def viewusers(request):
-    form = UserProfile.objects.all()
-    #content = {'viewusers' : form}
-    return render(request, 'viewusers.html', {'form': form})
+    candidates = UserProfile.objects.all()
+    context = {'candidates' : candidates}
+    return render(request, 'viewusers.html', context)

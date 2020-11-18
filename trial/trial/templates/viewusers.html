@@ -8,8 +8,16 @@
   <div class="inner">
     <h2 style="text-align:center">Users</h2>
     <form method="post">
-        {%csrf_token%}
-        {{form}}
+        <tbody>
+        {% for candidate in candidates %}
+        <tr>
+            <td>{{ candidate.username }}</td>
+            <td>{{ candidate.user_id }}</td>
+            <td>{{ candidate.gender }}</td>
+            <td>{{ candidate.address }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
     </form>
     </div>
 </section>
