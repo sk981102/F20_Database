@@ -1,6 +1,8 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignUpForm, LoginForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 from .models import UserProfile
 
@@ -14,13 +16,6 @@ def signup(request):
             user_instance.set_password(form.cleaned_data['PW'])
             user_instance.save()
             return redirect('home')
-            """
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('PW')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('home')
-            """
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -35,7 +30,7 @@ def signin(request):
             login(request, user)
             return redirect('home')
         else:
-            return HttpResponse('로그인 실패. 다시 시도 해보세요.')
+            return redirect('signin')
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
@@ -44,3 +39,22 @@ def viewusers(request):
     candidates = UserProfile.objects.all()
     context = {'candidates' : candidates}
     return render(request, 'viewusers.html', context)
+
+def myaccount(request):
+    form = get_object_or_404(UserProfile, pk=request.user.pk)
+    return render(request, 'myaccount.html', {'form': form})
+"""
+def changepw(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'changepw,html', {'form': form})
+"""

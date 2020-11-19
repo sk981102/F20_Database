@@ -4,14 +4,12 @@
     {% endif %}
 
     {% if user.role == 'A'%}
-        <meta http-equiv="REFRESH" content="0;url={{'admin'}}">
+        <meta http-equiv="REFRESH" content="0;url={{'pjadmin'}}">
     {% endif %}
 
     {% if user.role == 'S'%}
         <meta http-equiv="REFRESH" content="0;url={{'submitter'}}">
     {% endif %}
-
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
 {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -23,7 +21,7 @@
             <nav id="nav">
                 <a href="{% url 'home' %}">Home</a>
                 <a href="{% url 'task' %}">Tasks</a>
-                <a href="{% url 'signup' %}">My Account</a>
+                <a href="{% url 'myaccount' %}">My Account</a>
             </nav>
             <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
         </div>
@@ -57,7 +55,7 @@
 					</div>
 
 					<footer>
-						<a class="button" href="{% url 'login' %}">Log - In</a>
+						<a class="button" href="{% url 'signin' %}">Log - In</a>
                         <a class="button" href="{% url 'signup' %}"> Sign Up </a>
 					</footer>
 				</div>

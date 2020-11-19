@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="main" class="wrapper">
+  <div class="inner">
+	  <h2>
+		Hi {{user.username}}!
+	  </h2>
+	  <p><a href="{% url 'logout' %}">Log Out</a></p>
+	  <h4>My Info</h4>
+	  <div class="table_wrapper">
+		  <table>
+			  <thead>
+			  	<tr>
+					<td>First Name:	&nbsp;&nbsp; {{user.first_name}}</td>
+				</tr>
+			  	<tr>
+					<td>Last Name: &nbsp;&nbsp; {{user.last_name}}</td>
+				</tr>
+				<tr>
+					<td>ID:	&nbsp;&nbsp; {{user.username}}</td>
+				</tr>
+			  	<tr>
+					<td>Birthdate:	&nbsp;&nbsp; {{user.birthdate}}</td>
+				</tr>
+			  	<tr>
+					<td>Phone Num:	&nbsp;&nbsp; {{user.phone}}</td>
+				</tr>
+			  	<tr>
+					<td>Address:	&nbsp;&nbsp; {{user.address}}</td>
+				</tr>
+			  	<tr>
+					<td>Gender:	&nbsp;&nbsp; {{user.gender}}</td>
+				</tr>
+			  	<tr>
+					<td>Role:	&nbsp;&nbsp; {{user.role}}</td>
+				</tr>
+		  </table>
+		  <style>
+			  .button {padding:15px 30px, margin: 4px 2px}
+		  </style>
+		  <a href="#" class="button">Change Info</a>
+		  <a href="#" class="button">Change Password</a>
+		  <a href="#" class="button">Delete Account</a>
+	  </div>
+  </div>
+</section>
+{% endblock %}
