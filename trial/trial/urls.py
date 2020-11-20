@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pages import views
-from accounts.views import signup, signin, viewusers, myaccount
+from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -31,4 +31,7 @@ urlpatterns = [
     path('login/', signin, name='signin'),
     path('viewusers/', viewusers, name='viewusers'),
     path('myaccount/', myaccount, name='myaccount'),
+    path('myaccount/changepw/', changepw, name='changepw'),
+    path('myaccount/changeinfo', changeinfo, name='changeinfo'),
+    path('myaccount/deleteaccount', deleteaccount, name='deleteaccount')
 ]

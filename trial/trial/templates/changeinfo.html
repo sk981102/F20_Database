@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="main" class="wrapper">
+  <div class="inner">
+    <h2>Edit Your Personal Information Here</h2>
+
+    <form action='' method="POST">
+        {% csrf_token %}
+        First Name : <input type="text" name="first_name" value="{{user.first_name}}">
+        Last Name : <input type="text" name="last_name" value="{{user.last_name}}">
+        Username : <input type="text" name="username" value="{{user.username}}">
+        Birthdate : <input type="date" onload="{{user.birthdate}}" name="birthdate" value="{{user.birthdate}}">
+        <br>
+        Phone : <input type="text" name="phone" value="{{user.phone}}">
+        Address : <input type="text" name="address" value="{{user.address}}">
+        Gender : Please Type Either 'F' or 'M'
+        <input type="text" name="gender" value="{{user.gender}}">
+       <input type="submit" value="Submit"/>
+    </form>
+  </div>
+</section>
+{% endblock %}
