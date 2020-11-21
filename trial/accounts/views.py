@@ -17,7 +17,7 @@ def signup(request):
             #user_instance.generate()
             user_instance.set_password(form.cleaned_data['PW'])
             user_instance.save()
-            return redirect('home')
+            return redirect('signin')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -53,7 +53,7 @@ def changepw(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('index')
+            return redirect('home')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
