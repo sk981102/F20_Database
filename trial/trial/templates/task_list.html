@@ -17,17 +17,18 @@
                     <th>Details</th>
 				</tr>
 			  </thead>
-			  <tbody>
                 {% if tasks%}
                 {% for t in tasks %}
+			  	<tbody>
   				    <td>{{t.task_name}}</td>
   				    <td>{{t.description}}</td>
                     <td>
                         <a class="button" href="/sangpum/update?id={{s.id}}">View Details</a>
                     </td>
+				</tbody>
                 {% endfor %}
+
                 {% endif %}
-			  </tbody>
 		  </table>
 	  </div>
   </div>
