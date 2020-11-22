@@ -6,3 +6,12 @@ class MyAdmin(models.Model):
 
     class Meta:
         db_table = 'my_admin'
+
+class TaskCreate(models.Model):
+	#class Meta:
+		Name=models.CharField(unique=True, max_length=100)
+		Comment=models.CharField(max_length=100)
+		TaskDataTableName=models.CharField(max_length=100)
+		TaskDataTableScheme=models.CharField(max_length=100)
+
+
