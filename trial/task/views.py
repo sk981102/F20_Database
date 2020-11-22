@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from django.views import generic
 from task.models import Task
-#from _mysql import connection
-from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
+def TaskDetailView(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    return render(request, 'task_detail.html', context={'task': task})
 
 def ListFunc(request):
-    data= Task.objects.all()
-    return render(request, 'task_list.html', {'tasks':data})
-
+    data = Task.objects.all()
+    return render(request, 'task_list.html', {'tasks': data})
