@@ -14,9 +14,9 @@ class Task(models.Model):
         db_table = 'task'
 
 class ApplyTask(models.Model):
-    submitter = models.OneToOneField('submitter.Submitter', models.DO_NOTHING, primary_key=True)
-    task = models.ForeignKey(Task, models.DO_NOTHING,default=None)
-    approved = models.IntegerField(blank=True, null=True)
+    submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING)
+    task = models.ForeignKey(Task, models.DO_NOTHING)
+    approved = models.IntegerField(default=0) #0 = Not approved, 1= approved
 
     class Meta:
         #managed = False

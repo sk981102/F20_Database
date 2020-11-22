@@ -7,8 +7,8 @@
 		Hi {{user.username}}!
 
 	  </h2>
-      <h4>Your Score: </h4>
-      <a href="#" class="button fit">More Tasks</a>
+      <h4>Your Score: {{submitter.score}} </h4>
+      <a href="{% url 'task' %}" class="button fit">More Tasks</a>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
 	  <hr class="major">
 	  <h4>Approved Tasks</h4>
