@@ -4,13 +4,13 @@
 #### .csv 파일
 bestsellers_with_categories.csv : 원본 데이터 셋 
 
-fiction_correct.csv : 픽션 데이터 타입의 무결점 데이터 셋
+fiction_correct.csv : 픽션 데이터 타입, 무결점 데이터 셋
 
-non-fiction_correct.csv : 픽션 데이터 타입의 무결점 데이터 셋
+non-fiction_correct.csv : 픽션 데이터 타입, 무결점 데이터 셋
 
-fiction_incorrect.csv : 픽션 데이터 타입의 결점이 있 데이터 셋
+fiction_incorrect.csv : 픽션 데이터 타입, 결점이 있 데이터 셋
 
-non-fiction_incorrect.csv : 픽션 데이터 타입의 결점이 있는 데이터 셋
+non-fiction_incorrect.csv : 픽션 데이터 타입, 결점이 있는 데이터 셋
 
 결점은 다음과 같음:
 1. out-of-bound value 존재
