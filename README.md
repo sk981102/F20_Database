@@ -33,8 +33,8 @@ CREATE DATABASE Yonsei;
 ``` 
 4. migrate 후 서버 실행
 ``` 
-python migrate.py migrate
-python migrate.py runserver
+python manage.py migrate
+python manage.py runserver
 ``` 
 
 models.py의 정보를 변경할 경우

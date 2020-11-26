@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from task.models import Task
-#from _mysql import connection
-from django.http.response import HttpResponseRedirect
+from django.views import generic
+from task.models import Task, ApplyTask
+from submitter.models import Submitter
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
+def TaskDetailView(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    return render(request, 'task_detail.html', context={'task': task})
 
 def ListFunc(request):
     data= Task.objects.all()
@@ -12,3 +15,14 @@ def ListFunc(request):
 def ApprovedTasks(request):
     task= Task.objects.all()
     return render(request, 'submitter_handing.html', {'task':task})
+
+def ViewContract(request, pk):
+    return render(request, "contract.html", {'task_id':pk})
+
+def Applied(request, task_id, submitter_id):
+    task = get_object_or_404(Task, pk=task_id)
+    submitter= get_object_or_404(Submitter, pk=submitter_id)
+    applied=ApplyTask.objects.create(submitter=submitter,task=task, approved=0)
+    applied.save()
+
+    return render(request,"applied.html",)

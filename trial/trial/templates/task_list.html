@@ -4,7 +4,7 @@
 <section id="main" class="wrapper">
   <div class="inner">
 	  <h3 style="text-align:center">
-          Task
+          On-Going Tasks
 	  </h3>
 
 	  <hr class="major">
@@ -23,7 +23,7 @@
   				    <td>{{t.task_name}}</td>
   				    <td>{{t.description}}</td>
                     <td>
-                        <a class="button" href="/sangpum/update?id={{s.id}}">View Details</a>
+                        <a class="button" href="{% url 'task_detail' t.task_id %}">View Details</a>
                     </td>
 				</tbody>
                 {% endfor %}
