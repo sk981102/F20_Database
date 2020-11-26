@@ -33,5 +33,7 @@ urlpatterns = [
     path('myaccount/', myaccount, name='myaccount'),
     path('myaccount/changepw/', changepw, name='changepw'),
     path('myaccount/changeinfo', changeinfo, name='changeinfo'),
-    path('myaccount/deleteaccount', deleteaccount, name='deleteaccount')
+    path('myaccount/deleteaccount', deleteaccount, name='deleteaccount'),
+	path('submitter/upload', views.submitter_file_upload, name='upload'),
+	path('submitter/apply', views.apply, name='apply'),
 ]

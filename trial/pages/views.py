@@ -17,3 +17,9 @@ def submitter_landing_view(request, *args, **kwargs):
 def rater_landing_view(request, *args, **kwargs):
     return render(request, "rater_landing.html", {})
 
+	
+def submitter_file_upload(request, *args, **kwargs):
+	return render(request, "upload.html", {})
+	
+def apply(request, *args, **kwargs):
+	return render(request, "terms.html", {})

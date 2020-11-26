@@ -14,18 +14,18 @@
 	  <h4>Approved Tasks</h4>
 	  <div class="table_wrapper">
 		  <table>
-			  <thead>
-			  	<tr>
+			<thead>
+			 	<tr>
 					<th>Task</th>
 					<th>Date Approved</th>
 					<th>Submit</th>
 				</tr>
-			  </thead>
-			  <tbody>
-  				<td>Task1</td>
+			</thead>
+			<tbody>
+  				<td>{{task.task_name}}</td>
   				<td>2020.11.15</td>
-  				<td><a href="#">more text</a></td>
-			  </tbody>
+  				<td><a href="{% url 'upload' %}">Submit new data</a></td>
+			</tbody>
 		  </table>
 	  </div>
       <hr class="major">

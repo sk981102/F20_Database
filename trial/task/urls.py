@@ -3,7 +3,7 @@ from task import views
 
 urlpatterns = [
     path('', views.ListFunc,name='task'),
-    #path('submit', views.SubmitFunc),
+    path('upload', views.ApprovedTasks),
     #path('View', views.ViewFunc),
 ]
 
