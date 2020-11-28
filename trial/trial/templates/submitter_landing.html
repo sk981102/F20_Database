@@ -10,42 +10,48 @@
       <a href="{% url 'task' %}" class="button fit">More Tasks</a>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
 	  <hr class="major">
-	  <h4>Approved Tasks</h4>
+	  <h4>참여 중인 태스크</h4><br/>
 	  <div class="table_wrapper">
 		  <table>
 			<thead>
 			 	<tr>
-					<th>Task</th>
-					<th>Date Approved</th>
-					<th>Submit</th>
+					<th>태스크</th>
+					<th>설명</th>
+					<th>최소 업로드 주기(일)</th>
+					<th> </th>
 				</tr>
 			</thead>
 			<tbody>
-  				<td>{{task.task_name}}</td>
-  				<td>2020.11.15</td>
-  				<td><a href="{% url 'upload' %}">Submit new data</a></td>
+			{% for t in approved_tasks %}
+				<tr><td>{{t.task.task_name}}</td>
+  				<td>{{t.task.description}}</td>
+				<td>{{t.task.mincycle}}</td>
+  				<td><a href="{% url 'upload' t.task.task_id %}">자세히 보기</a></td></tr>
+			{% endfor %}
 			</tbody>
 		  </table>
 	  </div>
       <hr class="major">
-	  <h4>Pending Tasks</h4>
+	  <h4>대기 중인 태스크</h4><br/>
 	  <div class="table_wrapper">
 		  <table>
 			  <thead>
 			  	<tr>
-					<th>Task</th>
-					<th>Date Assigned</th>
-					<th>Status</th>
+					<th>태스크</th>
+					<th>설명</th>
+					<th>상태</th>
 				</tr>
 			  </thead>
-			  <tbody>
-  				<td>Task1</td>
-  				<td>2020.11.15</td>
-  				<td>Pending ...</td>
-			  </tbody>
+				{% for t in pending_tasks %}
+				<tbody>
+					<td>{{t.task.task_name}}</td>
+					<td>{{t.task.description}}</td>
+					<td>승인 대기 중</td>
+				</tbody>
+				{% endfor %}
 		  </table>
 	  <hr class="major">
-	  <h4>Past Tasks</h4>
+	  <h5>Past Tasks</h5>
 	  <div class="table_wrapper">
 		  <table>
 			  <thead>

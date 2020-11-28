@@ -19,22 +19,44 @@
 <body>
 	<section id="main" class="wrapper">
 	  <div class="inner">
-		  <h2>데이터 업로드</h2>
-		  <h4> </h4>
+		  <h2></h2>
+		  <h4>제출한 데이터</h4>
 		  <div class="table_wrapper">
 			<table>
+			<thead>
+				<tr><th>데이터 타입</th>
+				<th>회차</th>
+				<th>기간</th>
+				<th>업로드한 파일</th></tr>
+			</thead>
 			<tbody>
-  				<tr><td>제출할 파일</td><td><input type="file"></td></tr>
-  				<tr><td>원본 데이터 타입</td>
-					<td><input type="radio" checked> 국민은행</li>
-						<input type="radio"> 하나은행</li>
-						<input type="radio"> 신한은행</li></td>			
-				</tr>
-  				<tr><td>제출 회차</td><td><input type="number" min="1"> 회차</tr>
-  				<tr><td>데이터 수집 기간</td><td><input type="date"> ~ <input type="date"></td></tr>
+			{% for f in uploaded_files %}
+				<tr><td>{{f.raw_data_type}}</td>
+					<td>{{f.round}}</td>
+					<td>{{f.term_start}} ~ {{f.term_end}}
+					<td>{{f.file}}</td></tr>
+			{% endfor %}
 			</tbody>
 			</table>
-			<input class="button" type="submit" href="mypage.html" value="제출하기">
+		  </div><br/><br/><br/>
+		  <h4>새 데이터 제출하기</h4>
+		  <div class="table_wrapper">
+			<form action=" {% url 'submitted' task.task_id %}" method="post", enctype="multipart/form-data" nonvalidate>
+			<table>
+			<tbody>
+				{% csrf_token %}
+				<tr><td>제출할 파일</td>
+					<td>{{form.file}}</td></tr>
+  				<tr><td>원본 데이터 타입</td>
+					<td>{{form.raw_data_type}}</td></tr>
+  				<tr><td>제출 회차</td>
+					<td>{{form.round}} 회차</tr>
+  				<tr><td>데이터 수집 기간</td>
+					<td>{{form.term_start}} ~ {{form.term_end}}</td></tr>
+			</tbody>
+			</table>
+			<input class="button" type="submit" value="제출하기">
+			</form>
 		  </div>
 	  </div>
 	</section>
