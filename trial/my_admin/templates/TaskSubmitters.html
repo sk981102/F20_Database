@@ -6,12 +6,16 @@
       <p><strong>Task ID:</strong> {{task.task_id}}</p>
       <p><strong>Task Description:</strong> {{task.description}}</p>
       <p><strong>최소 업로드 주기:</strong> {{task.mincycle}}</p>
-      <p><strong>File Type:</strong> .csv files</p>
-      {% if user.is_authenticated %}
-        {% if user.role == 'S'%}
-            <a class="button" href="{% url 'contract' task.task_id %}"}>Apply Task</a>
-        {% endif %}
-      {% endif %}
-
-  </div>
+      <p><strong>File Type:</strong> .csv files</p> <br>
+      <h3>아직 승인되지 않은 제출자</h3>
+	          {% for t in pending_submitter %}
+				<td>{{t.submitter.user_id}}</td>
+  				<td>{{t.submitter.score}}</td> <br>
+			{% endfor %} 
+                        <br>
+      <h3><strong>이미 승인된 제출자</strong></h3>
+                  {% for t in approved_submitter %}
+                                <td>{{t.submitter.user_id}}</td>
+                                <td>{{t.submitter.score}}</td> <br>
+                        {% endfor %}
 {% endblock %}

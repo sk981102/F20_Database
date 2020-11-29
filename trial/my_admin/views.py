@@ -29,5 +29,6 @@ def manage(request):
 
 def task_submitters(request, pk):
     thistask = get_object_or_404(Task, pk=pk)
-    submitters=ApplyTask.objects.filter(task=thistask)
-    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'submitters':submitters})
+    approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
+    pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
+    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters})
