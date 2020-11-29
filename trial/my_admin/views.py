@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.urls import path 
 from .models import *
 from .forms import TaskCreateForm
 from task.models  import Task,ApplyTask #,TaskDataTable
@@ -35,8 +37,11 @@ def task_submitters(request, pk):
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
     return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters})
 
-def sub_approve(request,task_id,user_id):
+def sub_approve(request,task_id,user_id): 
     thistask=get_object_or_404(Task, pk=task_id)
     thispropile=get_object_or_404(UserProfile, username=user_id)
-    thisuser=get_object_or_404(Submitter, pk=thispropile.user_id)
-    return render(request, 'Approve.html', context={'task':thistask, 'submitter':thisuser})
+    thissubmitter=get_object_or_404(Submitter, pk=thispropile.user_id)
+    thisobj=get_object_or_404(ApplyTask, task=thistask, submitter=thissubmitter)
+    thisobj.approved=1
+    thisobj.save()
+    return render(request, 'Approve.html', context={'obj':thisobj})

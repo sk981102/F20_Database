@@ -1,2 +1,8 @@
-{{task.task_id}}
-{{submitter.user_id}}
+{% extends 'base.html' %}
+
+    <section id="main">
+        {% block content %}
+        <Strong> You sucessfully approved this submission! </Strong><br>
+        <a href="{% url 'home'%}">Go to Home</a>
+        {% endblock %}
+    </section>
