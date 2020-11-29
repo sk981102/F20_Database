@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from pages import views
 #from my_admin import views as adminviews
-from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount
+from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount, search, post_detail
 
 
 urlpatterns = [
@@ -39,4 +39,6 @@ urlpatterns = [
     path('myaccount/changepw/', changepw, name='changepw'),
     path('myaccount/changeinfo', changeinfo, name='changeinfo'),
     path('myaccount/deleteaccount', deleteaccount, name='deleteaccount'),
+    path('search/', search, name='search'),
+    url(r'^post_detail/(?P<pk>\d+)/', post_detail),
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

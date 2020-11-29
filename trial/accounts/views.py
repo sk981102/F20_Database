@@ -7,6 +7,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .models import UserProfile
 from django.contrib.auth.hashers import check_password
 from django.urls import path
+from django.db.models import Q
+
 
 def signup(request):
     if request.method == 'POST':
@@ -96,4 +98,23 @@ def deleteaccount(request):
         password_form = CheckPasswordForm(request.user)
 
     return render(request, 'deleteaccount.html', {'password_form': password_form})
+
+def search(request):
+    blogs = None
+    q = None
+    if 'q' in request.GET:
+        q = request.GET.get('q')
+        blogs = UserProfile.objects.all().filter(Q(username__contains=q) | Q(gender__contains=q) | Q(birthdate__contains=q))
+        return render(request, 'search.html', {'blogs': blogs, 'q': q})
+
+    else:
+        return render(request, 'search.html')
+
+
+def post_detail(request, pk):
+    post = UserProfile.objects.get(pk=pk)
+    context = {
+        'post': post
+    }
+    return render(request, 'post_detail.html', context)
 

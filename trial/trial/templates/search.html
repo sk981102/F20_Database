@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="inner">
+<form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
+{% csrf_token %}
+<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q" value="{{q}}">
+<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+</form>
+
+
+
+    {% if not blogs %}
+
+        <h1>검색 결과가 없습니다</h1>
+
+    {% else %}
+
+        {% for blog in blogs.all %}
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                   <a href="http://127.0.0.1:8000/post_detail/{{ blog.pk }}"> <h1>{{ blog.username }}</h1> </a>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}

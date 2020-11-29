@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}users{% endblock %}
+
 {% load static %}
 <body class="subpage">
   {% block content %}
   <section id="main" class="wrapper">
-
   <div class="inner">
-    <h2 style="text-align:center">Users</h2>
+    <h2 style="text-align:center">{{post.username}}'s Information</h2>
     <form method="post">
-
         <table class="table table-striped">
             <thead>
             <tr>
@@ -24,21 +22,30 @@
             </tr>
             </thead>
             <tbody>
-            {% for candidate in candidates %}
+
             <tr>
-                <td>{{ candidate.username }}</td>
-                <td>{{ candidate.user_id }}</td>
-                <td>{{ candidate.gender }}</td>
-                <td>{{ candidate.address }}</td>
-                <td>{{ candidate.birthdate }}</td>
-                <td>{{ candidate.email }}</td>
+                <td>{{ post.username }}</td>
+                <td>{{ post.user_id }}</td>
+                <td>{{ post.gender }}</td>
+                <td>{{ post.address }}</td>
+                <td>{{ post.birthdate }}</td>
+                <td>{{ post.email }}</td>
 
 
             </tr>
-            {% endfor %}
+
             </tbody>
         </table>
-        <p><a href="{% url 'search' %}" class = "button">Search Users</a>
+        <!--<tbody>
+
+        <tr>
+            <td>{{ post.username }}</td>
+            <td>{{ post.user_id }}</td>
+            <td>{{ post.gender }}</td>
+            <td>{{ post.address }}</td>
+        </tr>
+
+        </tbody>-->
     </form>
     </div>
 </section>
