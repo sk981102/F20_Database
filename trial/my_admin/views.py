@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import TaskCreateForm
 from task.models  import Task,ApplyTask #,TaskDataTable
+from submitter.models import Submitter
+from accounts.models import UserProfile
 # Create your views here.
 def create(request):
     if request.method=='POST':
@@ -32,3 +34,9 @@ def task_submitters(request, pk):
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
     return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters})
+
+def sub_approve(request,task_id,user_id):
+    thistask=get_object_or_404(Task, pk=task_id)
+    thispropile=get_object_or_404(UserProfile, username=user_id)
+    thisuser=get_object_or_404(Submitter, pk=thispropile.user_id)
+    return render(request, 'Approve.html', context={'task':thistask, 'submitter':thisuser})
