@@ -6,7 +6,8 @@
 	  <h2>
 		Hi {{user.username}}!
 	  </h2>
-	  <h3>{{task_info.task_name}}</h3>
+	  {{table | safe}}
+	  {{scores}}
 	  <h3>{{assigned_task}}</h3>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
 	  <hr class="major">
