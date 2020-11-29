@@ -14,8 +14,8 @@ def assigned_landing_view(request, *args, **kwargs):
 
     if AssignedTask.objects.filter(rater=rater).exists():
         print('object exists')
-        assigned_task=AssignedTask.objects.filter(rater=rater)
-        task_info = Task.objects.filter(task_id=assigned_task.task)
+        assigned_task=AssignedTask.objects.filter(rater=rater).first()
+        task_info = Task.objects.filter(task_name=assigned_task.task.task_name)
 
         return render(request, "rater_landing.html",
                       {"task_info": task_info , "assigned_task":assigned_task,"rater":rater})
