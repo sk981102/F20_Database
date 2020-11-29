@@ -3,4 +3,5 @@ from my_admin import views
  
 urlpatterns = [
     url(r'^taskcreate', views.create, name='taskcreate'),
+    url(r'^taskmanage', views.manage, name='taskmanage'),
 ]

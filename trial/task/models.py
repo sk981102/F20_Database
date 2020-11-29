@@ -2,13 +2,16 @@ from django.db import models
 #from admin.models import Admin
 
 # Create your models here.
+class TaskDataTable(models.Model):
+    Name=models.CharField(primary_key=True, max_length=100)
+    Scheme=models.CharField(max_length=100)
+
 class Task(models.Model):
     task_id = models.AutoField(primary_key=True)
     task_name = models.CharField(unique=True, max_length=100)
     description = models.CharField(max_length=100)
     mincycle = models.IntegerField()
     admin = models.ForeignKey('my_admin.MyAdmin', models.DO_NOTHING, db_column='admin',default=None)
-
     class Meta:
         #managed = False
         db_table = 'task'
