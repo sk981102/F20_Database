@@ -7,6 +7,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .models import UserProfile
 from django.contrib.auth.hashers import check_password
 from django.urls import path
+from django.db.models import Q
+
 
 def signup(request):
     if request.method == 'POST':
@@ -75,15 +77,7 @@ def changeinfo(request):
     return render(request, 'changeinfo.html')
 
 def deleteaccount(request):
-    """
-    if request.method == "POST" :
-        pw_del = request.POST["PW"]
-        user = request.user
-        if check_password(pw_del, user.password):
-            user.delete()
-            return redirect('home')
-    return render(request, 'deleteaccount.html')
-    """
+
     if request.method == 'POST':
         password_form = CheckPasswordForm(request.user, request.POST)
 
@@ -91,9 +85,28 @@ def deleteaccount(request):
             request.user.delete()
             logout(request)
             messages.success(request, "회원탈퇴가 완료되었습니다.")
-            return redirect('/users/login/')
+            return redirect('login')
     else:
         password_form = CheckPasswordForm(request.user)
 
     return render(request, 'deleteaccount.html', {'password_form': password_form})
+
+def search(request):
+    blogs = None
+    q = None
+    if 'q' in request.GET:
+        q = request.GET.get('q')
+        blogs = UserProfile.objects.all().filter(Q(username__contains=q) | Q(gender__contains=q) | Q(birthdate__contains=q))
+        return render(request, 'search.html', {'blogs': blogs, 'q': q})
+
+    else:
+        return render(request, 'search.html')
+
+
+def post_detail(request, pk):
+    post = UserProfile.objects.get(pk=pk)
+    context = {
+        'post': post
+    }
+    return render(request, 'post_detail.html', context)
 
