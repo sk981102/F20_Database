@@ -10,7 +10,8 @@ from django.urls import path
 from django.db.models import Q
 from submitter.models import Submitter
 from task.models import ApplyTask
-
+from rater.models import Rater
+from parsed_data.models import ParsedData
 
 def signup(request):
     if request.method == 'POST':
@@ -107,11 +108,23 @@ def search(request):
 
 def post_detail(request, pk):
     post = UserProfile.objects.get(pk=pk)
-    submitter = get_object_or_404(Submitter,pk=pk)
-    apply = ApplyTask.objects.filter(submitter=submitter)
+    if post.role == 'S':
+        submitter = get_object_or_404(Submitter,pk=pk)
+        apply = ApplyTask.objects.filter(submitter=submitter)
 
-    context = {
-        'post': post, 'submitter': submitter, 'apply': apply
-    }
-    return render(request, 'post_detail.html', context)
+        context = {
+            'post': post, 'apply': apply, 'submitter': submitter
+        }
+        return render(request, 'post_detail.html', context)
+    else:
+        rater = get_object_or_404(Rater, pk=pk)
+        parsed = ParsedData.objects.filter(rater=rater)
+
+        context = {
+            'post':post, 'pared': parsed
+        }
+        return render(request, 'post_detail.html', context)
+
+
+
 

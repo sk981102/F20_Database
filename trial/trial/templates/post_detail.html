@@ -36,10 +36,13 @@
             </tr>
 
             </tbody>
-            <h2>참가 중인 태스크 목록</h2>
+
         </table>
+        {% if post.role == "S" %}
+        <h3>참가 중인 태스크 목록</h3>
         <table class="table table-striped">
             <tbody>
+
         {% for ay in apply %}
 
         <tr>
@@ -48,9 +51,28 @@
         </tr>
 
         {% endfor %}
+
             </tbody>
         </table>
 
+
+        {% elif post.role == "R" %}
+        <h3>평가 중인 태스크 목록</h3>
+        <table class="table table-striped">
+            <tbody>
+
+        {% for ps in parsed %}
+
+        <tr>
+            <td>{{ ps.task }}</td>
+
+        </tr>
+
+        {% endfor %}
+            {% endif %}
+
+            </tbody>
+        </table>
     </form>
     </div>
 </section>
