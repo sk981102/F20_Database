@@ -91,7 +91,7 @@ def deleteaccount(request):
             request.user.delete()
             logout(request)
             messages.success(request, "회원탈퇴가 완료되었습니다.")
-            return redirect('/users/login/')
+            return redirect('login')
     else:
         password_form = CheckPasswordForm(request.user)
 
