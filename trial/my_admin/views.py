@@ -3,8 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import TaskCreateForm
-from task.models  import Task #,TaskDataTable
-
+from task.models  import Task,ApplyTask #,TaskDataTable
 # Create your views here.
 def create(request):
     if request.method=='POST':
@@ -29,5 +28,6 @@ def manage(request):
     return render(request, 'TaskManage2.html', {"tasks": tasks})
 
 def task_submitters(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    return render(request, 'TaskSubmitters.html',context={'task':task})
+    thistask = get_object_or_404(Task, pk=pk)
+    submitters=ApplyTask.objects.filter(task=thistask)
+    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'submitters':submitters})

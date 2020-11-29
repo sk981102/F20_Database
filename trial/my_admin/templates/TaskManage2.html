@@ -23,7 +23,8 @@
   				    <td>{{t.task_name}}</td>
   				    <td>{{t.description}}</td>
                     <td>
-                    </td>
+        <a class="button" href="{% url 'MyAdmin:submitters' t.task_id %}">View Details</a>                   
+ </td>
 				</tbody>
                 {% endfor %}
 
