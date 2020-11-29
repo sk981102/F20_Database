@@ -30,22 +30,27 @@
                 <td>{{ post.address }}</td>
                 <td>{{ post.birthdate }}</td>
                 <td>{{ post.email }}</td>
+                <td>{{ post.email }}</td>
 
 
             </tr>
 
             </tbody>
+            <h2>참가 중인 태스크 목록</h2>
         </table>
-        <!--<tbody>
+        <table class="table table-striped">
+            <tbody>
+        {% for ay in apply %}
 
         <tr>
-            <td>{{ post.username }}</td>
-            <td>{{ post.user_id }}</td>
-            <td>{{ post.gender }}</td>
-            <td>{{ post.address }}</td>
+            <td>{{ ay.task }}</td>
+
         </tr>
 
-        </tbody>-->
+        {% endfor %}
+            </tbody>
+        </table>
+
     </form>
     </div>
 </section>

@@ -8,6 +8,8 @@ from .models import UserProfile
 from django.contrib.auth.hashers import check_password
 from django.urls import path
 from django.db.models import Q
+from submitter.models import Submitter
+from task.models import ApplyTask
 
 
 def signup(request):
@@ -105,8 +107,11 @@ def search(request):
 
 def post_detail(request, pk):
     post = UserProfile.objects.get(pk=pk)
+    submitter = get_object_or_404(Submitter,pk=pk)
+    apply = ApplyTask.objects.filter(submitter=submitter)
+
     context = {
-        'post': post
+        'post': post, 'submitter': submitter, 'apply': apply
     }
     return render(request, 'post_detail.html', context)
 
