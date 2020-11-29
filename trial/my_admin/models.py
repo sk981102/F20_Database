@@ -11,6 +11,7 @@ class TaskCreate(models.Model):
 	#class Meta:
 		Name=models.CharField(unique=True, max_length=100)
 		Comment=models.CharField(max_length=100)
+		mincycle=models.IntegerField(default=0)
 		TaskDataTableName=models.CharField(max_length=100)
 		TaskDataTableScheme=models.CharField(max_length=100)
 

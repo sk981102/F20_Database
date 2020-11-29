@@ -4,4 +4,4 @@ from .models import TaskCreate
 class TaskCreateForm(ModelForm):
     class Meta:
         model = TaskCreate
-        fields = ['Name','Comment','TaskDataTableName','TaskDataTableScheme']
+        fields = ['Name','Comment','mincycle','TaskDataTableName','TaskDataTableScheme']
