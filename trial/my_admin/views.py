@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.utils import timezone
-from django.views.generic.list import ListView
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import TaskCreateForm
@@ -29,5 +28,6 @@ def manage(request):
     tasks=Task.objects.all()
     return render(request, 'TaskManage2.html', {"tasks": tasks})
 
-def task_submitters(request):
-    return HttpResponse('submitters')
+def task_submitters(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    return render(request, 'TaskSubmitters.html',context={'task':task})
