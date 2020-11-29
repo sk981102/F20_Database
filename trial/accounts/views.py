@@ -77,15 +77,7 @@ def changeinfo(request):
     return render(request, 'changeinfo.html')
 
 def deleteaccount(request):
-    """
-    if request.method == "POST" :
-        pw_del = request.POST["PW"]
-        user = request.user
-        if check_password(pw_del, user.password):
-            user.delete()
-            return redirect('home')
-    return render(request, 'deleteaccount.html')
-    """
+
     if request.method == 'POST':
         password_form = CheckPasswordForm(request.user, request.POST)
 
@@ -93,7 +85,7 @@ def deleteaccount(request):
             request.user.delete()
             logout(request)
             messages.success(request, "회원탈퇴가 완료되었습니다.")
-            return redirect('/users/login/')
+            return redirect('login')
     else:
         password_form = CheckPasswordForm(request.user)
 
