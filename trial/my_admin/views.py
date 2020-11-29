@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import path 
 from .models import *
-from .forms import TaskCreateForm
+from .forms import TaskCreateForm, PassStandardForm
 from task.models  import Task,ApplyTask #,TaskDataTable
 from submitter.models import Submitter
 from accounts.models import UserProfile
@@ -31,6 +31,21 @@ def manage(request):
     tasks=Task.objects.all()
     return render(request, 'TaskManage2.html', {"tasks": tasks})
 
+def task_pass_standard(request, task_id):
+    thistask=get_object_or_404(Task, pk=task_id)
+    if request.method == "POST":
+        form = PassStandardForm(request.POST)
+        if form.is_valid():
+                thistask.pass_standard = request.POST['pass_standard']
+                thistask.save()
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('home')
+        else:
+                messages.error(request, 'Please correct the error below.')
+    else:
+        form = PassStandardForm()        
+    return render(request, 'PassStandard.html', {'form': form})
+ 
 def task_submitters(request, pk):
     thistask = get_object_or_404(Task, pk=pk)
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)

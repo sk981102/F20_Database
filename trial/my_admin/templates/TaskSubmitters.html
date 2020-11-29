@@ -3,9 +3,9 @@
 {% block content %}
   <div class="inner">
       <h2>Title: {{ task.task_name }}</h2>
-      <p><strong>Task ID:</strong> {{task.task_id}}</p>
-      <p><strong>Task Description:</strong> {{task.description}}</p>
-      <p><strong>최소 업로드 주기:</strong> {{task.mincycle}}</p>
+      <p><strong>현재 Pass 기준:</strong> {{task.pass_standard}}</p>
+      <p><a href="{% url 'MyAdmin:standard' task.task_id %}">Pass 기준 수정하기</a></p>
+
       <p><strong>File Type:</strong> .csv files</p> <br>
       <h3>아직 승인되지 않은 제출자</h3>
 	          {% for t in pending_submitter %}

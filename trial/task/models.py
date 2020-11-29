@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 #from admin.models import Admin
 
 # Create your models here.
@@ -11,6 +12,13 @@ class Task(models.Model):
     task_name = models.CharField(unique=True, max_length=100)
     description = models.CharField(max_length=100)
     mincycle = models.IntegerField()
+    pass_standard=models.IntegerField(
+        default=5,
+        validators=[
+            MaxValueValidator(10),
+            MinValueValidator(1)
+        ]
+     )
     admin = models.ForeignKey('my_admin.MyAdmin', models.DO_NOTHING, db_column='admin',default=None)
     class Meta:
         #managed = False

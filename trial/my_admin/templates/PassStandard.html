@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Pass Standard of Task Change</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="submit"/>
+</form>
+{% endblock %}
+
