@@ -28,7 +28,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('submitter/', include('submitter.urls'), name='submitter'),
     path('task/', include('task.urls'),name='task'),
-    path('rater/', views.rater_landing_view, name='rater'),
+    path('rater/', include('rater.urls'), name='rater'),
     path('pjadmin/', views.admin_landing_view, name='pjadmin'),
     path('pjadmin/', include(('my_admin.urls','my_admin'), namespace='myadmin')),#mod needed
     path('admin/', admin.site.urls, name='admin'),

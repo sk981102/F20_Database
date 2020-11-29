@@ -5,8 +5,10 @@
   <div class="inner">
 	  <h2>
 		Hi {{user.username}}!
-
 	  </h2>
+	  <h3>{{rater}}</h3>
+	  <h3>{{task_info.task_id}}</h3>
+	  <h3>{{assigned_task}}</h3>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
 	  <hr class="major">
 	  <h4>Assigned Tasks</h4>
@@ -22,7 +24,7 @@
 			  <tbody>
   				<td>Task1</td>
   				<td>2020.11.15</td>
-  				<td><a href="#">more text</a></td>
+  				<td><a href="#">Rate</a></td>
 			  </tbody>
 		  </table>
 	  </div>
@@ -40,7 +42,7 @@
 			  <tbody>
   				<td>Task1</td>
   				<td>2020.11.15</td>
-  				<td><a href="#">more text</a></td>
+  				<td><a href="#">View Details</a></td>
 			  </tbody>
 		  </table>
 	  </div>

@@ -5,9 +5,9 @@ from django.db import models
 class RawDataType(models.Model):
 	type_id = models.AutoField(primary_key=True)
 	type_name = models.CharField(unique=True, max_length=30)
-	task = models.ForeignKey('task.Task', models.DO_NOTHING,default=None)
+	task = models.ForeignKey('task.Task', models.DO_NOTHING,default=None,db_column='task')
 	admin = models.ForeignKey('my_admin.MyAdmin', models.DO_NOTHING,default=None)
-	
+
 	def __str__(self):
 		return self.type_name
 		

@@ -1,6 +1,7 @@
 from django.conf.urls import url
+from django.urls import path
 from rater import views
 
 urlpatterns = [
-    #url(r'^signup/$', core_views.signup, name='signup'),
+    path('', views.assigned_landing_view, name='rater'),
 ]
