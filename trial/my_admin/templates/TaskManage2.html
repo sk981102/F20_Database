@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="main" class="wrapper">
+  <div class="inner">
+	  <h3 style="text-align:center">
+          On-Going Tasks
+	  </h3>
+
+	  <hr class="major">
+      <div class="table_wrapper">
+		  <table>
+			  <thead>
+			  	<tr>
+					<th>Task</th>
+					<th>Description</th>
+                    <th>Details</th>
+				</tr>
+			  </thead>
+                {% if tasks%}
+                {% for t in tasks %}
+			  	<tbody>
+  				    <td>{{t.task_name}}</td>
+  				    <td>{{t.description}}</td>
+                    <td>
+                    </td>
+				</tbody>
+                {% endfor %}
+
+                {% endif %}
+		  </table>
+	  </div>
+  </div>
+</section>
+{% endblock %}
+

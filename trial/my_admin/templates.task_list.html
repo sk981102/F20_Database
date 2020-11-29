@@ -1,0 +1,8 @@
+<h1>Task</h1>
+<ul>
+{% for task in tasklist %}
+    <li>{{ Task.pub_date|date }} - {{ Task.task_name}}</li>
+{% empty %}
+    <li>No tasks yet.</li>
+{% endfor %}
+</ul>

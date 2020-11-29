@@ -1,4 +1,6 @@
 from django.http import HttpResponse
+from django.utils import timezone
+from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import TaskCreateForm
@@ -15,14 +17,17 @@ def create(request):
 
             tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin, description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) #taskdatatable needed
             tskobj.save()
-            return HttpResponse('success')
+            return render(request, 'TaskCreateSuccess.html')
         #return redirect('/pjadmin')
-        return HttpResponse('fail')
+        return render(request, 'TaskCreateFail.html')
     else:
         form = TaskCreateForm()
  
     return render(request, 'TaskCreate.html', {'form': form})
 
 def manage(request):
-    return render(request, 'TaskManage.html')
+    tasks=Task.objects.all()
+    return render(request, 'TaskManage2.html', {"tasks": tasks})
 
+def task_submitters(request):
+    return HttpResponse('submitters')
