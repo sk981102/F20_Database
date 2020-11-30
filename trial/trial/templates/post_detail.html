@@ -31,7 +31,15 @@
                 <td>{{ post.address }}</td>
                 <td>{{ post.birthdate }}</td>
                 <td>{{ post.email }}</td>
-                <td>{{ post.role }}</td>
+                {% if post.role == 'A' %}
+                <td>관리자</td>
+                {% elif post.role == 'S' %}
+                <td>제출자</td>
+                {% elif post.role == 'R' %}
+                <td>평가자</td>
+                {% else %}
+                <td>역할없음</td>
+                {% endif %}
 
 
             </tr>
@@ -47,7 +55,7 @@
         {% for ay in tak%}
 
         <tr>
-            <td>{{ ay.task_name }}</td>
+            <td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>
 
         </tr>
 
