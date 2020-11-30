@@ -12,5 +12,5 @@ def home_view(request, *args, **kwargs):
 def admin_landing_view(request, *args, **kwargs):
     return render(request, "admin_landing.html", {})
 
-def rater_landing_view(request, *args, **kwargs):
-    return render(request, "rater_landing.html", {})
+#def rater_landing_view(request, *args, **kwargs):
+#    return render(request, "rater_landing.html", {})

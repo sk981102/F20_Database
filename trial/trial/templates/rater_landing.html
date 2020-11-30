@@ -6,43 +6,53 @@
 	  <h2>
 		Hi {{user.username}}!
 	  </h2>
-	  {{table | safe}}
-	  {{scores}}
-	  <h3>{{assigned_task}}</h3>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
 	  <hr class="major">
-	  <h4>Assigned Tasks</h4>
+	  <h4>미평가 데이터</h4><br/>
 	  <div class="table_wrapper">
 		  <table>
-			  <thead>
-			  	<tr>
-					<th>Task</th>
-					<th>Date Assigned</th>
-					<th>Rate</th>
+			<thead>
+			 	<tr>
+					<th>파일 ID</th>
+					<th>파일명</th>
+					<th>소속 태스크</th>
+					<th>데이터 타입</th>
+					<th> </th>
 				</tr>
-			  </thead>
-			  <tbody>
-  				<td>Task1</td>
-  				<td>2020.11.15</td>
-  				<td><a href="#">Rate</a></td>
-			  </tbody>
+			</thead>
+			<tbody>
+			{% for f in not_rated %}
+				<tr><td>{{f.raw_data.seqnumber}}</td>
+				<td>{{f.raw_data.file}}</td>
+  				<td>{{f.task.task_name}}</td>
+  				<td>{{f.raw_data.raw_data_type.type_name}}</td>
+  				<td><a href="{% url 'rate' f.raw_data.seqnumber %}">평가하기</a></td></tr>
+			{% endfor %}
+			</tbody>
 		  </table>
-	  </div>
-	  <hr class="major">
-	  <h4>Past Tasks</h4>
+	  </div><hr class="major">
+	  <h4>평가 완료 데이터</h4>
 	  <div class="table_wrapper">
 		  <table>
 			  <thead>
 			  	<tr>
-					<th>Task</th>
-					<th>Date Assigned</th>
-					<th>View</th>
+					<th>파일 ID</th>
+					<th>파일명</th>
+					<th>소속 태스크</th>
+					<th>데이터 타입</th>
+					<th>정성평가 점수</th>
+					<th>저장 여부</th>
 				</tr>
 			  </thead>
 			  <tbody>
-  				<td>Task1</td>
-  				<td>2020.11.15</td>
-  				<td><a href="#">View Details</a></td>
+  				{% for f in rated %}
+				<tr><td>{{f.raw_data.seqnumber}}</td>
+				<td>{{f.raw_data.file}}</td>
+  				<td>{{f.task.task_name}}</td>
+  				<td>{{f.raw_data.raw_data_type.type_name}}</td>
+  				<td>넣어줘야함</td>
+				<td>넣어줘야함</td></tr>
+				{% endfor %}
 			  </tbody>
 		  </table>
 	  </div>
