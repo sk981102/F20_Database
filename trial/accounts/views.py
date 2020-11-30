@@ -12,7 +12,7 @@ from submitter.models import Submitter
 from task.models import ApplyTask, Task
 from rater.models import Rater
 from parsed_data.models import ParsedData
-#from raw_data import RawDataType, RawDataSeqFile
+from raw_data.models import RawDataSeqFile
 
 def signup(request):
     if request.method == 'POST':
@@ -113,11 +113,11 @@ def post_detail(request, pk):
         submitter = get_object_or_404(Submitter,pk=pk)
         apply = ApplyTask.objects.filter(submitter=submitter).values('task')
         tak = Task.objects.filter(task_id__in=apply)
-        #raw_data = RawDataSeqFile.objects.filter(sub)
-
+        raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')
+       # parsed = get_object_or_404(ParsedData,pk=raw_data)
 
         context = {
-            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak
+            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data
         }
         return render(request, 'post_detail.html', context)
     elif post.role == 'R':
@@ -143,7 +143,8 @@ def post_detail(request, pk):
 
 
 def test(request):
-    test = ApplyTask.objects.all()
+    test = RawDataSeqFile.objects.filter(submitter=15).values('file')
+    #test = RawDataSeqFile.objects.filter(raw)
     return render(request, 'test.html', {'test': test})
 
 #def task_detail(request, pk):
