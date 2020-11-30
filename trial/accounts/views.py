@@ -12,6 +12,7 @@ from submitter.models import Submitter
 from task.models import ApplyTask, Task
 from rater.models import Rater
 from parsed_data.models import ParsedData
+#from raw_data import RawDataType, RawDataSeqFile
 
 def signup(request):
     if request.method == 'POST':
@@ -112,6 +113,8 @@ def post_detail(request, pk):
         submitter = get_object_or_404(Submitter,pk=pk)
         apply = ApplyTask.objects.filter(submitter=submitter).values('task')
         tak = Task.objects.filter(task_id__in=apply)
+        #raw_data = RawDataSeqFile.objects.filter(sub)
+
 
         context = {
             'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak
@@ -132,6 +135,20 @@ def post_detail(request, pk):
         }
         return render(request, 'post_detail.html', context)
 
-#def test(request):
-#    test = Task.objects.all()
-#    return render(request, 'test.html', {'test': test})
+#def Tasks(request):
+ #   task = .objects.all()
+  #  context = {'candidates' : candidates}
+   # return render(request, 'viewusers.html', context)
+
+
+
+def test(request):
+    test = ApplyTask.objects.all()
+    return render(request, 'test.html', {'test': test})
+
+#def task_detail(request, pk):
+#    task = Task.objects.get(pk=pk)
+#    context={
+#        'task': task
+#    }
+#    return render(request,'task_detail',context)

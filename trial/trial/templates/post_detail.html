@@ -52,11 +52,11 @@
         <table class="table table-striped">
             <tbody>
 
-        {% for ay in tak%}
+        {% for ay in tak %}
 
         <tr>
-            <td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>
-
+            <!--<td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>-->
+            <td>{{ ay.task_name }}</td>
         </tr>
 
         {% endfor %}
