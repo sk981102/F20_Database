@@ -31,6 +31,7 @@
                 <td>{{ post.address }}</td>
                 <td>{{ post.birthdate }}</td>
                 <td>{{ post.email }}</td>
+
                 {% if post.role == 'A' %}
                 <td>관리자</td>
                 {% elif post.role == 'S' %}
@@ -40,7 +41,9 @@
                 {% else %}
                 <td>역할없음</td>
                 {% endif %}
-
+                {% for pa in parsed %}
+                <td>{{ parsed.submitter }}</td>
+                {% endfor %}
 
             </tr>
 
@@ -57,12 +60,21 @@
         <tr>
             <!--<td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>-->
             <td>{{ ay.task_name }}</td>
+
+
         </tr>
 
-        {% endfor %}
+        {% endfor %}</tbody>  </table>
 
-            </tbody>
-        </table>
+        <table class="table table-striped">
+            <tbody>
+         <h3>제출이력</h3>
+        {% for pa in parsed %}
+        <td>{{ pa.file }}</td>
+        {% endfor %}
+        </tbody>  </table>
+
+
 
 
         {% elif post.role == "R" %}

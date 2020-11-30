@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from pages import views
 #from my_admin import views as adminviews
-from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount, search, post_detail
+from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount, search, post_detail#,test
 
 
 urlpatterns = [
