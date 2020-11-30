@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import check_password
 from django.urls import path
 from django.db.models import Q
 from submitter.models import Submitter
-from task.models import ApplyTask
+from task.models import ApplyTask, Task
 from rater.models import Rater
 from parsed_data.models import ParsedData
 
@@ -110,13 +110,14 @@ def post_detail(request, pk):
     post = UserProfile.objects.get(pk=pk)
     if post.role == 'S':
         submitter = get_object_or_404(Submitter,pk=pk)
-        apply = ApplyTask.objects.filter(submitter=submitter)
+        apply = ApplyTask.objects.filter(submitter=submitter).values('task')
+        tak = Task.objects.filter(task_id__in=apply)
 
         context = {
-            'post': post, 'apply': apply, 'submitter': submitter
+            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak
         }
         return render(request, 'post_detail.html', context)
-    else:
+    elif post.role == 'R':
         rater = get_object_or_404(Rater, pk=pk)
         parsed = ParsedData.objects.filter(rater=rater)
 
@@ -125,6 +126,12 @@ def post_detail(request, pk):
         }
         return render(request, 'post_detail.html', context)
 
+    else:
+        context = {
+            'post': post
+        }
+        return render(request, 'post_detail.html', context)
 
-
-
+#def test(request):
+#    test = Task.objects.all()
+#    return render(request, 'test.html', {'test': test})

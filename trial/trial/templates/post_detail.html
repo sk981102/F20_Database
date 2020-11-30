@@ -17,6 +17,7 @@
                 <td><B>주소</B></td>
                 <td><B>생일</B></td>
                 <td><B>이메일</B></td>
+                <td><B>역할</B></td>
 
 
             </tr>
@@ -30,7 +31,7 @@
                 <td>{{ post.address }}</td>
                 <td>{{ post.birthdate }}</td>
                 <td>{{ post.email }}</td>
-                <td>{{ post.email }}</td>
+                <td>{{ post.role }}</td>
 
 
             </tr>
@@ -43,10 +44,10 @@
         <table class="table table-striped">
             <tbody>
 
-        {% for ay in apply %}
+        {% for ay in tak%}
 
         <tr>
-            <td>{{ ay.task }}</td>
+            <td>{{ ay.task_name }}</td>
 
         </tr>
 

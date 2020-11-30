@@ -40,5 +40,6 @@ urlpatterns = [
     path('myaccount/changeinfo', changeinfo, name='changeinfo'),
     path('myaccount/deleteaccount', deleteaccount, name='deleteaccount'),
     path('search/', search, name='search'),
+    #path('test/', test, name='test'),
     url(r'^post_detail/(?P<pk>\d+)/', post_detail),
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
