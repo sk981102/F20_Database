@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>
+        <a href="{% url 'home' %}">Go to main page</a>
+    </p>
+
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">저장</button>
+        </form>
+   </div>
+
+{% endblock content %}

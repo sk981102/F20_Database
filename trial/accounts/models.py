@@ -51,7 +51,6 @@ class UserProfile(AbstractUser):
         if created and self.role == 'S':
             Submitter.objects.create(user_id=self)
 
-
 class UserManager(BaseUserManager):
     def _create_user(self,first_name, last_name, username, PW,email, birthdate, phone, address, gender, role, **extrafields):
 

@@ -20,6 +20,10 @@ class Task(models.Model):
         ]
      )
     admin = models.ForeignKey('my_admin.MyAdmin', models.DO_NOTHING, db_column='admin',default=None)
+
+    def __str__(self):
+        return self.task_name
+
     class Meta:
         #managed = False
         db_table = 'task'
