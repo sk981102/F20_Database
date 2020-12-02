@@ -1,6 +1,5 @@
 Django==2.1.15
 mysql-connector-python==8.0.21
-mysqlclient==2.0.1
 numpy==1.19.4
 pandas==1.1.4
 protobuf==3.13.0
