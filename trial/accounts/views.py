@@ -143,13 +143,13 @@ def post_detail(request, pk):
 
 
 def test(request):
-    test = RawDataSeqFile.objects.filter(submitter=15).values('file')
+    test = RawDataSeqFile.objects.filter(submitter=15).values('seqnumber')
     #test = RawDataSeqFile.objects.filter(raw)
     return render(request, 'test.html', {'test': test})
 
 #def task_detail(request, pk):
 #    task = Task.objects.get(pk=pk)
-#    context={
+#    context={z
 #        'task': task
 #    }
-#    return render(request,'task_detail',context)
+#    return render(reqzuest,'task_detail',context)
