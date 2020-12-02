@@ -26,3 +26,5 @@ def Applied(request, task_id, submitter_id):
     applied.save()
 
     return render(request, "applied.html", )
+
+

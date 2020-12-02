@@ -25,5 +25,13 @@ class RawDataSeqFile(models.Model):
 	round = models.IntegerField()
 
 	class Meta:
-		#managed = False
+		#managed = False:
 		db_table = 'raw_data_seq_file'
+
+#newly created for raw datatype schema
+"""
+class RawDataTypeSchema(models.Model):
+	type_id = models.ForeignKey('.RawDataType', models.DO_NOTHING, default=None)
+	field_name = models.CharField(unique=True, max_length=30)
+	field_order = models.IntegerField()
+"""
