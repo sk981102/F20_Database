@@ -12,7 +12,8 @@ from submitter.models import Submitter
 from task.models import ApplyTask, Task
 from rater.models import Rater
 from parsed_data.models import ParsedData
-from raw_data.models import RawDataSeqFile
+from raw_data.models import RawDataSeqFile, RawDataType
+from django.db.models import Count
 
 def signup(request):
     if request.method == 'POST':
@@ -110,14 +111,16 @@ def search(request):
 def post_detail(request, pk):
     post = UserProfile.objects.get(pk=pk)
     if post.role == 'S':
-        submitter = get_object_or_404(Submitter,pk=pk)
-        apply = ApplyTask.objects.filter(submitter=submitter).values('task')
-        tak = Task.objects.filter(task_id__in=apply)
-        raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')
+        submitter = get_object_or_404(Submitter,pk=pk)                              #15
+        apply = ApplyTask.objects.filter(submitter=submitter).values('task')        #<QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+        tak = Task.objects.filter(task_id__in=apply)                                #<QuerySet [<Task: 예금 및 적금 데이터>, <Task: 베스트셀러 데이터>, <Task: 수강신청 데이터>]>
+        raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')#[{'file': 'bestsellers_with_categories.csv'}, {'file': 'fiction_correct.csv'}, {'file': 'fiction_incorrect.csv'}]>
+        raw = RawDataType.objects.filter(task__in=tak).values('task').order_by('task').distinct()
+
        # parsed = get_object_or_404(ParsedData,pk=raw_data)
 
         context = {
-            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data
+            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
         }
         return render(request, 'post_detail.html', context)
     elif post.role == 'R':
@@ -142,10 +145,10 @@ def post_detail(request, pk):
 
 
 
-def test(request):
-    test = RawDataSeqFile.objects.filter(submitter=15).values('seqnumber')
-    #test = RawDataSeqFile.objects.filter(raw)
-    return render(request, 'test.html', {'test': test})
+#def test(request):
+#    test = RawDataSeqFile.objects.filter(submitter=15).values('seqnumber')
+#   #test = RawDataSeqFile.objects.filter(raw)
+#    return render(request, 'test.html', {'test': test})
 
 #def task_detail(request, pk):
 #    task = Task.objects.get(pk=pk)
@@ -153,3 +156,9 @@ def test(request):
 #        'task': task
 #    }
 #    return render(reqzuest,'task_detail',context)
+#def test2(request):
+#    test2 = RawDataType.objects.all()
+#    test = UserProfile.objects.count()
+#    test3 = ApplyTask.objects.filter(submitter=15).values('task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+#    test4 = Task.objects.filter(task_id__in=test3)
+#    return render(request, 'test2.html', {'test2': test2 , 'test': test, 'test3': test3, 'test4': test4})

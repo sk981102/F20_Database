@@ -6,7 +6,7 @@
   {% block content %}
   <section id="main" class="wrapper">
   <div class="inner">
-    <h2 style="text-align:center">{{post.username}}'s Information</h2>
+      <h2 style="text-align:center"><B>{{post.username}}'s Information</B></h2>
     <form method="post">
         <table class="table table-striped">
             <thead>
@@ -53,24 +53,45 @@
         {% if post.role == "S" %}
         <h3>참가 중인 태스크 목록</h3>
         <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td><B>태스크</B></td>
+                    <td><B>제출한 파일</B></td>
+                </tr>
+            </thead>
             <tbody>
 
         {% for ay in tak %}
-
         <tr>
             <!--<td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>-->
             <td>{{ ay.task_name }}</td>
 
+            {% for raws in raw %}
+                {% if raws.task == ay.task_id %}
+
+                    {% for pa in parsed %}
+
+                           <th> {{ pa.file }}</th>
+
+                    {% endfor %}
+
+                {% endif %}
+            {% endfor %}
 
         </tr>
 
-        {% endfor %}</tbody>  </table>
+        {% endfor %}
+            </tbody>
+        </table>
 
+        <br>
         <table class="table table-striped">
             <tbody>
-         <h3>제출이력</h3>
+         <h3>총 제출이력</h3>
         {% for pa in parsed %}
-        <td>{{ pa.file }}</td>
+        <tr>
+         <td>{{ pa.file }}</td>
+            </tr>
         {% endfor %}
         </tbody>  </table>
 
