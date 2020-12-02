@@ -7,7 +7,8 @@
   <section id="main" class="wrapper">
 
   <div class="inner">
-    <h2 style="text-align:center">Users</h2>
+      <h2 style="text-align:center"><B>User list</B></h2>
+      <div align="right"><font size=4 color="blue">there are {{num}} users </font> </div>
     <form method="post">
 
         <table class="table table-striped">
@@ -41,7 +42,7 @@
             {% endfor %}
             </tbody>
         </table>
-        <p><a href="{% url 'search' %}" class = "button">Search Users</a>
+        <p><div align="right"> <a href="{% url 'search' %}" class = "button">Search Users</a></div>
     </form>
     </div>
 </section>
