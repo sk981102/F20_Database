@@ -18,11 +18,21 @@
 		  <h2></h2>
 		  <h4></h4>
 			{{table | safe}}
-			{{scores}}
 		  <br/><br/><br/>
 		  <h4>평가하기</h4>
 		  <div class="table_wrapper">
-			
+			<form action=" {% url 'rater' %}" method="post", enctype="multipart/form-data" nonvalidate>
+			<table>
+			<tbody>
+				{% csrf_token %}
+				<tr><td>정성평가 점수</td>
+					<td>{{form.quality_score}}</td></tr>
+  				<tr><td>데이터 저장 여부</td>
+					<td>{{form.pass_or_not}}</td></tr>
+			</tbody>
+			</table>
+			<input class="button" type="submit" value="제출하기">
+			</form>
 		  </div>
 	  </div>
 	</section>
