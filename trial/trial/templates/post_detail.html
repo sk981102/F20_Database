@@ -66,17 +66,21 @@
             <!--<td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>-->
             <td>{{ ay.task_name }}</td>
 
-            {% for raws in raw %}
+           {% for raws in raw %}
                 {% if raws.task == ay.task_id %}
-
+        <td></td>
                     {% for pa in parsed %}
+                        {% if pa.raw_data_type == raws.type_id %}
+            <tr></tr>
+        <td></td>
+                           <td> {{ pa.file }}</td>
 
-                           <th> {{ pa.file }}</th>
-
+                        {% endif %}
                     {% endfor %}
 
                 {% endif %}
             {% endfor %}
+
 
         </tr>
 
