@@ -19,4 +19,16 @@
       <td><a href="http://127.0.0.1:8000/post_detail/{{ t.submitter.user_id.user_id }}">{{t.submitter.user_id}}</a></td>
                                 <td>{{t.submitter.score}}</td> <br>
                         {% endfor %}
+        <br><br><h3><strong>해당 태스크에 제출된 파일 목록    </strong></h3>
+
+      {% for n in rawnum %}
+
+        {{ n.file }}<br>
+      {% endfor %}
+
+        <h1>파일수: {{ num }}</h1>
+
+
+
+
 {% endblock %}

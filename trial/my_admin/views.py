@@ -8,6 +8,7 @@ from .forms import TaskCreateForm, PassStandardForm
 from task.models  import Task,ApplyTask #,TaskDataTable
 from submitter.models import Submitter
 from accounts.models import UserProfile
+from raw_data.models import RawDataType, RawDataSeqFile
 # Create your views here.
 def create(request):
     if request.method=='POST':
@@ -48,9 +49,12 @@ def task_pass_standard(request, task_id):
  
 def task_submitters(request, pk):
     thistask = get_object_or_404(Task, pk=pk)
+    thisrawtype = RawDataType.objects.filter(task=thistask.task_id).values_list('type_id',flat=True)
+    rawnum = RawDataSeqFile.objects.filter(raw_data_type__in=thisrawtype)
+    num = rawnum.count()
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
-    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters})
+    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters, 'num':num, 'rawnum': rawnum})
 
 def sub_approve(request,task_id,user_id): 
     thistask=get_object_or_404(Task, pk=task_id)
