@@ -29,9 +29,12 @@ class RawDataSeqFile(models.Model):
 		db_table = 'raw_data_seq_file'
 
 #newly created for raw datatype schema
-"""
 class RawDataTypeSchema(models.Model):
-	type_id = models.ForeignKey('.RawDataType', models.DO_NOTHING, default=None)
-	field_name = models.CharField(unique=True, max_length=30)
-	field_order = models.IntegerField()
-"""
+	type_id = models.ForeignKey('raw_data.RawDataType', models.DO_NOTHING, default=None)
+	field_name = models.CharField(max_length=30)
+	field_type = models.CharField(max_length=30)
+	null_value = models.CharField(max_length=10)
+	mapping_field = models.CharField(unique=True, max_length=30)
+
+	class Meta:
+		db_table = 'raw_data_type_schema'

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div>
+        <h2> Raw Data Type List and Schemas <br> </h2>
+        {% for ay in datatype %}
+        <tr>
+
+            <td>{{ ay.type_name }}</td>
+
+            {% for fields in typefield %}
+                {% if fields.type_id == ay.type_id %}
+
+                    <!--{% for pa in parsed %}-->
+
+                           {{ fields.field_name }}
+
+                    <!--{% endfor %}-->
+
+                {% endif %}
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+        <br>
+        <a href="{% url 'createdatatype' %}" class="button">Create New Raw Data Type</a>
+   </div>
+
+{% endblock content %}
