@@ -4,25 +4,74 @@
 
     <div>
         <h2> Raw Data Type List and Schemas <br> </h2>
-        {% for ay in datatype %}
-        <tr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
 
-            <td>{{ ay.type_name }}</td>
+                <td><B>type_name</B></td>
+                <td><B>type_schema</B></td>
 
-            {% for fields in typefield %}
-                {% if fields.type_id == ay.type_id %}
 
-                    <!--{% for pa in parsed %}-->
 
-                           {{ fields.field_name }}
 
-                    <!--{% endfor %}-->
 
-                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for ay in datatype %}
+            <tr>
+
+                <td><a href="http://127.0.0.1:8000/type_detail/1"> {{ ay.type_name }}</a></td>
+                <td>{{ ay.type_id }}</td>
+                <!--{% for tt in typefield %}
+                    {% if tt.type_id in ay.type_id %}
+                        <td>{{ tt.type_id }} </td>
+                        <td>111</td>
+                    {% endif %}
+                {% endfor %}-->
+
+            </tr>
             {% endfor %}
+            </tbody>
+        </table>
 
-        </tr>
-        {% endfor %}
+
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td><B>type_id</B></td>
+                <td><B>type_name</B></td>
+                <td><B>task</B></td>
+                <td><B>task</B></td>
+
+
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for ty in typefield %}
+            <tr>
+                <td>{{ ty.type_id }}</td>
+                <td>{{ ty.field_name }}</td>
+                <td>{{ ty.field_type }}</td>
+                <td>{{ ty.null_value }}</td>
+                <td>{{ ty.mapping_field }}</td>
+
+
+            </tr>
+            {% endfor %}
+             {% for ay in datatype %}
+            <tr>
+                <td>{{ ay.type_id }}</td>
+
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         <br>
         <a href="{% url 'createdatatype' %}" class="button">Create New Raw Data Type</a>
    </div>

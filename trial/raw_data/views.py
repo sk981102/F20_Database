@@ -28,6 +28,10 @@ def createtypeschema(request):
     return render(request, 'createtypeschema.html', {'form': form})
 
 def datatypelist(request):
-    datatype = RawDataType.objects.all().values('type_name')
+    datatype = RawDataType.objects.all()
     typefield = RawDataTypeSchema.objects.all()
     return render(request, "datatypelist.html", {"datatype": datatype, "typefield": typefield})
+
+##def type_detail(request, pk):
+   ## type = RawDataTypeSchema.objects.get(pk=pk)
+ ##   return render(request, 'type_detail.html', {'type': type})
