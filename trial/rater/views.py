@@ -43,14 +43,11 @@ def assigned_landing_view(request, *args, **kwargs):
 
             #submitter score update
             scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
-            new_score=np.mean(scores)
-            Submitter.objects.filter(user_id=submitter).update(score=new_score)
-
-            return render(request, "rater_landing.html")
+            new_score=np.round(np.mean(scores),decimals=2)
+            Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
 
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
-        info = None
 
         if AssignedTask.objects.filter(rater=rater,rated=0).exists():
             pass
@@ -59,7 +56,7 @@ def assigned_landing_view(request, *args, **kwargs):
 
             while True:
                 random_assigned = random.sample(list(items), 1)
-                if AssignedTask.objects.filter(raw_data=random_assigned[0]).exists() == False:
+                if AssignedTask.objects.filter(rater=rater,raw_data=random_assigned[0]).exists() == False:
                      break
 
             raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
@@ -70,14 +67,15 @@ def assigned_landing_view(request, *args, **kwargs):
             assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0], task=task_info,
                                                         rated=0)
             assigned_task.save()
-            not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
-            rated = AssignedTask.objects.filter(rater=rater, rated=1)
 
-            if len(rated) > 0:
-                info = ParsedData.objects.filter(rater=rater)
+    not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
+    rated = AssignedTask.objects.filter(rater=rater, rated=1)
+    info="Refresh to get task assigned"
 
-        return render(request, "rater_landing.html",
-                        {"not_rated": not_rated, "rated": rated, "info": info})
+    if len(rated) > 0:
+        info = ParsedData.objects.filter(rater=rater)
+
+    return render(request, "rater_landing.html", {"not_rated": not_rated, "rated": rated, "info": info})
 
 
 
