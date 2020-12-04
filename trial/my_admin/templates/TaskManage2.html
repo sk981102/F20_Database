@@ -12,9 +12,9 @@
 		  <table>
 			  <thead>
 			  	<tr>
-					<th>Task</th>
-					<th>Description</th>
-                    <th>Details</th>
+					<th><font size="5em">Task</font></th>
+					<th><font size="5em">Description</font></th>
+                    <th><font size="5em">Details</font></th>
 				</tr>
 			  </thead>
                 {% if tasks%}
@@ -23,7 +23,7 @@
   				    <td>{{t.task_name}}</td>
   				    <td>{{t.description}}</td>
                     <td>
-        <a class="button" href="{% url 'MyAdmin:submitters' t.task_id %}">View Details</a>                   
+        <a href="{% url 'MyAdmin:submitters' t.task_id %}">View Details</a>
  </td>
 				</tbody>
                 {% endfor %}
@@ -31,6 +31,7 @@
                 {% endif %}
 		  </table>
 	  </div>
+	  <p><a class="button fit" href="{% url 'myadmin:taskcreate' %}">Create New task</a>
   </div>
 </section>
 {% endblock %}

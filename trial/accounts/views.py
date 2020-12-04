@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, update_session_auth_hash, logout
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignUpForm, LoginForm, CheckPasswordForm
+from .forms import SignUpForm, LoginForm, CheckPasswordForm, ChangeInfoForm
 from django.contrib.auth.forms import PasswordChangeForm
 #from django.http import HttpResponse
 from .models import UserProfile
@@ -61,7 +61,7 @@ def changepw(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('home')
+            return redirect('myaccount')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -69,18 +69,14 @@ def changepw(request):
     return render(request, 'changepw.html', {'form': form})
 
 def changeinfo(request):
-    if request.method == "POST":
-        user = request.user
-        user.first_name = request.POST["first_name"]
-        user.last_name = request.POST["last_name"]
-        user.username = request.POST["username"]
-        user.birthdate = request.POST["birthdate"]
-        user.phone = request.POST["phone"]
-        user.address = request.POST["address"]
-        user.gender = request.POST["gender"]
-        user.save()
-        return redirect('home')
-    return render(request, 'changeinfo.html')
+    if request.method == 'POST':
+        form = ChangeInfoForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+        return redirect('myaccount')
+    else:
+        form = ChangeInfoForm(instance=request.user)
+        return render(request, 'changeinfo.html', {'form': form})
 
 def deleteaccount(request):
 

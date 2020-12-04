@@ -3,45 +3,84 @@
 {% block content %}
 <section id="main" class="wrapper">
   <div class="inner">
-	  <h2>
+
+	<head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
+	  <h3>
 		Hi {{user.username}}!
-	  </h2>
-	  <p><a href="{% url 'logout' %}">Log Out</a></p>
-	  <h4>My Info</h4>
+	  </h3>
+	  <p><a href="{% url 'logout' %}" class="button fit">Log Out</a></p>
+	  <h2>My Info</h2>
 	  <div class="table_wrapper">
-		  <table>
-			  <thead>
-			  	<tr>
-					<td>First Name:	&nbsp;&nbsp; {{user.first_name}}</td>
-				</tr>
-			  	<tr>
-					<td>Last Name: &nbsp;&nbsp; {{user.last_name}}</td>
-				</tr>
-				<tr>
-					<td>ID:	&nbsp;&nbsp; {{user.username}}</td>
-				</tr>
-			  	<tr>
-					<td>Birthdate:	&nbsp;&nbsp; {{user.birthdate}}</td>
-				</tr>
-			  	<tr>
-					<td>Phone Num:	&nbsp;&nbsp; {{user.phone}}</td>
-				</tr>
-			  	<tr>
-					<td>Address:	&nbsp;&nbsp; {{user.address}}</td>
-				</tr>
-			  	<tr>
-					<td>Gender:	&nbsp;&nbsp; {{user.gender}}</td>
-				</tr>
-			  	<tr>
-					<td>Role:	&nbsp;&nbsp; {{user.role}}</td>
-				</tr>
-		  </table>
-		  <style>
-			  .button {padding:15px 30px, margin: 4px 2px}
-		  </style>
-		  <a href="changeinfo" class="button">Change Info</a>
-		  <a href="changepw" class="button">Change Password</a>
-		  <a href="deleteaccount" class="button">Delete Account</a>
+		  <table class="table table-striped">
+            <thead>
+            <tr>
+                <td><B>이름</B></td>
+				<td><B>성</B></td>
+                <td><B>ID</B></td>
+                <td><B>성별</B></td>
+                <td><B>생일</B></td>
+                <td><B>이메일</B></td>
+				<td><B>전화번호</B></td>
+                <td><B>역할</B></td>
+
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>{{ form.first_name }}</td>
+				<td>{{ form.last_name }}</td>
+                <td>{{ form.username }}</td>
+
+				{% if form.gender == 'F' %}
+                <td>여성</td>
+                {% elif form.gender == 'M' %}
+                <td>남성</td>
+				{% endif %}
+
+
+                <td>{{ form.birthdate }}</td>
+                <td>{{ form.phone }}</td>
+				<td>{{ form.email }}</td>
+
+
+                {% if form.role == 'A' %}
+                <td>관리자</td>
+                {% elif form.role == 'S' %}
+                <td>제출자</td>
+                {% elif form.role == 'R' %}
+                <td>평가자</td>
+                {% else %}
+                <td>역할없음</td>
+                {% endif %}
+			</tbody>
+            </tr>
+
+			<thead>
+            <tr>
+                <td><B>주소</B></td>
+			</tr>
+
+		  </thead>
+			   <tbody>
+
+            <tr>
+			                   <td>{{ form.address }}</td>
+            </tbody>
+            </tr>
+
+        </table>
+		  <h2>Manage Your Account</h2>
+		  <a href="changeinfo" class="button fit">Change User Information</a>
+		  <a href="changepw" class="button fit">Change Password</a>
+		  <a href="deleteaccount" class="button fit">Delete Account</a>
 	  </div>
   </div>
 </section>
