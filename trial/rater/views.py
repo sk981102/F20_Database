@@ -10,7 +10,7 @@ import random
 import pandas as pd
 import numpy as np
 import json
-
+from sqlalchemy import create_engine
 
 # Create your views here.
 
@@ -85,29 +85,14 @@ def assigned_landing_view(request, *args, **kwargs):
 
 
 def insert_sql(raw_data, task):
-    task_schema = TaskSchema.filter(task_id=task).first()
+    task_schema = TaskSchema.objects.filter(task_id=task).first()
     csv_file = raw_data.file.open()
-    with csv_file as f:
-        content = f.readLines()
+    url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    data=pd.read_csv(csv_file)
+    cursor=create_engine(url)  
+    
+    data.to_sql(con=cursor,name=task_schema.TaskDataTableName, if_exists='replace',)
 
-    columns = content[0].split(",")
-    content.pop(0)
-
-    q = "INSERT INTO" + task_schema.TaskDataTableName + "("
-    #  + column1, column2, column3, ... + ")" + "VALUES"(value1, value2, value3, ...)
-    for c in columns:
-        q += c + ","
-    q = q[-1]
-    q += ") VALUES ("
-    print(q)
-
-    for r in content:
-        values=r
-        q+=values+(")")
-        print(q)
-        cursor = connection.cursor()
-        cursor.execute(q)
-        cursor.close()
 
     return 0
 
