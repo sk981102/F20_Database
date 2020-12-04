@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
+
 <section id="main" class="wrapper">
   <div class="inner">
-	  <h2>
-		Hi Administer!
-      </h2>
-
-	  <p><a class="button" href="{% url 'myadmin:taskcreate' %}">Create a task</a>
+	  <h3>
+		Hi Administrator!
+      </h3>
+	  <p><a class="button fit" href="{% url 'logout' %}">Log Out</a></p>
+	  <!--<p><a class="button" href="{% url 'myadmin:taskcreate' %}">Create a task</a>-->
       <p><a class="button" href="{% url 'datatypelist' %}">Manage Data Type</a>
       <p><a class="button" href="{% url 'viewusers' %}">View all users</a>
       <p><a class="button" href="{% url 'myadmin:taskmanage' %}">Manage tasks</a>
-	  <p><a class="button" href="{% url 'logout' %}">Log Out</a></p>
+
   </div>
 </section>
 {% endblock %}

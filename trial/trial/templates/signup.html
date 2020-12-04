@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<html lang="ko">
-<h3>
-  Welcome. Sign Up!
-</h3>
+
+<head>
+<style>
+h2 {text-align: center;}
+h3 {text-align: center;}
+</style>
+</head>
+
 <body>
   <div class="container UserProfile">
+    <h3>
+    <br>
+      Welcome. Sign Up Here!
+    </h3>
     <form action="" method="POST">
       {%csrf_token%}
       {{form}}
-      <button type="submit">Save</button>
+      <br>
+      <button type="submit" class="button fit">Sign Up</button>
     </form>
   </div>
 </body>

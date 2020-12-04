@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<head>
+<style>
+h2 {text-align: center;}
+h3 {text-align: center;}
+</style>
+</head>
+
 <section id="main" class="wrapper">
   <div class="inner">
-	  <h2>
+	  <h3>
 		LogIn
-
-	  </h2>
+	  </h3>
     <form action="" method="POST">
       {%csrf_token%}
       {{form}}
-      <button type="submit">Login</button>
-        <!--<br> <br>
+        <br>
+      <button type="submit" class="button fit">Login</button>
+        <br> <br>
         <h2>
         Are You Not Our Member? <br>
         Sign Up!!
         </h2>
-      <a href="signup" class="button">SignUp</a>-->
+      <a href="{% url 'signup' %}" class="button fit">Sign Up</a>
     </form>
   </div>
   </section>

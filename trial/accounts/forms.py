@@ -1,6 +1,7 @@
 from django import forms
 #from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
+from django.contrib.auth.forms import UserChangeForm, ReadOnlyPasswordHashField, PasswordChangeForm
 #from django.utils import timezone
 from django.contrib.auth.hashers import check_password
 
@@ -21,10 +22,21 @@ class ViewUsers(forms.ModelForm):
         model = UserProfile
         fields = ('first_name', 'last_name', 'username', 'PW','email','birthdate', 'phone', 'address', 'gender', 'role')
 
-class ChangeInfoForm(forms.ModelForm):
+class ChangeForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender')
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ChangeForm, self).__init__(*args, **kwargs)
+        f = self.fields.get('user_permissions', None)
+        if f is not None:
+            f.queryset = f.queryset.select_related('content_type')
+
+class ChangeInfoForm(ChangeForm):
+    class Meta:
+        model = UserProfile
+        fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender')
 
 
 class CheckPasswordForm(forms.Form):

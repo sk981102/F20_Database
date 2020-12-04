@@ -1,11 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <head>
+	<style>
+	h2 {text-align: center; }
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	h5 {text-align: center;}
+	</style>
+	</head>
+<style>
+
+div {
+
+  padding:30px;
+
+  text-align:center;
+
+}
+
+
+</style>
 <form method="POST" novalidate>
     {% csrf_token %}
-    <p>회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. <br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.</p>
-    <div>
+    <br>
+    <h3>Delete Account</h3>
+    <div class="inner">
         <!--<label name="label_password" for="{{ password_form.password.id_for_label }}">{{ password_form.password.label }}</label>-->
+        <h5  style="color:red;">회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. <br>본인의 비밀번호를 입력한 후 하단의 유의사항 동의를 클릭하세요.</h5>
+        <br>
+        <h5>본인 인증을 위해 비밀번호를 입력해주세요</h5>
         {{ password_form.password }}
         {% if password_form.password.errors %}
         <script type="text/javascript">
@@ -17,17 +41,17 @@
         </div>
         {% endfor %}
         {% endif %}
-        <small>
-            본인인증을 위해 비밀번호를 입력해주세요.
-        </small>
-    </div>
+        <br>
 
-    <label>
+        <label>
         <input type="checkbox" name="ck" onClick="checkDisable(this.form)">
         <span>유의사항 동의</span>
     </label>
 
-    <button type="submit" name="bt" disabled="true" >탈퇴하기</button>
+    <button type="submit" name="bt" disabled="true" class="button fit">탈퇴하기</button>
+    </div>
+
+
 </form>
 
 <script type="text/javascript">
