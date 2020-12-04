@@ -34,7 +34,7 @@ class RawDataTypeSchema(models.Model):
 	NullValid = (('Y', 'Yes'), ('N', 'No'))
 	FieldType = (('char', 'Char'), ('int', 'Int'), ('date', 'Date'), ('boolean','Boolean'))
 
-	field_id = models.AutoField(primary_key=True)
+	#field_id = models.AutoField(primary_key=True)
 	type_id = models.ForeignKey('raw_data.RawDataType', models.DO_NOTHING, default=None)
 	field_name = models.CharField(max_length=30)
 	field_type = models.CharField(max_length=30, choices=FieldType, default="na")
