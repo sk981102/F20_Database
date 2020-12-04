@@ -4,17 +4,11 @@
 <section id="main" class="wrapper">
   <div class="inner">
 
-	<head>
-	<style>
-	h2 {text-align: center;}
-	h3 {text-align: center;}
-	h4 {text-align: center;}
-	</style>
-	</head>
 	  <h3>
 		Hi {{user.username}}!
 	  </h3>
-	  <p><a href="{% url 'logout' %}" class="button fit">Log Out</a></p>
+	  <p><a href="{% url 'logout' %}" class="button">Log Out</a></p>
+      <hr class="major">
 	  <h2>My Info</h2>
 	  <div class="table_wrapper">
 		  <table class="table table-striped">
@@ -28,7 +22,6 @@
                 <td><B>이메일</B></td>
 				<td><B>전화번호</B></td>
                 <td><B>역할</B></td>
-
 
             </tr>
             </thead>
@@ -61,7 +54,7 @@
                 <td>역할없음</td>
                 {% endif %}
 			</tbody>
-            </tr>
+
 
 			<thead>
             <tr>
@@ -69,14 +62,15 @@
 			</tr>
 
 		  </thead>
-			   <tbody>
+              <tbody>
 
             <tr>
-			                   <td>{{ form.address }}</td>
+                <td>{{ form.address }}</td>
             </tbody>
             </tr>
 
         </table>
+          <hr class="major">
 		  <h2>Manage Your Account</h2>
 		  <a href="changeinfo" class="button fit">Change User Information</a>
 		  <a href="changepw" class="button fit">Change Password</a>
