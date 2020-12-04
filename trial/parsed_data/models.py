@@ -14,7 +14,7 @@ class ParsedData(models.Model):
     quantity_score = models.IntegerField(blank=True, null=True)
     quality_score = models.PositiveIntegerField(blank=True, null=True, default=0, validators=[MinValueValidator(1), MaxValueValidator(10)])
     evaluated = models.IntegerField()
-    pass_or_not = models.IntegerField(db_column='pass')  # Field renamed because it was a Python reserved word.
+    pass_or_not = models.IntegerField(db_column='pass')
 
     class Meta:
         #managed = False
