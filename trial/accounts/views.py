@@ -106,18 +106,42 @@ def search(request):
 
 
 def post_detail(request, pk):
+    request.session['submitter_id'] = pk
     post = UserProfile.objects.get(pk=pk)
     if post.role == 'S':
         submitter = get_object_or_404(Submitter,pk=pk)                              #15
-        apply = ApplyTask.objects.filter(submitter=submitter).values('task')        #<QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
-        tak = Task.objects.filter(task_id__in=apply)                                #<QuerySet [<Task: 예금 및 적금 데이터>, <Task: 베스트셀러 데이터>, <Task: 수강신청 데이터>]>
-        raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')#[{'file': 'bestsellers_with_categories.csv'}, {'file': 'fiction_correct.csv'}, {'file': 'fiction_incorrect.csv'}]>
-        raw = RawDataType.objects.filter(task__in=tak).values('task').order_by('task').distinct()
+        raw = RawDataSeqFile.objects.filter(submitter=submitter)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)
+        #temp = raw.values('seqnumber')  # 제출자가 제출한 파일 시퀀스number 오브젝트 {'seqnumber': 1}   {'seqnumber': 2}   {'seqnumber': 4}   {'seqnumber': 11}   {'seqnumber': 12}
+        #pared = ParsedData.objects.filter(raw_data_seq_file__in=temp, pass_or_not=1)  # 제출자가 제출한 패쓰 된 paredData objects
+        #temppared = pared.values('task').order_by('task').distinct()  #
+
+        apply = ApplyTask.objects.filter(submitter=submitter, approved=1).values(
+            'task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+        tak1 = Task.objects.filter(task_id__in=apply)  # 제출자가 참여중인 태스크 목록.(승인 된 것들만)
+        # task = tak1.filter(task_id__in=temppared)                   #제출자가 참여중인 목록 중
+        #taktemp = tak1.values_list('task_id', flat=True)  # parsedtemp 에 현제 제출자가 참가해 있는 태스크들의 id를 넘겨 줌.
+       # parsedtemp = pared.filter(task__in=taktemp).values_list('raw_data_seq_file',flat=True).distinct()  # 참가해있는 테이블들에 제출되어 진 파씽파일들
+        #rawtemp = raw.filter(seqnumber__in=parsedtemp)  # 파씽파일들의 이름을 뽑기 위한 용도.
+
+        #apply = ApplyTask.objects.filter(submitter=submitter).values('task')        #<QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+      #  tak = Task.objects.filter(task_id__in=apply)                                #<QuerySet [<Task: 예금 및 적금 데이터>, <Task: 베스트셀러 데이터>, <Task: 수강신청 데이터>]>
+      #  raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')#[{'file': 'bestsellers_with_categories.csv'}, {'file': 'fiction_correct.csv'}, {'file': 'fiction_incorrect.csv'}]>
+      #  raw = RawDataType.objects.filter(task__in=tak).values('task').order_by('task').distinct()
 
        # parsed = get_object_or_404(ParsedData,pk=raw_data)
 
         context = {
-            'post': post, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
+            'post': post,#, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
+            #'temp': temp,
+            'raw': raw,
+            'apply': apply,
+           # 'pared': pared,
+            'tak1': tak1,
+           # 'temppared': temppared,
+          #  'taktemp': taktemp,
+          #  'parsedtemp': parsedtemp,
+          #  'rawtemp': rawtemp
+            # 'task': task
         }
         return render(request, 'post_detail.html', context)
     elif post.role == 'R':
@@ -140,12 +164,50 @@ def post_detail(request, pk):
   #  context = {'candidates' : candidates}
    # return render(request, 'viewusers.html', context)
 
+def type_detail(request, pk):
+    task = Task.objects.get(pk=pk)
+    parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
+    temp = request.session.get('submitter_id')
+    temp1 = int(temp)
+    temp2 = UserProfile.objects.filter(user_id=temp1)
+    raw = RawDataSeqFile.objects.filter(submitter=temp1,seqnumber__in=parsed)
 
+    #temp = parsed.values_list('raw_data_seq_file')
+    #raw = RawDataSeqFile.objects.filter(submitter=15,seqnumber=temp)
+
+    context= {
+        'parsed': parsed,'temp':temp1, 'raw':raw, 'task':task
+    }
+    return render(request, 'type_detail.html', context)
 
 #def test(request):
-#    test = RawDataSeqFile.objects.filter(submitter=15).values('seqnumber')
-#   #test = RawDataSeqFile.objects.filter(raw)
-#    return render(request, 'test.html', {'test': test})
+ #   raw = RawDataSeqFile.objects.filter(submitter=15)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)   RawDataSeqFile object (12)
+ #   temp = raw.values('seqnumber')  # 제출자가 제출한 파일 시퀀스number 오브젝트 {'seqnumber': 1}   {'seqnumber': 2}   {'seqnumber': 4}   {'seqnumber': 11}   {'seqnumber': 12}
+ #   pared = ParsedData.objects.filter(raw_data_seq_file__in=temp, pass_or_not=1)  # 제출자가 제출한 패쓰 된 paredData objects
+ #   temppared = pared.values('task').order_by('task').distinct()  #
+
+  #  apply = ApplyTask.objects.filter(submitter=15, approved=1).values('task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+  #  tak1 = Task.objects.filter(task_id__in=apply)  # 제출자가 참여중인 태스크 목록.(승인 된 것들만)
+    # task = tak1.filter(task_id__in=temppared)                   #제출자가 참여중인 목록 중
+  #  taktemp = tak1.values_list('task_id', flat=True)  # parsedtemp 에 현제 제출자가 참가해 있는 태스크들의 id를 넘겨 줌.
+  #  parsedtemp = pared.filter(task__in=taktemp).values_list('raw_data_seq_file',
+  #                                                          flat=True).distinct()  # 참가해있는 테이블들에 제출되어 진 파씽파일들
+  #  rawtemp = raw.filter(seqnumber__in=parsedtemp)  # 파씽파일들의 이름을 뽑기 위한 용도.
+
+
+    #context = {
+    ##    'temp': temp,
+     #   'raw': raw,
+     #   'apply': apply,
+     #   'pared':pared,
+     #   'tak1': tak1,
+     #   'temppared': temppared,
+     #   'taktemp':taktemp,
+     #   'parsedtemp': parsedtemp,
+     #   'rawtemp': rawtemp
+     #   #'task': task
+    #}
+    #return render(request, 'type_detail.html', context)
 
 #def task_detail(request, pk):
 #    task = Task.objects.get(pk=pk)

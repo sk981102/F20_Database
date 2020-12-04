@@ -56,30 +56,14 @@
             <thead>
                 <tr>
                     <td><B>태스크</B></td>
-                    <td><B>제출한 파일</B></td>
                 </tr>
             </thead>
             <tbody>
 
-        {% for ay in tak %}
+        {% for ay in tak1 %}
         <tr>
             <!--<td><a href="{% url 'upload' ay.task_id %}">{{ ay.task_name }}</a></td>-->
-            <td>{{ ay.task_name }}</td>
-
-           {% for raws in raw %}
-                {% if raws.task == ay.task_id %}
-        <td></td>
-                    {% for pa in parsed %}
-                        {% if pa.raw_data_type == raws.type_id %}
-            <tr></tr>
-        <td></td>
-                           <td> {{ pa }}</td>
-
-                        {% endif %}
-                    {% endfor %}
-
-                {% endif %}
-            {% endfor %}
+            <td><a href="/type_detail/{{ ay.pk }}">{{ ay.task_name }}</a></td>
 
 
         </tr>
@@ -92,7 +76,7 @@
         <table class="table table-striped">
             <tbody>
          <h3>총 제출이력</h3>
-        {% for pa in parsed %}
+        {% for pa in raw %}
         <tr>
          <td>{{ pa.file }}</td>
             </tr>
