@@ -46,8 +46,9 @@ def assigned_landing_view(request, *args, **kwargs):
             AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
 
             # submitter score update
-            scores = ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
-            new_score = np.round(np.mean(scores), decimals=2)
+            quality_scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
+            quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
+            new_score=np.round(np.mean(np.mean(quality_scores), np.mean(quantity_scores)),decimals=2)
             Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
 
     else:
