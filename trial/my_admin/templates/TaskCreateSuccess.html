@@ -2,10 +2,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <div>
-        <h2> Task is successfully created! <br> </h2>
-        <a href="{% url 'createdatatype' %}" class="button">Create Raw Data Type!</a>
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
+    <div class="inner">
+        <br>
+        <br>
+        <h3 font size="5em"> Task is successfully created! <br> </h3>
+        <h2> You should create at least one data type! <br> </h2>
+        <a href="{% url 'createdatatype' %}" class="button fit">Create Data Type</a>
    </div>
 
 {% endblock content %}

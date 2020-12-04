@@ -72,7 +72,7 @@ def assigned_landing_view(request, *args, **kwargs):
 
     not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
     rated = AssignedTask.objects.filter(rater=rater, rated=1)
-    info="Refresh to get task assigned"
+    info=""
 
     if len(rated) > 0:
         info = ParsedData.objects.filter(rater=rater)

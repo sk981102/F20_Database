@@ -1,16 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>
-        <a href="{% url 'home' %}">Go to main page</a>
-    </p>
 
-    <div>
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
+
+    <br>
+    <h3> Create Raw Data Type</h3>
+
+    <div class="inner">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type = "submit" value = "Create Data Type and Define Fields" onclick ="return alert('Data Type Created Successfully!')">
+            <input type = "submit" value = "Create Data Type and Define Fields" class="button fit" onclick ="return alert('Data Type Created Successfully!')">
         </form>
+        <p>
+        <a href="{% url 'home' %}">Go to main page</a>
+    </p>
    </div>
 
 {% endblock content %}

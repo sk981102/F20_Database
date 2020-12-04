@@ -7,6 +7,39 @@
 	h2 {text-align: center;}
 	h3 {text-align: center;}
 	h4 {text-align: center;}
+	.leftmostb {
+    position: absolute;
+    top: 525px;
+    left: 160px;
+    font-size: 18px;
+    }
+    .leftmosti {
+    position: absolute;
+    top: 250px;
+    left: 175px;
+    }
+    .centerb {
+    position: absolute;
+    top: 525px;
+    left: 650px;
+    font-size: 18px;
+    }
+    .centeri {
+    position: absolute;
+    top: 250px;
+    left: 690px;
+    }
+    .rightmostb {
+    position: absolute;
+    top: 525px;
+    left: 1100px;
+    font-size: 18px;
+    }
+    .rightmosti {
+    position: absolute;
+    top: 250px;
+    left: 1125px;
+    }
 	</style>
 	</head>
 
@@ -17,10 +50,34 @@
       </h3>
 	  <p><a class="button fit" href="{% url 'logout' %}">Log Out</a></p>
 	  <!--<p><a class="button" href="{% url 'myadmin:taskcreate' %}">Create a task</a>-->
-      <p><a class="button" href="{% url 'datatypelist' %}">Manage Data Type</a>
-      <p><a class="button" href="{% url 'viewusers' %}">View all users</a>
-      <p><a class="button" href="{% url 'myadmin:taskmanage' %}">Manage tasks</a>
+      <head>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <div class="inner">
+      </head>
+    <body>
 
-  </div>
+    <div style="font-size: 180px; color:#04B486;">
+        <div class="leftmosti">
+        <i class="fas fa-users"></i>
+        </div>
+        <div class="centeri">
+        <i class="fas fa-file-invoice"></i>
+        </div>
+        <div class="rightmosti">
+        <i class="fas fa-tasks"></i>
+        </div>
+    </div>
+    </body>
+      <div class="rightmostb">
+      <p><a class="button" href="{% url 'datatypelist' %}">Manage Data Type</a>
+      </div>
+      <div class="leftmostb">
+      <p><a class="button" href="{% url 'viewusers' %}">View all users</a>
+      </div>
+      <div class="centerb">
+      <p><a class="button" href="{% url 'myadmin:taskmanage' %}">Manage tasks</a>
+      </div>
+    </div>
+    </div>
 </section>
 {% endblock %}
