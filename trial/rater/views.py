@@ -6,6 +6,7 @@ from task.models import Task, TaskSchema
 from rater.models import Rater, AssignedTask
 from parsed_data.models import ParsedData
 from rater.forms import RateForm
+
 import random
 import pandas as pd
 import numpy as np
