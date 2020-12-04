@@ -169,14 +169,14 @@ def type_detail(request, pk):
     parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
     temp = request.session.get('submitter_id')
     temp1 = int(temp)
-    temp2 = UserProfile.objects.filter(user_id=temp1)
     raw = RawDataSeqFile.objects.filter(submitter=temp1,seqnumber__in=parsed)
+    num = raw.count()
 
     #temp = parsed.values_list('raw_data_seq_file')
     #raw = RawDataSeqFile.objects.filter(submitter=15,seqnumber=temp)
 
     context= {
-        'parsed': parsed,'temp':temp1, 'raw':raw, 'task':task
+        'parsed': parsed,'temp':temp1, 'raw':raw, 'task':task, 'num':num
     }
     return render(request, 'type_detail.html', context)
 
