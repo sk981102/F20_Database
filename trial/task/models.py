@@ -38,4 +38,13 @@ class ApplyTask(models.Model):
         db_table = 'apply_task'
         unique_together = (('submitter', 'task'),)
 
+class TaskSchema(models.Model):
+    task_id = models.OneToOneField(Task,primary_key=True,on_delete=models.CASCADE)
+    TaskDataTableName = models.CharField(max_length=100)
+    TaskDataTableScheme = models.CharField(max_length=10000)
+
+    class Meta:
+        #managed = False
+        db_table = 'task_schema'
+
 
