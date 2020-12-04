@@ -18,47 +18,12 @@
                  <td>{{ raw.file }}</td>
                 {% endfor %}
 
-            <!--{% for ts in test %}
-                 <td>{{ ts.seqnumber }}</td>
-            {% endfor %}
 
-            {% for t in parsedtemp %}
-                    <h2>{{ t }}</h2>
-            {% endfor %}
-            <br>
-            <br>
-            <br>
-            <br><br>
-
-            {% for t in raw %}
-                 <h2>{{ t.seqnumber }}</h2>
-            {% endfor %}
-
-
-            {% for tak in tak1 %}
-                <tr>
-                    <td>{{ tak.task_name }}</td>
-                    <td>{{ tak.task_id }}</td>
-                </tr>
-                {% for parsing in parsedtemp %}
-                    {% if parsing == tak.task_id %}
-                        <td>{{ parsing }}</td>
-
-                        {% for raw in raw %}
-                            {% if raw.sequmber == parsing.raw_date_seq_file %}
-                                <td>{{ raw.file }}</td>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}-->
 
             </tbody>
         </table>
         <table>
-            {% for raw in parsed %}
-                 <td>{{ raw }}</td>
-                {% endfor %}
+
         </table>
 
     </form>
