@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>
-        <a href="{% url 'home' %}">Go to main page</a>
-    </p>
 
-    <div>
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
+
+    <br>
+    <h3>Define Raw Data Type</h3>
+    <div class="inner">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">저장</button>
+            <button type="submit" class="button fit">Create</button>
         </form>
+        <p>
+        <a href="{% url 'home' %}">Go to main page</a>
+        </p>
    </div>
 
 {% endblock content %}

@@ -2,11 +2,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
     <div>
-You failed to create a task. Please try again. <br>
+        You failed to create a task. Please try again. <br>
         <a href="{% url 'home' %}">Go to main page</a>
-
    </div>
 
 {% endblock content %}
