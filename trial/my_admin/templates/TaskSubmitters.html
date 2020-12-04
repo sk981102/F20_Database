@@ -1,34 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="inner">
-      <h2>Title: {{ task.task_name }}</h2>
-      <p><strong>현재 Pass 기준:</strong> {{task.pass_standard}}</p>
-      <p><a href="{% url 'MyAdmin:standard' task.task_id %}">Pass 기준 수정하기</a></p>
+<section id="main" class="wrapper">
+    <div class="inner">
+        <h2>Task Title: {{ task.task_name }}</h2>
+        <p><strong>현재 Pass 기준:</strong> {{task.pass_standard}}</p>
+        <p><a href="{% url 'MyAdmin:standard' task.task_id %}">Pass 기준 수정하기</a></p>
+        <p><strong>File Type:</strong> .csv files</p> <br>
+        <hr class="major">
 
-      <p><strong>File Type:</strong> .csv files</p> <br>
-      <h3>아직 승인되지 않은 제출자</h3>
-	          {% for t in pending_submitter %}
-				<td>{{t.submitter.user_id}}</td>
-  				<td>{{t.submitter.score}}</td> <br>
-				<td><a class="button" href="/pjadmin/taskmanage/{{task.task_id}}/{{t.submitter.user_id}}/">Approve this submission</a></td>
-			{% endfor %} 
-                        <br>
-      <h3><strong>이미 승인된 제출자</strong></h3>
-                  {% for t in approved_submitter %}
-      <td><a href="/post_detail/{{ t.submitter.user_id.user_id }}">{{t.submitter.user_id}}</a></td>
-                                <td>{{t.submitter.score}}</td> <br>
-                        {% endfor %}
-        <br><br><h3><strong>해당 태스크에 제출된 파일 목록    </strong></h3>
+        <h3>아직 승인되지 않은 제출자</h3>
+        {% for t in pending_submitter %}
+        <td>{{t.submitter.user_id}}</td>
+        <td>{{t.submitter.score}}</td>
+        <br>
+        <td><a class="button" href="/pjadmin/taskmanage/{{task.task_id}}/{{t.submitter.user_id}}/">Approve this
+            submission</a></td>
+        {% endfor %}
+        <br>
+        <hr class="major">
 
-      {% for n in rawnum %}
+        <h3><strong>이미 승인된 제출자</strong></h3>
+        {% for t in approved_submitter %}
+        <td><a href="/post_detail/{{ t.submitter.user_id.user_id }}">{{t.submitter.user_id}}</a></td>
+        <td>{{t.submitter.score}}</td>
+        <br>
+        {% endfor %}
+        <br><br>
+        <hr class="major">
+        <h3><strong>해당 태스크에 제출된 파일 목록 </strong></h3>
+
+        {% for n in rawnum %}
 
         {{ n.file }}<br>
-      {% endfor %}
+        {% endfor %}
 
         <h1>파일수: {{ num }}</h1>
+        <h1>{{task_table}}</h1>
 
-
-
-
-{% endblock %}
+        {% endblock %}
+    </div>
+</section>

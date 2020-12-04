@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+from django.db import connection
 from submitter.models import Submitter
 from raw_data.models import RawDataType, RawDataSeqFile
-from task.models import Task
+from task.models import Task,TaskSchema
 from rater.models import Rater, AssignedTask
 from parsed_data.models import ParsedData
 from rater.forms import RateForm
@@ -39,6 +40,8 @@ def assigned_landing_view(request, *args, **kwargs):
                                               quality_score=quality_score, evaluated=evaluated, pass_or_not=pass_or_not)
             rated.save()
 
+            if pass_or_not==1:
+                insert_sql(raw_data_seq_file,task)
             AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
 
             #submitter score update
@@ -81,6 +84,18 @@ def assigned_landing_view(request, *args, **kwargs):
 
 
 
+def insert_sql(raw_data,task):
+    task_schema=TaskSchema.filter(task_id=task).first()
+    csv_file = raw_data.file.open()
+    columns = csv_file.readLine()
+
+    q="INSERT INTO"+task_schema.TaskDataTableName+"("+column1, column2, column3, ...+")" +"VALUES" (value1, value2, value3, ...)
+
+
+    cursor = connection.cursor()
+    cursor.execute(q)
+    cursor.close()
+    return 0
 
 
 def show_table_score(file):
@@ -103,8 +118,13 @@ def calculate_auto_score(data):
 
 
 def rater_rates(request, pk):
+
     form = RateForm(request.POST)
     raw_data = RawDataSeqFile.objects.get(seqnumber=pk)
+    task=raw_data.raw_data_type.task
+
+    task_schema=TaskSchema.objects.filter(task_id=task).first()
+
     csv_file = raw_data.file.open()
     data_html, scores = show_table_score(csv_file)
     request.session['rawdataseqfile'] = pk
@@ -112,7 +132,8 @@ def rater_rates(request, pk):
     request.session['num_dup'] = scores['num_dup']
     request.session['num_null'] = int(scores['num_null'].sum())  # 컬럼별 null ratio 계산 필요..
 
-    return render(request, "rate.html", {"form": form, "raw_data": raw_data, "table": data_html, "scores": scores})
+    return render(request, "rate.html", {"form": form, "raw_data": raw_data, "table": data_html,
+                                         "scores": scores,"task_schema":task_schema})
 
 
 def rated(request):  # not used

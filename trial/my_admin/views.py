@@ -2,24 +2,38 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.db import connection
 from django.urls import path 
 from .models import *
 from .forms import TaskCreateForm, PassStandardForm
-from task.models  import Task,ApplyTask #,TaskDataTable
+from task.models  import Task,ApplyTask,TaskSchema #,TaskDataTable
 from submitter.models import Submitter
 from accounts.models import UserProfile
 from raw_data.models import RawDataType, RawDataSeqFile
 # Create your views here.
+
 def create(request):
     if request.method=='POST':
         form = TaskCreateForm(request.POST)
         if form.is_valid():
             thisadmin=MyAdmin.objects.get(user_id=request.user.user_id)
-            '''tskdtobj=TaskDataTable(Name=request.POST.get('TaskDataTableName',''), Scheme=request.POST.get('TaskDataTableScheme',''))
-            tskdtobj.save'''
 
-            tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin, description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) #taskdatatable needed
+
+            schema_name = request.POST.get('TaskDataTableName', '')
+            schema=request.POST.get('TaskDataTableScheme','')
+
+            cursor = connection.cursor()
+            cursor.execute(schema)
+            cursor.close()
+
+
+            tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin,
+                        description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) #taskdatatable needed
             tskobj.save()
+
+            task_schema=TaskSchema(task_id=tskobj,TaskDataTableName=schema_name,TaskDataTableScheme=schema)
+            task_schema.save()
+
             return render(request, 'TaskCreateSuccess.html')
         #return redirect('/pjadmin')
         return render(request, 'TaskCreateFail.html')
@@ -54,7 +68,18 @@ def task_submitters(request, pk):
     num = rawnum.count()
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
-    return render(request, 'TaskSubmitters.html',context={'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters, 'num':num, 'rawnum': rawnum})
+
+    #show data so far
+    task_schema=TaskSchema.objects.filter(task_id=thistask).first()
+    table = "SELECT * FROM " + task_schema.TaskDataTableName
+    cursor = connection.cursor()
+    cursor.execute(table)
+    result = cursor.fetchone()
+
+
+    return render(request, 'TaskSubmitters.html',context={
+        'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters,
+        'num':num, 'rawnum': rawnum, 'task_table':result})
 
 def sub_approve(request,task_id,user_id): 
     thistask=get_object_or_404(Task, pk=task_id)
