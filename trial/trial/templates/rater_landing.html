@@ -45,13 +45,18 @@
 				</tr>
 			  </thead>
 			  <tbody>
-  				{% for f in rated %}
-				<tr><td>{{f.raw_data.seqnumber}}</td>
-				<td>{{f.raw_data.file}}</td>
-  				<td>{{f.task.task_name}}</td>
-  				<td>{{f.raw_data.raw_data_type.type_name}}</td>
-  				<td>넣어줘야함</td>
-				<td>넣어줘야함</td></tr>
+  				{% for f in info %}
+					<tr><td>{{f.raw_data_seq_file.seqnumber}}</td>
+					<td>{{f.raw_data_seq_file.file}}</td>
+					<td>{{f.task.task_name}}</td>
+					<td>{{f.raw_data_seq_file.raw_data_type.type_name}}</td>
+					<td>{{f.quality_score}}</td>
+					<td>{% if f.pass_or_not == 1 %}
+							PASS
+						{% else %}
+							FAIL
+						{% endif %}
+					</td></tr>
 				{% endfor %}
 			  </tbody>
 		  </table>
