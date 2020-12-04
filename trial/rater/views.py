@@ -88,11 +88,9 @@ def insert_sql(raw_data, task):
     task_schema = TaskSchema.objects.filter(task_id=task).first()
     csv_file = raw_data.file.open()
     url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    cursor = create_engine(url)
     data=pd.read_csv(csv_file)
-    cursor=create_engine(url)  
-    
-    data.to_sql(con=cursor,name=task_schema.TaskDataTableName, if_exists='replace',)
-
+    data.to_sql(con=cursor, name=task_schema.TaskDataTableName, if_exists='replace')
 
     return 0
 
