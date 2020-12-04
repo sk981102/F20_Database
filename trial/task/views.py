@@ -20,11 +20,14 @@ def ViewContract(request, pk):
 
 
 def Applied(request, task_id, submitter_id):
-    task = get_object_or_404(Task, pk=task_id)
-    submitter = get_object_or_404(Submitter, pk=submitter_id)
-    applied = ApplyTask.objects.create(submitter=submitter, task=task, approved=0)
-    applied.save()
-
-    return render(request, "applied.html", )
+    try:
+        task = get_object_or_404(Task, pk=task_id)
+        submitter = get_object_or_404(Submitter, pk=submitter_id)
+        applied = ApplyTask.objects.create(submitter=submitter, task=task, approved=0)
+        applied.save()
+        a=1
+    except:
+        a=0
+    return render(request, "applied.html", {"a":a})
 
 
