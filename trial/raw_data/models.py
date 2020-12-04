@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class RawDataType(models.Model):
+	#Admin = (('admin', 'Admin'))
 	type_id = models.AutoField(primary_key=True)
 	type_name = models.CharField(unique=True, max_length=30)
 	task = models.ForeignKey('task.Task', models.DO_NOTHING,default=None,db_column='task')
@@ -30,11 +31,15 @@ class RawDataSeqFile(models.Model):
 
 #newly created for raw datatype schema
 class RawDataTypeSchema(models.Model):
+	NullValid = (('Y', 'Yes'), ('N', 'No'))
+	FieldType = (('char', 'Char'), ('int', 'Int'), ('date', 'Date'), ('boolean','Boolean'))
+
+	field_id = models.AutoField(primary_key=True)
 	type_id = models.ForeignKey('raw_data.RawDataType', models.DO_NOTHING, default=None)
 	field_name = models.CharField(max_length=30)
-	field_type = models.CharField(max_length=30)
-	null_value = models.CharField(max_length=10)
-	mapping_field = models.CharField(unique=True, max_length=30)
+	field_type = models.CharField(max_length=30, choices=FieldType, default="na")
+	null_value = models.CharField(max_length=10, choices=NullValid, default="na")
+	mapping_field = models.CharField(max_length=50)
 
 	class Meta:
 		db_table = 'raw_data_type_schema'
