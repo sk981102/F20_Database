@@ -87,17 +87,16 @@
 
 
         {% elif post.role == "R" %}
-        <h3>평가 중인 태스크 목록</h3>
+        <h3>평가했던 파일 목록</h3>
         <table class="table table-striped">
             <tbody>
 
-        {% for ps in parsed %}
 
+{% for pa in raw %}
         <tr>
-            <td>{{ ps.task }}</td>
+            <td>{{ pa.file }}</td>
 
         </tr>
-
         {% endfor %}
             {% endif %}
 

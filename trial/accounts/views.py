@@ -147,11 +147,11 @@ def post_detail(request, pk):
         }
         return render(request, 'post_detail.html', context)
     elif post.role == 'R':
-        rater = get_object_or_404(Rater, pk=pk)
-        parsed = ParsedData.objects.filter(rater=rater)
 
+        parsed = ParsedData.objects.filter(rater=pk).values_list('raw_data_seq_file',flat=True)#(rater=pk)
+        raw = RawDataSeqFile.objects.filter(seqnumber__in=parsed)
         context = {
-            'post':post, 'pared': parsed
+            'post':post, 'parsed': parsed, 'raw': raw
         }
         return render(request, 'post_detail.html', context)
 
