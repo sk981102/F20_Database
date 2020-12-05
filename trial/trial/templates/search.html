@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h4 {text-align: center;}
+	</style>
+	</head>
 <div class="inner">
+    <br>
+    <h3>Search User</h3>
+    <h4>You can search users with name, gender, role etc.</h4>
 <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
 {% csrf_token %}
 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q" value="{{q}}">
-<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <br>
+<button class="btn btn-outline-success my-2 my-sm-0 button fit" type="submit">Search</button>
 
 </form>
-
 
 
     {% if not blogs %}
