@@ -47,4 +47,20 @@ class TaskSchema(models.Model):
         #managed = False
         db_table = 'task_schema'
 
+class TaskDataTableSchema(models.Model):
+    NullValid = (('Y', 'Yes'), ('N','No'))
+    FieldType = (('char', 'Char'), ('int','Int'), ('date','Date'), ('boolean', 'Boolean'))
+
+    field_id = models.AutoField(primary_key=True)
+    task_id = models.ForeignKey('task.Task', models.DO_NOTHING)
+    field_name = models.CharField(unique=True, max_length=30)
+    field_type = models.CharField(max_length=30, choices=FieldType, default="na")
+    null_valid = models.CharField(max_length=30, choices=NullValid, default="na")
+
+    def __str__(self):
+        return self.field_name
+
+    class Meta:
+        db_table = 'task_data_table_schema'
+
 
