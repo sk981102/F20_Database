@@ -16,6 +16,7 @@ from raw_data.models import RawDataType, RawDataSeqFile
 from task.models  import Task,ApplyTask,TaskSchema
 from submitter.models import Submitter
 from accounts.models import UserProfile
+from parsed_data.models import ParsedData
 from raw_data.models import RawDataType, RawDataSeqFile
 
 # Create your views here.
@@ -71,8 +72,8 @@ def task_pass_standard(request, task_id):
  
 def task_submitters(request, pk):
     thistask = get_object_or_404(Task, pk=pk)
-    thisrawtype = RawDataType.objects.filter(task=thistask.task_id).values_list('type_id',flat=True)
-    rawnum = RawDataSeqFile.objects.filter(raw_data_type__in=thisrawtype)
+    par = ParsedData.objects.filter(task=thistask.task_id,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
+    rawnum = RawDataSeqFile.objects.filter(seqnumber__in=par)
     num = rawnum.count()
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
