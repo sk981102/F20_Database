@@ -22,6 +22,7 @@ from pages import views
 from raw_data.views import createdatatype, createtypeschema, datatypelist
 from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount, search, post_detail, type_detail#, test#, test2#,test
 
+from task.views import taskdatatableschema
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -42,8 +43,9 @@ urlpatterns = [
     path('myaccount/deleteaccount', deleteaccount, name='deleteaccount'),
     path('search/', search, name='search'),
     path('createdatatype/', createdatatype, name='createdatatype'),
-    path('createdatatype/createtypeschema', createtypeschema, name='createtypeschema'),
+    path('createtypeschema', createtypeschema, name='createtypeschema'),
     path('datatypelist', datatypelist, name='datatypelist'),
+    path('taskcreatesuccess/', taskdatatableschema, name='taskdatatableschema'),
     #path('type_detail/', test, name='type_detail'),
     #path('test2/', test2, name='test2'),
     url(r'^post_detail/(?P<pk>\d+)/', post_detail),

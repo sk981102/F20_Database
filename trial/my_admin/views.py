@@ -33,7 +33,6 @@ def create(request):
             cursor.execute(schema)
             cursor.close()
 
-
             tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin,
                         description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) 
             tskobj.save()
@@ -41,7 +40,7 @@ def create(request):
             task_schema=TaskSchema(task_id=tskobj,TaskDataTableName=schema_name,TaskDataTableScheme=schema)
             task_schema.save()
 
-            return render(request, 'TaskCreateSuccess.html')
+            return redirect('taskdatatableschema')
         #return redirect('/pjadmin')
         return render(request, 'TaskCreateFail.html')
     else:
