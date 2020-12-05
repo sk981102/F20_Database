@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <head>
+	<style>
+	h2 {text-align: center;}
+	h3 {text-align: center;}
+	h5 {text-align: center;}
+	</style>
+	</head>
 <section id="main" class="wrapper">
   <div class="inner">
 
 	  <h3>
 		Hi {{user.username}}!
 	  </h3>
-	  <p><a href="{% url 'logout' %}" class="button">Log Out</a></p>
+	  <p><a href="{% url 'logout' %}" class="button fit">Log Out</a></p>
       <hr class="major">
 	  <h2>My Info</h2>
 	  <div class="table_wrapper">
