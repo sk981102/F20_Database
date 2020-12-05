@@ -7,5 +7,8 @@ urlpatterns = [
     url(r'^taskmanage/$', views.manage, name='taskmanage'),
     url(r'^taskmanage/(?P<pk>\d+)/$', views.task_submitters, name='submitters'),
     url(r'^taskmanage/(?P<task_id>\d+)/standard$', views.task_pass_standard, name='standard'),
+    url(r'^taskmanage/(?P<task_id>\d+)/csv_list$', views.csv_list, name='csv_list'),
+    url(r'^taskmanage/download/(?P<task_id>\d+)/$', views.download, name='download'),
     url(r'^taskmanage/(?P<task_id>\d+)/(?P<user_id>\w+)/$', views.sub_approve, name='approve'),
+
 ]

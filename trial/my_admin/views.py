@@ -1,3 +1,5 @@
+import pandas as pd
+from pandas import DataFrame
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -6,10 +8,15 @@ from django.db import connection
 from django.urls import path 
 from .models import *
 from .forms import TaskCreateForm, PassStandardForm
-from task.models  import Task,ApplyTask,TaskSchema #,TaskDataTable
+from task.models  import Task,ApplyTask,TaskSchema
 from submitter.models import Submitter
 from accounts.models import UserProfile
 from raw_data.models import RawDataType, RawDataSeqFile
+from task.models  import Task,ApplyTask,TaskSchema
+from submitter.models import Submitter
+from accounts.models import UserProfile
+from raw_data.models import RawDataType, RawDataSeqFile
+
 # Create your views here.
 
 def create(request):
@@ -41,6 +48,7 @@ def create(request):
         form = TaskCreateForm()
  
     return render(request, 'TaskCreate.html', {'form': form})
+
 
 def manage(request):
     tasks=Task.objects.all()
@@ -89,3 +97,18 @@ def sub_approve(request,task_id,user_id):
     thisobj.approved=1
     thisobj.save()
     return render(request, 'Approve.html', context={'obj':thisobj})
+
+
+def csv_list(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    data_types = RawDataType.objects.filter(task=task).distinct()	
+    uploaded_files = RawDataSeqFile.objects.filter(raw_data_type__in=data_types).order_by('round')
+    return render(request, 'csv_list.html', context={'task':task, 'file':uploaded_files})
+
+
+def download(request, task_id):
+    task_schema = TaskSchema.objects.filter(task_id=task_id).first()
+    data=pd.read_sql_table(name=task_schema.TaskDataTableName)
+    data.to_csv(r'/home/seonyeong/', index=False)
+    messages.success('Download Completed')
+    return HttpResponse("DOWNLOAD")

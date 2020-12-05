@@ -6,7 +6,8 @@
         <h2>Task Title: {{ task.task_name }}</h2>
         <p><strong>현재 Pass 기준:</strong> {{task.pass_standard}}</p>
         <p><a href="{% url 'MyAdmin:standard' task.task_id %}">Pass 기준 수정하기</a></p>
-        <p><strong>File Type:</strong> .csv files</p> <br>
+        <p><strong>File Type:</strong> .csv files</p>
+      <p><a href="/pjadmin/taskmanage/download/{{task.task_id}}/">Download as CSV File</a></td> <br>
         <hr class="major">
 
         <h3>아직 승인되지 않은 제출자</h3>

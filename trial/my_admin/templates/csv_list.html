@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="inner">
+      <h2>Title: {{ task.task_name }}</h2>
+      <h3> Submitted CSV Files List</h3>
+                  {% for t in file %}
+                                <td>{{t.seqnumber}}</td>
+                                <td>{{t.file}}</td>
+                                <td>{{t.submitter.user_id}}</td>
+                                <td><a href="/pjadmin/taskmanage/download/{{t.seqnumber}}/">Download</a></td> <br>
+                        {% endfor %}
+                        <br>
+{% endblock %}
+
