@@ -15,3 +15,5 @@ class TaskCreate(models.Model):
 		TaskDataTableName=models.CharField(max_length=100)
 		TaskDataTableScheme=models.CharField(max_length=10000)
 
+class Download(models.Model):
+	Path=models.CharField(max_length=100)

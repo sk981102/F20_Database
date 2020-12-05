@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from django.urls import path 
 from .models import *
-from .forms import TaskCreateForm, PassStandardForm
+from .forms import TaskCreateForm, PassStandardForm, DownloadForm
 from task.models  import Task,ApplyTask,TaskSchema
 from submitter.models import Submitter
 from accounts.models import UserProfile
@@ -113,6 +113,16 @@ def download(request, task_id):
     url='mysql+pymysql://team1:610012@165.132.105.42/team1'
     cursor = create_engine(url) 
     data=pd.read_sql_table(con=cursor, table_name=task_schema.TaskDataTableName)
-    data.to_csv(r'/home/seonyeong/', index=False)
-    messages.success('Download Completed')
-    return HttpResponse("DOWNLOAD")
+    if request.method == "POST":
+        form = DownloadForm(request.POST)
+        if form.is_valid():
+                path= str(request.POST['Path'])
+                data.to_csv(path, index=False)
+                messages.success(request,'Download Completed')
+                return redirect('home')
+        else:
+                messages.error(request, 'Please correct the error below.')
+    else:
+        form = DownloadForm()
+    return render(request, 'Download.html', {'form': form})
+
