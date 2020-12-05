@@ -113,13 +113,14 @@ def post_detail(request, pk):
         raw = RawDataSeqFile.objects.filter(submitter=submitter).values_list('seqnumber',flat=True)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)
         parsed = ParsedData.objects.filter(raw_data_seq_file__in=raw,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
         rawfile = RawDataSeqFile.objects.filter(submitter=submitter,seqnumber__in=parsed)
+        apply = ApplyTask.objects.filter(submitter=submitter, approved=1).values('task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
+
+        tak1 = Task.objects.filter(task_id__in=apply)  # 제출자가 참여중인 태스크 목록.(승인 된 것들만)
         #temp = raw.values('seqnumber')  # 제출자가 제출한 파일 시퀀스number 오브젝트 {'seqnumber': 1}   {'seqnumber': 2}   {'seqnumber': 4}   {'seqnumber': 11}   {'seqnumber': 12}
         #pared = ParsedData.objects.filter(raw_data_seq_file__in=temp, pass_or_not=1)  # 제출자가 제출한 패쓰 된 paredData objects
         #temppared = pared.values('task').order_by('task').distinct()  #
 
-        apply = ApplyTask.objects.filter(submitter=submitter, approved=1).values(
-            'task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
-        tak1 = Task.objects.filter(task_id__in=apply)  # 제출자가 참여중인 태스크 목록.(승인 된 것들만)
+
         # task = tak1.filter(task_id__in=temppared)                   #제출자가 참여중인 목록 중
         #taktemp = tak1.values_list('task_id', flat=True)  # parsedtemp 에 현제 제출자가 참가해 있는 태스크들의 id를 넘겨 줌.
        # parsedtemp = pared.filter(task__in=taktemp).values_list('raw_data_seq_file',flat=True).distinct()  # 참가해있는 테이블들에 제출되어 진 파씽파일들
@@ -134,11 +135,12 @@ def post_detail(request, pk):
 
         context = {
             'post': post,#, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
-            #'temp': temp,
+
             'raw': rawfile,
             'apply': apply,
-           # 'pared': pared,
             'tak1': tak1,
+           # 'pared': pared,
+            # 'temp': temp,
            # 'temppared': temppared,
           #  'taktemp': taktemp,
           #  'parsedtemp': parsedtemp,
@@ -173,12 +175,13 @@ def type_detail(request, pk):
     temp1 = int(temp)
     raw = RawDataSeqFile.objects.filter(submitter=temp1,seqnumber__in=parsed)
     num = raw.count()
-
+    #temp3= RawDataSeqFile.objects.filter(submitter=temp1)
+    #temp4 = ParsedData.objects.all()
     #temp = parsed.values_list('raw_data_seq_file')
     #raw = RawDataSeqFile.objects.filter(submitter=15,seqnumber=temp)
 
     context= {
-        'parsed': parsed,'temp':temp1, 'raw':raw, 'task':task, 'num':num
+        'parsed': parsed,'temp':temp1, 'raw':raw, 'task':task, 'num':num#,'temp3':temp4
     }
     return render(request, 'type_detail.html', context)
 
