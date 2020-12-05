@@ -26,7 +26,7 @@
 				<tr><td>{{t.task.task_name}}</td>
   				<td>{{t.task.description}}</td>
 				<td>{{t.task.mincycle}}</td>
-  				<td><a href="{% url 'upload' t.task.task_id %}">자세히 보기</a></td></tr>
+  				<td><a href="{% url 'detail' t.task.task_id %}">자세히 보기</a></td></tr>
 			{% endfor %}
 			</tbody>
 		  </table>

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db import connection
 from submitter.models import Submitter
 from raw_data.models import RawDataType, RawDataSeqFile
-from task.models import Task,TaskSchema
+from task.models import Task, TaskSchema
 from rater.models import Rater, AssignedTask
 from parsed_data.models import ParsedData
 from rater.forms import RateForm
@@ -10,7 +10,7 @@ import random
 import pandas as pd
 import numpy as np
 import json
-
+from sqlalchemy import create_engine
 
 # Create your views here.
 
@@ -40,27 +40,29 @@ def assigned_landing_view(request, *args, **kwargs):
                                               quality_score=quality_score, evaluated=evaluated, pass_or_not=pass_or_not)
             rated.save()
 
-            if pass_or_not==1:
-                insert_sql(raw_data_seq_file,task)
+            if pass_or_not == "1":
+                insert_sql(raw_data_seq_file, task)
+
             AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
 
-            #submitter score update
-            scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
-            new_score=np.round(np.mean(scores),decimals=2)
+            # submitter score update
+            quality_scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
+            quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
+            new_score=np.round(np.mean(np.mean(quality_scores), np.mean(quantity_scores)),decimals=2)
             Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
 
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
 
-        if AssignedTask.objects.filter(rater=rater,rated=0).exists():
+        if AssignedTask.objects.filter(rater=rater, rated=0).exists():
             pass
         else:
             items = RawDataSeqFile.objects.all()
             try:
                 while True:
                     random_assigned = random.sample(list(items), 1)
-                    if AssignedTask.objects.filter(rater=rater,raw_data=random_assigned[0]).exists() == False:
-                         break
+                    if AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists() == False:
+                        break
 
                 raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
 
@@ -75,7 +77,7 @@ def assigned_landing_view(request, *args, **kwargs):
 
     not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
     rated = AssignedTask.objects.filter(rater=rater, rated=1)
-    info=""
+    info = ""
 
     if len(rated) > 0:
         info = ParsedData.objects.filter(rater=rater)
@@ -83,18 +85,14 @@ def assigned_landing_view(request, *args, **kwargs):
     return render(request, "rater_landing.html", {"not_rated": not_rated, "rated": rated, "info": info})
 
 
-
-def insert_sql(raw_data,task):
-    task_schema=TaskSchema.filter(task_id=task).first()
+def insert_sql(raw_data, task):
+    task_schema = TaskSchema.objects.filter(task_id=task).first()
     csv_file = raw_data.file.open()
-    columns = csv_file.readLine()
+    url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    cursor = create_engine(url)
+    data=pd.read_csv(csv_file)
+    data.to_sql(con=cursor, name=task_schema.TaskDataTableName, if_exists='replace')
 
-    q="INSERT INTO"+task_schema.TaskDataTableName+"("+column1, column2, column3, ...+")" +"VALUES" (value1, value2, value3, ...)
-
-
-    cursor = connection.cursor()
-    cursor.execute(q)
-    cursor.close()
     return 0
 
 
@@ -118,12 +116,11 @@ def calculate_auto_score(data):
 
 
 def rater_rates(request, pk):
-
     form = RateForm(request.POST)
     raw_data = RawDataSeqFile.objects.get(seqnumber=pk)
-    task=raw_data.raw_data_type.task
+    task = raw_data.raw_data_type.task
 
-    task_schema=TaskSchema.objects.filter(task_id=task).first()
+    task_schema = TaskSchema.objects.filter(task_id=task).first()
 
     csv_file = raw_data.file.open()
     data_html, scores = show_table_score(csv_file)
@@ -133,7 +130,7 @@ def rater_rates(request, pk):
     request.session['num_null'] = int(scores['num_null'].sum())  # 컬럼별 null ratio 계산 필요..
 
     return render(request, "rate.html", {"form": form, "raw_data": raw_data, "table": data_html,
-                                         "scores": scores,"task_schema":task_schema})
+                                         "scores": scores, "task_schema": task_schema})
 
 
 def rated(request):  # not used

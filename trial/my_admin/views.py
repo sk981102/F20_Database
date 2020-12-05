@@ -74,7 +74,7 @@ def task_submitters(request, pk):
     table = "SELECT * FROM " + task_schema.TaskDataTableName
     cursor = connection.cursor()
     cursor.execute(table)
-    result = cursor.fetchone()
+    result = cursor.fetchall()
 
 
     return render(request, 'TaskSubmitters.html',context={

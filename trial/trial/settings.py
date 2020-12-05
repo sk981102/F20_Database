@@ -87,16 +87,16 @@ WSGI_APPLICATION = 'trial.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 ALLOWED_HOSTS = ['165.132.105.42', 'localhost', '127.0.0.1']
 # For MariaDB
-#DATABASES = {
-#     'default': {
-#         'ENGINE': 'mysql.connector.django',
-#         'NAME': 'team1',
-#         'USER':'team1',
-#         'PASSWORD':'610012',
-#         'HOST':'165.132.105.42',
-#         'PORT':'',
-#     }
-#}
+##DATABASES = {
+##     'default': {
+##         'ENGINE': 'mysql.connector.django',
+##         'NAME': 'team1',
+##         'USER':'team1',
+##         'PASSWORD':'610012',
+##         'HOST':'165.132.105.42',
+##         'PORT':'',
+##     }
+##}
 
 # default sqlite
 DATABASES = {
