@@ -7,26 +7,36 @@
         <p><strong>현재 Pass 기준:</strong> {{task.pass_standard}}</p>
         <p><a href="{% url 'MyAdmin:standard' task.task_id %}">Pass 기준 수정하기</a></p>
         <p><strong>File Type:</strong> .csv files</p>
-      <p><a href="/pjadmin/taskmanage/download/{{task.task_id}}/">Download as CSV File</a></td> <br>
+      <p><a href="/pjadmin/taskmanage/download/{{task.task_id}}/">CSV 파일 다운로드</a></td> <br>
         <hr class="major">
 
         <h3>아직 승인되지 않은 제출자</h3>
+		<table border="1">
+			<th>ID</th>
+			<th>Score</th>
+			<th>Function</th>
         {% for t in pending_submitter %}
-        <td>{{t.submitter.user_id}}</td>
+        		<tr>
+	<td>{{t.submitter.user_id}}</td>
         <td>{{t.submitter.score}}</td>
-        <br>
-        <td><a class="button" href="/pjadmin/taskmanage/{{task.task_id}}/{{t.submitter.user_id}}/">Approve this
-            submission</a></td>
+        <td><a href="/pjadmin/taskmanage/{{task.task_id}}/{{t.submitter.user_id}}/">Approve this
+            submitter</a></td>
+			</tr>
         {% endfor %}
-        <br>
+        		</table>
         <hr class="major">
 
         <h3><strong>이미 승인된 제출자</strong></h3>
+		<table border="1">
+			<th>ID</th>
+			<th>Score</th>
         {% for t in approved_submitter %}
+			<tr>
         <td><a href="/post_detail/{{ t.submitter.user_id.user_id }}">{{t.submitter.user_id}}</a></td>
         <td>{{t.submitter.score}}</td>
-        <br>
+        		</tr>
         {% endfor %}
+		</table>
         <br><br>
         <hr class="major">
         <h3><strong>해당 태스크에 제출된 파일 목록 </strong></h3>
