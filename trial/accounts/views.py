@@ -110,7 +110,9 @@ def post_detail(request, pk):
     post = UserProfile.objects.get(pk=pk)
     if post.role == 'S':
         submitter = get_object_or_404(Submitter,pk=pk)                              #15
-        raw = RawDataSeqFile.objects.filter(submitter=submitter)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)
+        raw = RawDataSeqFile.objects.filter(submitter=submitter).values_list('seqnumber',flat=True)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)
+        parsed = ParsedData.objects.filter(raw_data_seq_file__in=raw,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
+        rawfile = RawDataSeqFile.objects.filter(submitter=submitter,seqnumber__in=parsed)
         #temp = raw.values('seqnumber')  # 제출자가 제출한 파일 시퀀스number 오브젝트 {'seqnumber': 1}   {'seqnumber': 2}   {'seqnumber': 4}   {'seqnumber': 11}   {'seqnumber': 12}
         #pared = ParsedData.objects.filter(raw_data_seq_file__in=temp, pass_or_not=1)  # 제출자가 제출한 패쓰 된 paredData objects
         #temppared = pared.values('task').order_by('task').distinct()  #
@@ -133,7 +135,7 @@ def post_detail(request, pk):
         context = {
             'post': post,#, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
             #'temp': temp,
-            'raw': raw,
+            'raw': rawfile,
             'apply': apply,
            # 'pared': pared,
             'tak1': tak1,
