@@ -35,7 +35,7 @@ def create(request):
 
 
             tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin,
-                        description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) #taskdatatable needed
+                        description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) 
             tskobj.save()
 
             task_schema=TaskSchema(task_id=tskobj,TaskDataTableName=schema_name,TaskDataTableScheme=schema)
@@ -61,7 +61,7 @@ def task_pass_standard(request, task_id):
         if form.is_valid():
                 thistask.pass_standard = request.POST['pass_standard']
                 thistask.save()
-                messages.success(request, 'Your password was successfully updated!')
+                messages.success(request, 'Pass standard was successfully updated!')
                 return redirect('home')
         else:
                 messages.error(request, 'Please correct the error below.')
@@ -88,6 +88,7 @@ def task_submitters(request, pk):
     return render(request, 'TaskSubmitters.html',context={
         'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters,
         'num':num, 'rawnum': rawnum, 'task_table':result})
+
 
 def sub_approve(request,task_id,user_id): 
     thistask=get_object_or_404(Task, pk=task_id)
