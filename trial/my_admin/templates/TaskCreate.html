@@ -11,7 +11,13 @@
 	</head>
 
     <br>
-    <h3>Let's Create a Task</h3>
+    <h4>Let's Create a Task</h3>
+    <h3>*Task Data Table 이름과 Task의 이름은 동일해야 한다.</h4>
+    <p><strong>예시: FICTION이라는 이름의 Task를 생성했을 경우</strong></p> 
+    <p><strong>CREATE TABLE FICTION(
+    BOOK_ID INT NOT NULL,
+    PRIMARY KEY(BOOK_ID), UNIQUE (BOOK_NAME),
+    blahblah...)</strong></p>
     <div class="inner">
         <form method="POST">
             {% csrf_token %}
