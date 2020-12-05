@@ -39,7 +39,7 @@ def submitted(request, pk):
         if form.is_valid():
             raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
             file = request.FILES['file']
-            submitter = get_object_or_404(Submitter, pk=request.user.user_id)
+            submitter = Submitter.objects.get(pk=request.user.user_id)
             round = form.cleaned_data['round']
             term_start = form.cleaned_data['term_start']
             term_end = form.cleaned_data['term_end']

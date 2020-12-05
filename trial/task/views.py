@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from task.models import Task, ApplyTask
 from submitter.models import Submitter
 from django.shortcuts import get_object_or_404
+
+from .forms import TaskDataTableSchemaForm
 
 
 def TaskDetailView(request, pk):
@@ -29,5 +31,17 @@ def Applied(request, task_id, submitter_id):
     except:
         a=0
     return render(request, "applied.html", {"a":a})
+
+def taskdatatableschema(request):
+    if request.method == 'POST':
+        form = TaskDataTableSchemaForm(request.POST)
+
+        if form.is_valid():
+            user_instance = form.save(commit=False)
+            user_instance.save()
+            return redirect('taskdatatableschema')
+    else:
+        form = TaskDataTableSchemaForm()
+    return render(request, 'taskdatatable.html', {'form': form})
 
 

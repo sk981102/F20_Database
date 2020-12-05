@@ -1,3 +1,4 @@
+from sqlalchemy import create_engine
 import pandas as pd
 from pandas import DataFrame
 from django.contrib import messages
@@ -33,7 +34,6 @@ def create(request):
             cursor.execute(schema)
             cursor.close()
 
-
             tskobj=Task(task_name=request.POST.get('Name',''), admin=thisadmin,
                         description=request.POST.get('Comment',''), mincycle=request.POST.get('mincycle','')) 
             tskobj.save()
@@ -41,7 +41,7 @@ def create(request):
             task_schema=TaskSchema(task_id=tskobj,TaskDataTableName=schema_name,TaskDataTableScheme=schema)
             task_schema.save()
 
-            return render(request, 'TaskCreateSuccess.html')
+            return redirect('taskdatatableschema')
         #return redirect('/pjadmin')
         return render(request, 'TaskCreateFail.html')
     else:
@@ -109,7 +109,9 @@ def csv_list(request, task_id):
 
 def download(request, task_id):
     task_schema = TaskSchema.objects.filter(task_id=task_id).first()
-    data=pd.read_sql_table(name=task_schema.TaskDataTableName)
+    url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    cursor = create_engine(url) 
+    data=pd.read_sql_table(con=cursor, table_name=task_schema.TaskDataTableName)
     data.to_csv(r'/home/seonyeong/', index=False)
     messages.success('Download Completed')
     return HttpResponse("DOWNLOAD")

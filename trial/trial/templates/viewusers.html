@@ -4,11 +4,19 @@
 {% load static %}
 <body class="subpage">
   {% block content %}
+    <head>
+	<style>
+	h4 {text-align: center;}
+	h3 {text-align: center;}
+	h1 {text-align: center;}
+	</style>
+	</head>
   <section id="main" class="wrapper">
 
   <div class="inner">
-      <h2 style="text-align:center"><B>User list</B></h2>
-      <div align="right"><font size=4 color="blue">there are {{num}} users </font> </div>
+      <h3><B>User list</B></h3>
+      <p><div align="right"> <a href="{% url 'search' %}" class = "button fit">Search Users</a></div> <br>
+      <div align="right"><font size=4 color="#04B486">There are total {{num}} users </font> </div> <br>
     <form method="post">
 
         <table class="table table-striped">
@@ -42,7 +50,6 @@
             {% endfor %}
             </tbody>
         </table>
-        <p><div align="right"> <a href="{% url 'search' %}" class = "button">Search Users</a></div>
     </form>
     </div>
 </section>

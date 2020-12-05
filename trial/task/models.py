@@ -29,7 +29,7 @@ class Task(models.Model):
         db_table = 'task'
 
 class ApplyTask(models.Model):
-    submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING)
+    submitter = models.ForeignKey('submitter.Submitter', on_delete=models.CASCADE)
     task = models.ForeignKey(Task, models.DO_NOTHING)
     approved = models.IntegerField(default=0) #0 = Not approved, 1= approved
 
