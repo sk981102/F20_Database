@@ -19,7 +19,7 @@ class RawDataType(models.Model):
 class RawDataSeqFile(models.Model):
 	file = models.FileField(upload_to='', null=True)
 	seqnumber = models.AutoField(primary_key=True)
-	submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING,default=None)
+	submitter = models.ForeignKey('submitter.Submitter', on_delete=models.CASCADE,default=None)
 	raw_data_type = models.ForeignKey(RawDataType, models.DO_NOTHING, db_column='raw_data_type',default=None)
 	term_start = models.DateField(null=True)
 	term_end = models.DateField(null=True)

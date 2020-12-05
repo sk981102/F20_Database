@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class ParsedData(models.Model):
     parsed_id = models.AutoField(primary_key=True)
     task = models.ForeignKey('task.Task', models.DO_NOTHING,default=None)
-    submitter = models.ForeignKey('submitter.Submitter', models.DO_NOTHING,default=None)
+    submitter = models.ForeignKey('submitter.Submitter', on_delete=models.CASCADE,default=None)
     rater = models.ForeignKey('rater.Rater', on_delete=models.CASCADE, default=None)
     raw_data_seq_file = models.ForeignKey('raw_data.RawDataSeqFile', models.DO_NOTHING, db_column='raw_data_seq_file',default=None)
     total_tuple_num = models.IntegerField(blank=True, null=True)
