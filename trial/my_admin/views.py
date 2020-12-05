@@ -1,3 +1,4 @@
+from sqlalchemy import create_engine
 import pandas as pd
 from pandas import DataFrame
 from django.contrib import messages
@@ -109,7 +110,9 @@ def csv_list(request, task_id):
 
 def download(request, task_id):
     task_schema = TaskSchema.objects.filter(task_id=task_id).first()
-    data=pd.read_sql_table(name=task_schema.TaskDataTableName)
+    url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    cursor = create_engine(url) 
+    data=pd.read_sql_table(con=cursor, table_name=task_schema.TaskDataTableName)
     data.to_csv(r'/home/seonyeong/', index=False)
     messages.success('Download Completed')
     return HttpResponse("DOWNLOAD")
