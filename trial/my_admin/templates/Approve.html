@@ -1,8 +1,30 @@
 {% extends 'base.html' %}
+{% block content %}
+{% load static %}
 
-    <section id="main">
-        {% block content %}
-        <Strong> You sucessfully approved this submission! </Strong><br>
-        <a href="{% url 'home'%}">Go to Home</a>
-        {% endblock %}
-    </section>
+<!DOCTYPE html>
+
+{% load static %}
+
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>database project</title>
+	<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+</head>
+<body>
+	<section id="main" class="wrapper">
+	  <div class="inner">
+		  <br/><br/>
+		  <h4>You successfully approved this submission!</h4>
+		  <br/>
+		  <a href="{% url 'submitter' %}" class="button">돌아가기</a>
+	  </div>
+	</section>
+</body>
+
+
+</html>
+{% endblock %}
