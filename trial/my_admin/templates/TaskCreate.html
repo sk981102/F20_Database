@@ -11,14 +11,15 @@
 	</head>
 
     <br>
-    <h4>Let's Create a Task</h3>
-    <h3>*Task Data Table 이름과 Task의 이름은 동일해야 한다.</h4>
-    <p><strong>예시: FICTION이라는 이름의 Task를 생성했을 경우</strong></p> 
-    <p><strong>CREATE TABLE FICTION(
-    BOOK_ID INT NOT NULL,
-    PRIMARY KEY(BOOK_ID), UNIQUE (BOOK_NAME),
+    <h4><strong>Let's Create a Task!</strong></h3>
+    <p style="padding:50px 200px 50px 200px;"><strong>작성요령: Task Data Table 이름과 Task의 이름은 동일해야 한다.<br><br>
+    예시: FICTION이라는 이름의 Task를 생성하고자 할 경우, Task Data Table Scheme는 다음과 같이 입력한다.<br><br>
+    CREATE TABLE FICTION(<br>
+    BOOK_ID INT NOT NULL,<br>
+    PRIMARY KEY(BOOK_ID), UNIQUE (BOOK_NAME),<br>
     blahblah...)</strong></p>
-    <div class="inner">
+ 
+   <div class="inner">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
