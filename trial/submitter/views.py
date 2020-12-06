@@ -111,10 +111,7 @@ def is_csv(infile):
     try:
        a=pd.read_csv(infile.open())
        return True
-<<<<<<< HEAD
     except csv.Error:
         return False
-=======
     except:
         return False
->>>>>>> 4b4dff3cc4a87b3697e2ffbd8a6604b9ef20ad64
