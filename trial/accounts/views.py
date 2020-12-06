@@ -75,6 +75,8 @@ def changeinfo(request):
         print(form)
         if form.is_valid():
             form.save()
+        else:
+            print("not")
         return redirect('myaccount')
     else:
         form = ChangeInfoForm(instance=request.user)
