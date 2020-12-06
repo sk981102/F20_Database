@@ -12,6 +12,7 @@ import numpy as np
 import json
 from sqlalchemy import create_engine
 
+
 # Create your views here.
 
 def assigned_landing_view(request, *args, **kwargs):
@@ -51,7 +52,7 @@ def assigned_landing_view(request, *args, **kwargs):
                 quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
                 new_score=np.round((np.mean(quality_scores)+np.mean(quantity_scores)/2),decimals=2)
                 Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
-
+                
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
         print(rater)
@@ -59,25 +60,29 @@ def assigned_landing_view(request, *args, **kwargs):
             pass
         else:
             items = RawDataSeqFile.objects.all()
-            if len(items)>0:
-                try:
-                    while True:
-                        random_assigned = random.sample(list(items), 1)
+            assigned_items = AssignedTask.objects.filter(rater=rater)
 
-                        if not AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists():
-                            print("loop broken")
-                            break
+            print(len(items))
+            print(len(assigned_items))
+            
+            if len(items) > 0 and len(items)!=len(assigned_items):
+                while True:
+                    random_assigned = random.sample(list(items), 1)
 
-                    raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
+                    if not AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists():
+                        print("loop broken")
+                        break
 
-                    a = raw_data_type.task.task_name
-                    task_info = Task.objects.filter(task_name=a).first()
+                raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
 
-                    assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0], task=task_info,
-                                                                rated=0)
-                    assigned_task.save()
-                except:
-                    pass
+                a = raw_data_type.task.task_name
+                task_info = Task.objects.filter(task_name=a).first()
+
+                assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0],
+                                                            task=task_info,
+                                                            rated=0)
+                assigned_task.save()
+
 
     not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
     rated = AssignedTask.objects.filter(rater=rater, rated=1)
@@ -92,9 +97,9 @@ def assigned_landing_view(request, *args, **kwargs):
 def insert_sql(raw_data, task):
     task_schema = TaskSchema.objects.filter(task_id=task).first()
     csv_file = raw_data.file.open()
-    url='mysql+pymysql://team1:610012@165.132.105.42/team1'
+    url = 'mysql+pymysql://team1:610012@165.132.105.42/team1'
     cursor = create_engine(url)
-    data=pd.read_csv(csv_file)
+    data = pd.read_csv(csv_file)
     data.to_sql(con=cursor, name=task_schema.TaskDataTableName, if_exists='replace')
 
     return 0
