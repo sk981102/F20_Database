@@ -53,14 +53,14 @@ def submitted(request, pk):
         form = UploadForm(task, submitter, request.POST, request.FILES)
 
         if form.is_valid():
-            file = request.FILES['file']
-            if is_csv(file):
+            file1 = request.FILES['file']
+            if is_csv(file1.file.open()):
                 raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
                 submitter = Submitter.objects.get(pk=request.user.user_id)
                 round = form.cleaned_data['round']
                 term_start = form.cleaned_data['term_start']
                 term_end = form.cleaned_data['term_end']
-                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file, raw_data_type=raw_data_type, round=round,
+                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type, round=round,
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
 
