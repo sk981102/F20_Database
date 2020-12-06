@@ -36,7 +36,8 @@ class ChangeForm(forms.ModelForm):
 class ChangeInfoForm(ChangeForm):
     class Meta:
         model = UserProfile
-        fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender')
+        fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender','is_superuser','is_staff')
+        exclude = ('is_superuser','is_staff')
 
 
 class CheckPasswordForm(forms.Form):

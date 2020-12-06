@@ -45,8 +45,9 @@
 						{% if a.raw_data == f %}
 						<tr><td></td>
 							<td>└ &nbsp 평가자: {{a.rater.user_id}}
-							({% if a.rated == 0 %}평가 중)</td><td></td>
-							 {% else %}평가 완료) &nbsp 
+								{{a.rated}}
+							{% if a.rated == 0 %} 평가 중</td><td></td>
+							 {% else %}평가 완료 &nbsp
 								{% for p in parsed_files %}
 									{% if p.raw_data_seq_file == f and p.rater == a.rater %}
 										정성평가점수: {{p.quality_score}}점, 저장 여부: 
