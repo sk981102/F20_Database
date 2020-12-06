@@ -6,9 +6,9 @@
 	  <h2>
 		Hi {{user.username}}!
 	  </h2>
-      <h4>Your Score: {{submitter.score}} </h4>
-      <a href="{% url 'task' %}" class="button fit">More Tasks</a>
 	  <p><a href="{% url 'logout' %}">Log Out</a></p>
+      <h4>Your Score: {{submitter.score}} </h4>
+      
 	  <hr class="major">
 	  <h4>참여 중인 태스크</h4><br/>
 	  <div class="table_wrapper">
@@ -51,6 +51,7 @@
 				{% endfor %}
 		  </table>
 	  <hr class="major">
+	<a href="{% url 'task' %}" class="button fit">More Tasks</a>
 
 
 
