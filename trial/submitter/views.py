@@ -81,7 +81,8 @@ def submitted(request, pk):
                 round = form.cleaned_data['round']
                 term_start = form.cleaned_data['term_start']
                 term_end = form.cleaned_data['term_end']
-                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type, round=round,
+                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type,
+                                                          round=round,
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
                 if len(Rater.objects.all())>0:
@@ -92,8 +93,10 @@ def submitted(request, pk):
                                 print("loop broken")
                                 break
 
-                    assigned_task = AssignedTask.objects.create(rater=random_rater[0], raw_data=submitted, task=task, rated=0)
+                    assigned_task = AssignedTask.objects.create(rater=random_rater[0],
+                                                                raw_data=submitted, task=task)
                     assigned_task.save()
+
 
                 return render(request, "submitted.html", )
             else:
