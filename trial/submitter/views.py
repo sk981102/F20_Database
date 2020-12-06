@@ -1,3 +1,6 @@
+import csv
+import string
+
 from django.shortcuts import render
 from django.views import generic
 from task.models import Task, ApplyTask
@@ -50,23 +53,39 @@ def submitted(request, pk):
         form = UploadForm(task, submitter, request.POST, request.FILES)
 
         if form.is_valid():
-            raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
             file = request.FILES['file']
-            submitter = Submitter.objects.get(pk=request.user.user_id)
-            round = form.cleaned_data['round']
-            term_start = form.cleaned_data['term_start']
-            term_end = form.cleaned_data['term_end']
-            submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file, raw_data_type=raw_data_type, round=round,
-                                                      term_start=term_start, term_end=term_end)
-            submitted.save()
+            if is_csv(file):
+                raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
+                submitter = Submitter.objects.get(pk=request.user.user_id)
+                round = form.cleaned_data['round']
+                term_start = form.cleaned_data['term_start']
+                term_end = form.cleaned_data['term_end']
+                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file, raw_data_type=raw_data_type, round=round,
+                                                          term_start=term_start, term_end=term_end)
+                submitted.save()
 
-            random_rater = random.sample(list(Rater.objects.all()), 1)
-            #raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
-            assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
-            assigned_task.save()
+                random_rater = random.sample(list(Rater.objects.all()), 1)
+                #raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
+                assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
+                assigned_task.save()
 
-            return render(request, "submitted.html", )
+                return render(request, "submitted.html", )
+            else:
+                form = UploadForm(task, submitter, request.POST, request.FILES)
+                return render(request,"submit_fail.html",{"form": form})
         else:
             task = get_object_or_404(Task, pk=pk)
             form = UploadForm(task, submitter, request.POST, request.FILES)
             return render(request, "upload.html", {"form": form, "task":task})
+
+
+def is_csv(infile):
+    try:
+        with open(infile, newline='') as csvfile:
+            start = csvfile.read(4096)
+            if not all([c in string.printable or c.isprintable() for c in start]):
+                return False
+            dialect = csv.Sniffer().sniff(start)
+            return True
+    except csv.Error:
+        return False
