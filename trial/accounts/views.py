@@ -13,7 +13,7 @@ from task.models import ApplyTask, Task
 from rater.models import Rater
 from parsed_data.models import ParsedData
 from raw_data.models import RawDataSeqFile, RawDataType
-from django.db.models import Count
+from django.db.models import Count,Sum
 
 def signup(request):
     if request.method == 'POST':
@@ -150,6 +150,8 @@ def post_detail(request, pk):
 def type_detail(request, pk):
     task = Task.objects.get(pk=pk)
     parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
+    numtuple = ParsedData.objects.filter(task=pk, pass_or_not=1).aggregate(Sum('total_tuple_num'))
+    rawtype = RawDataType.objects.filter(task=pk)
     temp = request.session.get('submitter_id')
     #temp1 = int(temp)
     raw = RawDataSeqFile.objects.filter(submitter=temp,seqnumber__in=parsed)
@@ -160,7 +162,7 @@ def type_detail(request, pk):
     #raw = RawDataSeqFile.objects.filter(submitter=15,seqnumber=temp)
 
     context= {
-        'parsed': parsed, 'raw':raw, 'task':task, 'num':num#,'temp3':temp4 ,'temp':temp1,
+        'parsed': parsed, 'raw':raw, 'task':task, 'num':num,'numtuple':numtuple,'rawtype':rawtype #,'temp3':temp4 ,'temp':temp1,
     }
     return render(request, 'type_detail.html', context)
 
