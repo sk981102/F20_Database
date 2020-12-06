@@ -10,7 +10,8 @@ from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from submitter.forms import UploadForm
 from django.http import HttpResponse
-
+import numpy as np
+import random
 # Create your views here.
 def submitter_landing_view(request, *args, **kwargs):
     submitter = get_object_or_404(Submitter, pk=request.user.user_id)
@@ -28,8 +29,9 @@ def list_uploaded_file(request, pk):
     count = uploaded_files.count()
     assigned_files = AssignedTask.objects.filter(raw_data__in = uploaded_files)
     parsed_files = ParsedData.objects.filter(submitter=submitter).distinct()
-    tuple_count = parsed_files.aggregate(Sum('total_tuple_num'))['total_tuple_num__sum'] or 0
+    tuple_count = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=submitter).values_list('total_tuple_num', flat=True))
     request.session['taskid'] = pk
+
     return render(request, "submitter_uploaded.html", 
                   {"count":count, "tuple_count":tuple_count, "data_types": data_types, "task": task, "uploaded_files": uploaded_files, "assigned_files":assigned_files, "parsed_files":parsed_files})
 
@@ -59,7 +61,7 @@ def submitted(request, pk):
             submitted.save()
 
             random_rater = random.sample(list(Rater.objects.all()), 1)
-            raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
+            #raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
             assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
             assigned_task.save()
 
