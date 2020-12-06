@@ -48,40 +48,38 @@ def assigned_landing_view(request, *args, **kwargs):
                 AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
 
                 # submitter score update
-                quality_scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
-                quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
-                new_score=np.round((np.mean(quality_scores)+np.mean(quantity_scores)/2),decimals=2)
+                quality_scores = ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
+                quantity_scores = ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
+                new_score = np.round(((np.mean(quality_scores)+np.mean(quantity_scores))/2),decimals=2)
                 Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
                 
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
         print(rater)
-        if AssignedTask.objects.filter(rater=rater, rated=0).exists():
-            pass
-        else:
-            items = RawDataSeqFile.objects.all()
-            assigned_items = AssignedTask.objects.filter(rater=rater)
-
-            print(len(items))
-            print(len(assigned_items))
-            
-            if len(items) > 0 and len(items)!=len(assigned_items):
-                while True:
-                    random_assigned = random.sample(list(items), 1)
-
-                    if not AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists():
-                        print("loop broken")
-                        break
-
-                raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
-
-                a = raw_data_type.task.task_name
-                task_info = Task.objects.filter(task_name=a).first()
-
-                assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0],
-                                                            task=task_info,
-                                                            rated=0)
-                assigned_task.save()
+        # if AssignedTask.objects.filter(rater=rater, rated=0).exists():
+        #     pass
+        # else:
+        #     items = RawDataSeqFile.objects.all()
+        #     assigned_items = AssignedTask.objects.filter(rater=rater)
+        #
+        #
+        #     if len(items) > 0 and len(items)!=len(assigned_items):
+        #         while True:
+        #             random_assigned = random.sample(list(items), 1)
+        #
+        #             if not AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists():
+        #                 print("loop broken")
+        #                 break
+        #
+        #         raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
+        #
+        #         a = raw_data_type.task.task_name
+        #         task_info = Task.objects.filter(task_name=a).first()
+        #
+        #         assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0],
+        #                                                     task=task_info,
+        #                                                     rated=0)
+        #         assigned_task.save()
 
 
     not_rated = AssignedTask.objects.filter(rater=rater, rated=0)

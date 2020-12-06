@@ -1,3 +1,6 @@
+import os
+from django.conf import settings
+import django
 from sqlalchemy import create_engine
 import pandas as pd
 from pandas import DataFrame
@@ -113,16 +116,22 @@ def download(request, task_id):
     url='mysql+pymysql://team1:610012@165.132.105.42/team1'
     cursor = create_engine(url) 
     data=pd.read_sql_table(con=cursor, table_name=task_schema.TaskDataTableName)
-    if request.method == "POST":
-        form = DownloadForm(request.POST)
-        if form.is_valid():
-                path= str(request.POST['Path'])
+#    if request.method == "POST":
+#        form = DownloadForm(request.POST)
+#        if form.is_valid():
+                #path= str(request.POST['Path'])
+    if True:
+                path='abc'
                 data.to_csv(path, index=False)
-                messages.success(request,'Download Completed')
-                return redirect('home')
-        else:
-                messages.error(request, 'Please correct the error below.')
+                localdata=open(path, 'r').read()
+                resp = django.http.HttpResponse(localdata, content_type='application/x-download')
+                resp['Content-Disposition'] = 'attachment;filename=table.csv'
+                return resp
+                #messages.success(request,'Download Completed')
+                #return redirect('home')
     else:
-        form = DownloadForm()
-    return render(request, 'Download.html', {'form': form})
+                messages.error(request, 'Please correct the error below.')
+    #else:
+        #form = DownloadForm()
+    #return render(request, 'Download.html', {'form': form})
 

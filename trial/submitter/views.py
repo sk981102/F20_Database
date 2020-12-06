@@ -74,7 +74,6 @@ def submitted(request, pk):
 
         if form.is_valid():
             file1 = request.FILES['file']
-            print(is_csv(file1))
 
             if is_csv(file1):
                 raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
@@ -85,6 +84,16 @@ def submitted(request, pk):
                 submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type, round=round,
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
+                if len(Rater.objects.all())>0:
+                    while True:
+                        random_rater = random.sample(list(Rater.objects.all()), 1)
+                        if len(AssignedTask.objects.filter(rater=random_rater[0], rated=0)) < 1:
+                            if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
+                                print("loop broken")
+                                break
+
+                    assigned_task = AssignedTask.objects.create(rater=random_rater[0], raw_data=submitted, task=task, rated=0)
+                    assigned_task.save()
 
                 return render(request, "submitted.html", )
             else:
@@ -100,5 +109,10 @@ def is_csv(infile):
     try:
        a=pd.read_csv(infile.open())
        return True
+<<<<<<< HEAD
     except csv.Error:
         return False
+=======
+    except:
+        return False
+>>>>>>> 4b4dff3cc4a87b3697e2ffbd8a6604b9ef20ad64

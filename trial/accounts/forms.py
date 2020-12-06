@@ -34,9 +34,11 @@ class ChangeForm(forms.ModelForm):
             f.queryset = f.queryset.select_related('content_type')
 
 class ChangeInfoForm(ChangeForm):
+    is_superuser = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
+    is_staff = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
     class Meta:
         model = UserProfile
-        fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender')
+        fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender','is_superuser','is_staff')
 
 
 class CheckPasswordForm(forms.Form):
