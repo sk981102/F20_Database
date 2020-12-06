@@ -88,10 +88,9 @@ def submitted(request, pk):
                 if len(Rater.objects.all())>0:
                     while True:
                         random_rater = random.sample(list(Rater.objects.all()), 1)
-                        if len(AssignedTask.objects.filter(rater=random_rater[0], rated=0)) < 1:
-                            if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
-                                print("loop broken")
-                                break
+                        if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
+                            print("loop broken")
+                            break
 
                     assigned_task = AssignedTask.objects.create(rater=random_rater[0],
                                                                 raw_data=submitted, task=task)
