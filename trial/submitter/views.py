@@ -66,6 +66,16 @@ def submitted(request, pk):
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
 
+                while True:
+                    random_rater = random.sample(list(Rater.objects.all()), 1)
+                    if len(AssignedTask.objects.filter(rater=random_rater[0], rated=0)) < 1:
+                        if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
+                            print("loop broken")
+                            break
+
+                assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
+                assigned_task.save()
+
                 return render(request, "submitted.html", )
             else:
                 form = UploadForm(task, submitter, request.POST, request.FILES)
