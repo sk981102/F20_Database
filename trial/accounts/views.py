@@ -14,6 +14,7 @@ from rater.models import Rater
 from parsed_data.models import ParsedData
 from raw_data.models import RawDataSeqFile, RawDataType
 from django.db.models import Count,Sum
+import numpy as np
 
 def signup(request):
     if request.method == 'POST':
@@ -152,7 +153,8 @@ def type_detail(request, pk):
     temp = request.session.get('submitter_id')
     task = Task.objects.get(pk=pk)
     parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1,submitter=temp).values_list('raw_data_seq_file',flat=True)
-    numtuple = ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=temp).aggregate(Sum('total_tuple_num'))
+    #numtuple = ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=temp).aggregate(Sum('total_tuple_num'))
+    numtuple = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=temp).values_list('total_tuple_num', flat=True))
     rawtype = RawDataType.objects.filter(task=pk)
 
     #temp1 = int(temp)
@@ -178,7 +180,8 @@ def rawtype_detail(request, pk):
    # numtupl1 = ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1).aggregate(Sum('total_tuple_num'))
     rawdata1 = RawDataSeqFile.objects.filter(raw_data_type=rawtype1,submitter=submitter1,seqnumber__in=parsed1)
     rawdatatemp = RawDataSeqFile.objects.filter(raw_data_type=rawtype1,submitter=submitter1,seqnumber__in=parsed1).values_list('seqnumber',flat=True)
-    parsedtemp1 = ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1,raw_data_seq_file__in=rawdatatemp).aggregate(Sum('total_tuple_num'))
+    parsedtemp1 = np.sum(ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1,raw_data_seq_file__in=rawdatatemp).values_list('total_tuple_num', flat=True))
+    #numtuple = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=temp).values_list('total_tuple_num', flat=True))
     context = {
         'rawtype1': rawtype1,'task1': task1,
         'submitter1':submitter1,'rawdata1':rawdata1,
