@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Please write your local download path. The file type must be .csv </h2>
-<h3>Example: /home/seonyeong/yonsei.csv</h3>
+<strong><h2>Please write your local download path. </h2><strong>
+<p><strong>You must write file name!(.csv type) <br> Ex) /home/seonyeong/Yonsei.csv </strong></p>
 <form method="POST">
     {% csrf_token %}
     {{ form }}
