@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 from submitter.forms import UploadForm
 from django.http import HttpResponse
 import numpy as np
+import pandas as pd
 import random
 # Create your views here.
 def submitter_landing_view(request, *args, **kwargs):
@@ -54,7 +55,7 @@ def submitted(request, pk):
 
         if form.is_valid():
             file1 = request.FILES['file']
-            if is_csv(file1.open()):
+            if is_csv(file1):
                 raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
                 submitter = Submitter.objects.get(pk=request.user.user_id)
                 round = form.cleaned_data['round']
@@ -81,11 +82,6 @@ def submitted(request, pk):
 
 def is_csv(infile):
     try:
-        with open(infile, newline='') as csvfile:
-            start = csvfile.read(4096)
-            if not all([c in string.printable or c.isprintable() for c in start]):
-                return False
-            dialect = csv.Sniffer().sniff(start)
-            return True
+       a=pd.read_csv(infile.file.open())
     except csv.Error:
         return False
