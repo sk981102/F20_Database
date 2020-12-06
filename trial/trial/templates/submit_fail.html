@@ -16,33 +16,9 @@
 <body>
 	<section id="main" class="wrapper">
 	  <div class="inner">
-		<h4>새 데이터 제출하기</h4>
-		  데이터 제출에 실패하였습니다.<br/>
-		  {% for field in form %}
-           {% for error in field.errors %}<br/>
-			  * {{ error|escape }}
-           {% endfor %}
-			{% endfor %}
-			<br/><br/>
-			{%endif%}
-			<div class="table_wrapper">
-			<form action=" {% url 'submitted' task.task_id %}" method="post", enctype="multipart/form-data" nonvalidate>
-			<table>
-			<tbody>
-				{% csrf_token %}
-				<tr><td>제출할 파일</td>
-					<td>{{form.file}}</td></tr>
-  				<tr><td>원본 데이터 타입</td>
-					<td>{{form.raw_data_type}}</td></tr>
-  				<tr><td>제출 회차</td>
-					<td>{{form.round}} 회차</tr>
-  				<tr><td>데이터 수집 기간</td>
-					<td>{{form.term_start}} ~ {{form.term_end}}</td></tr>
-			</tbody>
-			</table>
-			<input class="button" type="submit" value="제출하기">
-			</form>
-		  </div>
+		<h4>새 데이터 제출하기 실패  </h4>
+		  csv 파일이 아닙니다.<br/>
+
 	  </div>
 	</section>
 </body>
