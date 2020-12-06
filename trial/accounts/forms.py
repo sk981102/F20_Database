@@ -23,8 +23,6 @@ class ViewUsers(forms.ModelForm):
         fields = ('first_name', 'last_name', 'username', 'PW','email','birthdate', 'phone', 'address', 'gender', 'role')
 
 class ChangeForm(forms.ModelForm):
-    is_superuser = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
-    is_staff = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
     class Meta:
         model = UserProfile
         fields = '__all__'
