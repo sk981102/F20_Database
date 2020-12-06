@@ -21,6 +21,7 @@ from submitter.models import Submitter
 from accounts.models import UserProfile
 from parsed_data.models import ParsedData
 from raw_data.models import RawDataType, RawDataSeqFile
+import numpy as np
 
 # Create your views here.
 
@@ -75,9 +76,12 @@ def task_pass_standard(request, task_id):
  
 def task_submitters(request, pk):
     thistask = get_object_or_404(Task, pk=pk)
+    request.session['taskid'] = pk
     par = ParsedData.objects.filter(task=thistask.task_id,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
     rawnum = RawDataSeqFile.objects.filter(seqnumber__in=par)
     num = rawnum.count()
+    numtuples = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1).values_list('total_tuple_num', flat=True))
+    rawtypes = RawDataType.objects.filter(task=pk)
     approved_submitters=ApplyTask.objects.filter(task=thistask, approved=1)
     pending_submitters=ApplyTask.objects.filter(task=thistask, approved=0)
 
@@ -91,7 +95,21 @@ def task_submitters(request, pk):
 
     return render(request, 'TaskSubmitters.html',context={
         'task':thistask, 'approved_submitter':approved_submitters,'pending_submitter':pending_submitters,
-        'num':num, 'rawnum': rawnum, 'task_table':result})
+        'num':num, 'rawnum': rawnum, 'task_table':result ,'numtuples':numtuples,'rawtypes':rawtypes})
+
+def task_rawdatatype(request, pk):
+    task2 = request.session.get('taskid')
+    rawtype2 = RawDataType.objects.get(type_id=pk, task=task2)
+    parsed2 = ParsedData.objects.filter(task=task2,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
+    rawdata2 = RawDataSeqFile.objects.filter(raw_data_type=rawtype2,seqnumber__in=parsed2)
+    rawdatatemp2 = RawDataSeqFile.objects.filter(raw_data_type=rawtype2,seqnumber__in=parsed2).values_list('seqnumber',flat=True)
+    parsedtemp2 = np.sum(ParsedData.objects.filter(task=task2, pass_or_not=1,raw_data_seq_file__in=rawdatatemp2).values_list('total_tuple_num',flat=True))
+    context = {
+        'task2':task2,
+        'parsedtemp2':parsedtemp2,
+        'rawdata2':rawdata2
+    }
+    return render(request, 'task_raw_type.html', context)
 
 
 def sub_approve(request,task_id,user_id): 

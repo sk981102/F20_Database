@@ -23,6 +23,7 @@ from raw_data.views import createdatatype, createtypeschema, datatypelist
 from accounts.views import signup, signin, viewusers, myaccount, changepw, changeinfo, deleteaccount, search, post_detail, type_detail, rawtype_detail#, test#, test2#,test
 
 from task.views import taskdatatableschema
+from my_admin.views import task_rawdatatype
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -51,6 +52,7 @@ urlpatterns = [
     url(r'^post_detail/(?P<pk>\d+)/', post_detail),
     url(r'^type_detail/(?P<pk>\d+)/', type_detail),
     url(r'^rawtype_detail/(?P<pk>\d+)/', rawtype_detail),
+    url(r'^task_raw_type/(?P<pk>\d+)/', task_rawdatatype),
     #url(r'^type_detail/(?P<pk>\d+)/', type_detail),
 
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

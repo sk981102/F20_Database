@@ -38,16 +38,34 @@
         {% endfor %}
 		</table>
         <br><br>
+
         <hr class="major">
+        <h3><strong>해당 태스크의 원본 데이터 타입들</strong></h3>
+         {% for n in rawtypes %}
+        <a href="/task_raw_type/{{ n.type_id }}">{{ n.type_name }}</a><br>
+        {% endfor %}
+        <br><br>
+        <hr class="major">
+
         <h3><strong>해당 태스크에 제출된 파일 목록 </strong></h3>
 
-        {% for n in rawnum %}
 
-        {{ n.file }}<br>
+
+        <h1>제출 된 파일수: {{ num }}</h1>
+        <h1>저장 된 튜플 수: {{ numtuples }}</h1>
+        <table>
+         {% for n in rawnum %}
+            <tr>
+                <td> {{ n.file }}</td>
+            </tr>
         {% endfor %}
+        </table>
 
-        <h1>파일수: {{ num }}</h1>
+
         <h1>{{task_table}}</h1>
+
+
+
 
         {% endblock %}
     </div>
