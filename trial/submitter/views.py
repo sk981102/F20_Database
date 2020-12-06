@@ -54,7 +54,7 @@ def submitted(request, pk):
 
         if form.is_valid():
             file1 = request.FILES['file']
-            if is_csv(file1.file.open()):
+            if is_csv(file1.open()):
                 raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
                 submitter = Submitter.objects.get(pk=request.user.user_id)
                 round = form.cleaned_data['round']
