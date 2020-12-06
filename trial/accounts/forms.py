@@ -23,8 +23,8 @@ class ViewUsers(forms.ModelForm):
         fields = ('first_name', 'last_name', 'username', 'PW','email','birthdate', 'phone', 'address', 'gender', 'role')
 
 class ChangeForm(forms.ModelForm):
-    is_superuser= forms.BooleanFieldField(widget=forms.HiddenInput(), initial=False)
-    is_staff=forms.BooleanFieldField(widget=forms.HiddenInput(), initial=False)
+    is_superuser = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
+    is_staff = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
     class Meta:
         model = UserProfile
         fields = '__all__'
@@ -36,8 +36,8 @@ class ChangeForm(forms.ModelForm):
             f.queryset = f.queryset.select_related('content_type')
 
 class ChangeInfoForm(ChangeForm):
-    is_superuser = forms.BooleanFieldField(widget=forms.HiddenInput(), initial=False)
-    is_staff = forms.BooleanFieldField(widget=forms.HiddenInput(), initial=False)
+    is_superuser = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
+    is_staff = forms.BooleanField(widget=forms.HiddenInput(), initial=False)
     class Meta:
         model = UserProfile
         fields = ('user_id', 'first_name', 'last_name', 'username', 'birthdate', 'phone', 'address', 'gender','is_superuser','is_staff')
