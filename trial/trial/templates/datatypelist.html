@@ -14,11 +14,11 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <td><B>type id</B></td>
-                <td><B>field name</B></td>
-                <td><B>field type</B></td>
-                <td><B>null valid</B></td>
-                <td><B>mapping field</B></td>
+                <td><B>Type</B></td>
+                <td><B>Field Tame</B></td>
+                <td><B>Field Type</B></td>
+                <td><B>Null Valid</B></td>
+                <td><B>Mapping Field</B></td>
             </tr>
             </thead>
             <tbody>
@@ -29,13 +29,6 @@
                 <td>{{ ty.field_type }}</td>
                 <td>{{ ty.null_value }}</td>
                 <td>{{ ty.mapping_field }}</td>
-            </tr>
-            {% endfor %}
-             {% for ay in datatype %}
-            <tr>
-                <td>{{ ay.type_id }}</td>
-
-
             </tr>
             {% endfor %}
             </tbody>
