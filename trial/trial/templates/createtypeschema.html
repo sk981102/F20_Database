@@ -19,7 +19,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-            <input type = "submit" value = "Add Field" class="button fit" onclick ="return alert('Data Type Schema Field Added Successfully!')"><br><br>
+            <input type = "submit" value = "Add Field" class="button fit" ><br><br>
             <H4> When you finish with your schema(fields), click Done. </H4>
             <a href="{% url 'home' %}" class="button fit">Done</a>
         </form>
