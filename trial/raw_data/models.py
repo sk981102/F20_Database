@@ -16,6 +16,15 @@ class RawDataType(models.Model):
         #managed = False
 		db_table = 'raw_data_type'
 
+class RawDataTypeRequest(models.Model):
+	request_id = models.AutoField(primary_key=True)
+	task = models.ForeignKey('task.Task', models.DO_NOTHING,default=None,db_column='task')
+	content = models.CharField(max_length=100)
+		
+	class Meta:
+        #managed = False
+		db_table = 'raw_data_type_request'
+		
 class RawDataSeqFile(models.Model):
 	file = models.FileField(upload_to='', null=True)
 	seqnumber = models.AutoField(primary_key=True)

@@ -4,14 +4,14 @@ import string
 from django.shortcuts import render
 from django.views import generic
 from task.models import Task, ApplyTask
-from raw_data.models import RawDataType, RawDataSeqFile
+from raw_data.models import RawDataType, RawDataSeqFile, RawDataTypeRequest
 from submitter.models import Submitter
 from parsed_data.models import ParsedData
 from rater.models import Rater,AssignedTask
 from rater.views import calculate_auto_score
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from submitter.forms import UploadForm
+from submitter.forms import UploadForm, RequestForm
 from django.http import HttpResponse
 import numpy as np
 import pandas as pd
@@ -45,6 +45,25 @@ def upload_new_file(request, pk):
     submitter = Submitter.objects.get(pk=request.user.user_id)
     form = UploadForm(task, submitter)
     return render(request, "upload.html", {"form": form, "task":task})
+
+
+def request(request, pk):
+    form = RequestForm()
+    task = get_object_or_404(Task, pk=pk)
+    return render(request, "request.html", {"form": form, "task":task})
+
+
+def requested(request, pk):
+    if request.method == 'POST':
+        task = get_object_or_404(Task, pk=pk)
+        form = RequestForm(request.POST)
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            requested = RawDataTypeRequest.objects.create(task=task, content=content)
+            requested.save()
+
+            return render(request, "requested.html", )
 
 
 def submitted(request, pk):
