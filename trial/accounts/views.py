@@ -72,11 +72,17 @@ def changepw(request):
 def changeinfo(request):
     if request.method == 'POST':
         form = ChangeInfoForm(request.POST, instance=request.user)
+        form.setdefault('is_staff', False)
+        form.setdefault('is_superuser', False)
+
+        print(form)
+
         if form.is_valid():
             form.save()
         return redirect('myaccount')
     else:
         form = ChangeInfoForm(instance=request.user)
+
         return render(request, 'changeinfo.html', {'form': form})
 
 def deleteaccount(request):
@@ -121,7 +127,6 @@ def post_detail(request, pk):
 
         context = {
             'post': post,
-
             'raw': rawfile,
             'apply': apply,
             'tak1': tak1,
