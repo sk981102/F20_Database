@@ -29,7 +29,7 @@ def list_uploaded_file(request, pk):
     count = uploaded_files.count()
     assigned_files = AssignedTask.objects.filter(raw_data__in = uploaded_files)
     parsed_files = ParsedData.objects.filter(submitter=submitter).distinct()
-    tuple_count = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=submitter).values_list('total_tuple_sum', flat=True))
+    tuple_count = np.sum(ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=submitter).values_list('total_tuple_num', flat=True))
     request.session['taskid'] = pk
 
     return render(request, "submitter_uploaded.html", 
