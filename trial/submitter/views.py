@@ -82,6 +82,6 @@ def submitted(request, pk):
 
 def is_csv(infile):
     try:
-       a=pd.read_csv(infile.file.open())
+       a=pd.read_csv(infile.open())
     except csv.Error:
         return False
