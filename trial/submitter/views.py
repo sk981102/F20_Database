@@ -55,6 +55,8 @@ def submitted(request, pk):
 
         if form.is_valid():
             file1 = request.FILES['file']
+            print(is_csv(file1))
+
             if is_csv(file1):
                 raw_data_type = RawDataType.objects.get(pk=form.data['raw_data_type'])
                 submitter = Submitter.objects.get(pk=request.user.user_id)
@@ -83,5 +85,6 @@ def submitted(request, pk):
 def is_csv(infile):
     try:
        a=pd.read_csv(infile.open())
+       return True
     except csv.Error:
         return False
