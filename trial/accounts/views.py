@@ -148,11 +148,13 @@ def post_detail(request, pk):
    # return render(request, 'viewusers.html', context)
 
 def type_detail(request, pk):
-    task = Task.objects.get(pk=pk)
-    parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1).values_list('raw_data_seq_file',flat=True)
-    numtuple = ParsedData.objects.filter(task=pk, pass_or_not=1).aggregate(Sum('total_tuple_num'))
-    rawtype = RawDataType.objects.filter(task=pk)
+    request.session['task_id'] = pk
     temp = request.session.get('submitter_id')
+    task = Task.objects.get(pk=pk)
+    parsed =  ParsedData.objects.filter(task=pk,pass_or_not=1,submitter=temp).values_list('raw_data_seq_file',flat=True)
+    numtuple = ParsedData.objects.filter(task=pk, pass_or_not=1,submitter=temp).aggregate(Sum('total_tuple_num'))
+    rawtype = RawDataType.objects.filter(task=pk)
+
     #temp1 = int(temp)
     raw = RawDataSeqFile.objects.filter(submitter=temp,seqnumber__in=parsed)
     num = raw.count()
@@ -165,6 +167,25 @@ def type_detail(request, pk):
         'parsed': parsed, 'raw':raw, 'task':task, 'num':num,'numtuple':numtuple,'rawtype':rawtype #,'temp3':temp4 ,'temp':temp1,
     }
     return render(request, 'type_detail.html', context)
+
+
+def rawtype_detail(request, pk):
+
+    submitter1 = request.session.get('submitter_id')
+    task1 = request.session.get('task_id')
+    rawtype1 = RawDataType.objects.get(type_id=pk, task=task1)
+    parsed1 =  ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1).values_list('raw_data_seq_file',flat=True)
+   # numtupl1 = ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1).aggregate(Sum('total_tuple_num'))
+    rawdata1 = RawDataSeqFile.objects.filter(raw_data_type=rawtype1,submitter=submitter1,seqnumber__in=parsed1)
+    rawdatatemp = RawDataSeqFile.objects.filter(raw_data_type=rawtype1,submitter=submitter1,seqnumber__in=parsed1).values_list('seqnumber',flat=True)
+    parsedtemp1 = ParsedData.objects.filter(task=task1,pass_or_not=1,submitter=submitter1,raw_data_seq_file__in=rawdatatemp).aggregate(Sum('total_tuple_num'))
+    context = {
+        'rawtype1': rawtype1,'task1': task1,
+        'submitter1':submitter1,'rawdata1':rawdata1,
+        'rawdatatemp': rawdatatemp, #'numtupl1':numtupl1
+        'parsedtemp1': parsedtemp1
+    }
+    return render(request,'rawtype_detail.html', context)
 
 #def test(request):
  #   raw = RawDataSeqFile.objects.filter(submitter=15)  # 원본데이터시퀀스 파일 오브젝트 RawDataSeqFile object (1) RawDataSeqFile object (2) RawDataSeqFile object (4) RawDataSeqFile object (11)   RawDataSeqFile object (12)

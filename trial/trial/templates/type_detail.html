@@ -20,18 +20,19 @@
                  <td>{{ raw.file }}</td>
                     </tr>
                 {% endfor %}
-            {% for raw in rawtype %}
-                <tr>
-                 <td>{{ raw.type_name }}</td>
-                    </tr>
-                {% endfor %}
+
 
 
 
             </tbody>
         </table>
+        <h3>타입별 튜플 저장 수</h3>
         <table>
-
+{% for raw in rawtype %}
+                <tr>
+                    <td><a href="/rawtype_detail/{{ raw.pk }}">{{ raw.type_name }}</a></td>
+                    </tr>
+                {% endfor %}
         </table>
 
     </form>

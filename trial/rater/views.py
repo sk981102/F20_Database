@@ -54,27 +54,30 @@ def assigned_landing_view(request, *args, **kwargs):
 
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
-
+        print(rater)
         if AssignedTask.objects.filter(rater=rater, rated=0).exists():
             pass
         else:
             items = RawDataSeqFile.objects.all()
-            try:
-                while True:
-                    random_assigned = random.sample(list(items), 1)
-                    if AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists() == False:
-                        break
+            if len(items)>0:
+                try:
+                    while True:
+                        random_assigned = random.sample(list(items), 1)
 
-                raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
+                        if not AssignedTask.objects.filter(rater=rater, raw_data=random_assigned[0]).exists():
+                            print("loop broken")
+                            break
 
-                a = raw_data_type.task.task_name
-                task_info = Task.objects.filter(task_name=a).first()
+                    raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
 
-                assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0], task=task_info,
-                                                            rated=0)
-                assigned_task.save()
-            except:
-                pass
+                    a = raw_data_type.task.task_name
+                    task_info = Task.objects.filter(task_name=a).first()
+
+                    assigned_task = AssignedTask.objects.create(rater=rater, raw_data=random_assigned[0], task=task_info,
+                                                                rated=0)
+                    assigned_task.save()
+                except:
+                    pass
 
     not_rated = AssignedTask.objects.filter(rater=rater, rated=0)
     rated = AssignedTask.objects.filter(rater=rater, rated=1)

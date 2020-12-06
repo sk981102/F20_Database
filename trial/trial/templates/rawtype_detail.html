@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}users{% endblock %}
+{% load static %}
+<body class="subpage">
+  {% block content %}
+  <section id="main" class="wrapper">
+
+  <div class="inner">
+    <h2 style="text-align:center"><B><{{ rawtype1.type_name }}>타입의 제출 된 파일들 </B></h2>
+      <h1 style="text-align:right">전체 저장 된 튜플 수{{parsedtemp1.total_tuple_num__sum}}</h1>
+    <form method="post">
+        <hr>
+    <h3>해당 타입에 제출 된 파일 목록</h3>
+
+        <table class="table table-striped">
+        {% for raw in rawdata1 %}
+                <tr>
+                 <td>{{ raw.file }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+
+
+    </form>
+    </div>
+</section>
+
+{% endblock %}
+</body>
