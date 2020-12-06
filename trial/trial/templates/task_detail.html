@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section id="main" class="wrapper">
   <div class="inner">
-      <h2>Title: {{ task.task_name }}</h2>
-      <p><strong>Task ID:</strong> {{task.task_id}}</p>
-      <p><strong>Task Description:</strong> {{task.description}}</p>
+      <h2>[ {{ task.task_name }} ] 태스크</h2>
+      <br/>
+	  <p><strong>태스크 ID:</strong> {{task.task_id}}</p>
+      <p><strong>설명:</strong> {{task.description}}</p>
       <p><strong>최소 업로드 주기:</strong> {{task.mincycle}}</p>
-      <p><strong>File Type:</strong> .csv files</p>
+      <p><strong>데이터 확장자 형식:</strong> .csv </p>
       {% if user.is_authenticated %}
         {% if user.role == 'S'%}
             <a class="button" href="{% url 'contract' task.task_id %}"}>Apply Task</a>
@@ -14,4 +16,5 @@
       {% endif %}
 
   </div>
+</section>
 {% endblock %}

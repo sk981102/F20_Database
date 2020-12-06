@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section id="main" class="wrapper">
 {% if a == 1 %}
   <div class="inner">
       <h3 style="text-align:center;" >승인 요청</h3>
@@ -12,4 +13,5 @@
       <p style="text-align:center;"> 이미 승인요청하신 태스크입니다 .</p>
   </div>
 {% endif %}
+</section>
 {% endblock %}

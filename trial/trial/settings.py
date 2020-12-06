@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'gsk0_4ri#$s$k4)+y5qe$jnsxyys9r=vt(vmb2e7sn4b&948vd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -102,12 +102,12 @@ DATABASES = {
 }
 
 # default sqlite
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+##DATABASES = {
+##     'default': {
+##         'ENGINE': 'django.db.backends.sqlite3',
+##         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+##     }
+##}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

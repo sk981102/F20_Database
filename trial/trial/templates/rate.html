@@ -15,12 +15,12 @@
 <body>
 	<section id="main" class="wrapper">
 	  <div class="inner">
-		  <h2>Task Info</h2>
-		  <h5> Task Name: {{task_schema.TaskDataTableName}}</h5>
-		  <h5> {{task_schema.TaskDataTableScheme}}</h5>
+		  <h4>태스크 스키마 정보</h4>
+		  <p> 태스크 데이터 테이블 이름: {{task_schema.TaskDataTableName}}</p>
+		  <p> 태스크 스키마 : {{task_schema.TaskDataTableScheme}}</p>
 
 		  <hr class="major">
-		  <h4>Raw Data</h4>
+		  <h4>파싱 시퀀스 파일</h4>
 			{{table | safe}}
 		  <br/><br/><br/>
 		  <h4>평가하기</h4>
