@@ -19,37 +19,38 @@ def assigned_landing_view(request, *args, **kwargs):
         form = RateForm(request.POST)
         if form.is_valid():
             raw_seqfile_pk = request.session.get('rawdataseqfile')
-            null_tuple_num = request.session.get('num_null')
-
-            rater = get_object_or_404(Rater, pk=request.user.user_id)
             raw_data_seq_file = RawDataSeqFile.objects.get(pk=raw_seqfile_pk)
+            rater = get_object_or_404(Rater, pk=request.user.user_id)
+            null_tuple_num = request.session.get('num_null')
             submitter = raw_data_seq_file.submitter
             task = raw_data_seq_file.raw_data_type.task
             total_tuple_num = request.session.get('num_row')
             duplicate_tuple_num = request.session.get('num_dup')
             column_null_ratio = null_tuple_num / total_tuple_num
-            quantity_score = 10
+            quantity_score = int(max((total_tuple_num-duplicate_tuple_num), 100)/10 - column_null_ratio*10)
             quality_score = form.data['quality_score']
             evaluated = 1
             pass_or_not = form.data['pass_or_not']
 
-            rated = ParsedData.objects.create(rater=rater, raw_data_seq_file=raw_data_seq_file, submitter=submitter,
-                                              task=task,
-                                              total_tuple_num=total_tuple_num, duplicate_tuple_num=duplicate_tuple_num,
-                                              column_null_ratio=column_null_ratio, quantity_score=quantity_score,
-                                              quality_score=quality_score, evaluated=evaluated, pass_or_not=pass_or_not)
-            rated.save()
+            
+            if not ParsedData.objects.filter(raw_data_seq_file=raw_data_seq_file, rater=rater).exists():
+                rated = ParsedData.objects.create(rater=rater, raw_data_seq_file=raw_data_seq_file, submitter=submitter,
+                                                  task=task,
+                                                  total_tuple_num=total_tuple_num, duplicate_tuple_num=duplicate_tuple_num,
+                                                  column_null_ratio=column_null_ratio, quantity_score=quantity_score,
+                                                  quality_score=quality_score, evaluated=evaluated, pass_or_not=pass_or_not)
+                rated.save()
 
-            if pass_or_not == "1":
-                insert_sql(raw_data_seq_file, task)
+                if pass_or_not == "1":
+                    insert_sql(raw_data_seq_file, task)
 
-            AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
+                AssignedTask.objects.filter(rater=rater, raw_data=raw_data_seq_file).update(rated=1)
 
-            # submitter score update
-            quality_scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
-            quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
-            new_score=np.round(np.mean(np.mean(quality_scores), np.mean(quantity_scores)),decimals=2)
-            Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
+                # submitter score update
+                quality_scores=ParsedData.objects.filter(submitter=submitter).values_list('quality_score', flat=True)
+                quantity_scores=ParsedData.objects.filter(submitter=submitter).values_list('quantity_score', flat=True)
+                new_score=np.round((np.mean(quality_scores)+np.mean(quantity_scores)/2),decimals=2)
+                Submitter.objects.filter(user_id=submitter.user_id).update(score=new_score)
 
     else:
         rater = get_object_or_404(Rater, pk=request.user.user_id)
@@ -127,7 +128,7 @@ def rater_rates(request, pk):
     request.session['rawdataseqfile'] = pk
     request.session['num_row'] = scores['num_row']
     request.session['num_dup'] = scores['num_dup']
-    request.session['num_null'] = int(scores['num_null'].sum())  # 컬럼별 null ratio 계산 필요..
+    request.session['num_null'] = int(scores['num_null'].sum())
 
     return render(request, "rate.html", {"form": form, "raw_data": raw_data, "table": data_html,
                                          "scores": scores, "task_schema": task_schema})

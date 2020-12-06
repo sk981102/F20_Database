@@ -19,23 +19,43 @@
 <body>
 	<section id="main" class="wrapper">
 	  <div class="inner">
-		  <h2></h2>
-		  <h4>제출한 데이터</h4><br/>
+		  <h4>[ {{task.task_name}} ]</h4>
+		  <p>태스크에 제출한 데이터: &nbsp 총 {{count}} 개<br/>
+		  태스크 데이터 테이블에 저장된 튜플 수: &nbsp 총 {{tuple_count}} 개</p>
+		  <p>* 하나의 데이터는 여러 평가자에게 배정될 수 있습니다.<br/>
+		  * 평가자가 평가 완료 시 정성평가점수를 확인할 수 있으며, 한 명 이상이 PASS 시 데이터가 저장됩니다.<br/>
+		  * 이미 저장된 파일은 추후 다른 평가자가 NONPASS 판정을 내리더라도 자동 삭제되지 않으나, <br/> 
+		  &nbsp;&nbsp;&nbsp지속적으로 낮은 정성평가점수를 받으면 관리자 판단 하에 삭제될 수 있으며 차후 태스크 신청에 불이익을 받을 수 있습니다. <br/><br/></p>
 		  <div class="table_wrapper">
 			{% for t in data_types %}
 			<table>
 			<h4>< {{t.type_name}} > &nbsp 타입</h4>
 			<thead>
-				<tr><th>제출 회차</th>
+				<th>제출 회차</th>
+				<th>업로드한 파일</th>
 				<th>기간</th>
-				<th>업로드한 파일</th></tr>
 			</thead>
 			<tbody>
 			{% for f in uploaded_files %}
 				{% if t == f.raw_data_type %}
 				<tr><td>{{f.round}}</td>
-					<td>{{f.term_start}} ~ {{f.term_end}}
-					<td>{{f.file}}</td></tr>
+					<td>{{f.file}}</td>
+					<td>{{f.term_start}} ~ {{f.term_end}}</td></tr>
+					{% for a in assigned_files %}
+						{% if a.raw_data == f %}
+						<tr><td></td>
+							<td>└ &nbsp 평가자: {{a.rater.user_id}}
+							({% if a.rated == 0 %}평가 중)</td><td></td>
+							 {% else %}평가 완료) &nbsp 
+								{% for p in parsed_files %}
+									{% if p.raw_data_seq_file == f and p.rater == a.rater %}
+										정성평가점수: {{p.quality_score}}점, 저장 여부: 
+										{% if p.pass_or_not == 1 %}저장(PASS)</td>
+										{% else %}거절(NONPASS)</td>{%endif%}
+								{% endif %}{%endfor%}<td></td>
+							{%endif%}</tr>
+						{%endif%}
+					{%endfor%}
 				{% endif %}
 			{% endfor %}
 			</tbody>
