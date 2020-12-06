@@ -116,36 +116,15 @@ def post_detail(request, pk):
         apply = ApplyTask.objects.filter(submitter=submitter, approved=1).values('task')  # <QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
 
         tak1 = Task.objects.filter(task_id__in=apply)  # 제출자가 참여중인 태스크 목록.(승인 된 것들만)
-        #temp = raw.values('seqnumber')  # 제출자가 제출한 파일 시퀀스number 오브젝트 {'seqnumber': 1}   {'seqnumber': 2}   {'seqnumber': 4}   {'seqnumber': 11}   {'seqnumber': 12}
-        #pared = ParsedData.objects.filter(raw_data_seq_file__in=temp, pass_or_not=1)  # 제출자가 제출한 패쓰 된 paredData objects
-        #temppared = pared.values('task').order_by('task').distinct()  #
 
-
-        # task = tak1.filter(task_id__in=temppared)                   #제출자가 참여중인 목록 중
-        #taktemp = tak1.values_list('task_id', flat=True)  # parsedtemp 에 현제 제출자가 참가해 있는 태스크들의 id를 넘겨 줌.
-       # parsedtemp = pared.filter(task__in=taktemp).values_list('raw_data_seq_file',flat=True).distinct()  # 참가해있는 테이블들에 제출되어 진 파씽파일들
-        #rawtemp = raw.filter(seqnumber__in=parsedtemp)  # 파씽파일들의 이름을 뽑기 위한 용도.
-
-        #apply = ApplyTask.objects.filter(submitter=submitter).values('task')        #<QuerySet [{'task': 1}, {'task': 2}, {'task': 3}]>
-      #  tak = Task.objects.filter(task_id__in=apply)                                #<QuerySet [<Task: 예금 및 적금 데이터>, <Task: 베스트셀러 데이터>, <Task: 수강신청 데이터>]>
-      #  raw_data = RawDataSeqFile.objects.filter(submitter=submitter).values('file')#[{'file': 'bestsellers_with_categories.csv'}, {'file': 'fiction_correct.csv'}, {'file': 'fiction_incorrect.csv'}]>
-      #  raw = RawDataType.objects.filter(task__in=tak).values('task').order_by('task').distinct()
-
-       # parsed = get_object_or_404(ParsedData,pk=raw_data)
 
         context = {
-            'post': post,#, 'apply': apply, 'submitter': submitter, 'tak': tak, 'parsed': raw_data, 'raw': raw
+            'post': post,
 
             'raw': rawfile,
             'apply': apply,
             'tak1': tak1,
-           # 'pared': pared,
-            # 'temp': temp,
-           # 'temppared': temppared,
-          #  'taktemp': taktemp,
-          #  'parsedtemp': parsedtemp,
-          #  'rawtemp': rawtemp
-            # 'task': task
+
         }
         return render(request, 'post_detail.html', context)
     elif post.role == 'R':
