@@ -73,7 +73,7 @@ def submitted(request, pk):
                                 print("loop broken")
                                 break
 
-                    assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
+                    assigned_task = AssignedTask.objects.create(rater=random_rater[0], raw_data=submitted, task=task, rated=0)
                     assigned_task.save()
 
                 return render(request, "submitted.html", )
