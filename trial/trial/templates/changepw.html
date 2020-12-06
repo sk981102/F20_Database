@@ -6,10 +6,13 @@
 	h2 {text-align: center;}
 	h3 {text-align: center;}
 	h4 {text-align: center;}
+	h5 {text-align: center;}
 	</style>
 	</head>
 <br>
 <h3>Change Password Here</h3>
+<h5>관리자의 경우 초기 아이디와 패스워드는 admin/admin으로 되어있습니다. <br>
+패스워드 변경 시 8자 이상 문자 숫자 조합을 요구하고 있기 때문에 패스워드를 한번 변경하면 다시 admin으로 설정할 수 없습니다.</h5>
 <form method="POST">
     <div class="inner">
     {% csrf_token %}
