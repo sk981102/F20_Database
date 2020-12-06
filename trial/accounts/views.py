@@ -71,7 +71,7 @@ def changepw(request):
 
 def changeinfo(request):
     if request.method == 'POST':
-        form = ChangeInfoForm(request.POST, instance=request.user, initial={'is_staff': False,'is_superuser':False})
+        form = ChangeInfoForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
         return redirect('myaccount')
