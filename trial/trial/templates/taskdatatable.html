@@ -27,7 +27,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-            <input type = "submit" value = "Add Field" class="button fit" onclick ="return alert('Task Data Table Schema Field Defined Successfully!')"><br><br>
+            <input type = "submit" value = "Add Field" class="button fit"><br><br>
             <H4> After defining task data table schema, you should make at least one task raw data type. </H4>
             <H4> When you finish with your schema(fields), click Done. </H4>
             <a href="{% url 'createdatatype' %}" class="button fit">Done</a>
