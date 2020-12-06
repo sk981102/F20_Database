@@ -67,11 +67,6 @@ def submitted(request, pk):
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
 
-                random_rater = random.sample(list(Rater.objects.all()), 1)
-                #raw_data_type = RawDataType.objects.filter(type_name=random_assigned[0].raw_data_type).first()
-                assigned_task = AssignedTask.objects.create(rater=random_rater, raw_data=submitted, task=task, rated=0)
-                assigned_task.save()
-
                 return render(request, "submitted.html", )
             else:
                 form = UploadForm(task, submitter, request.POST, request.FILES)
