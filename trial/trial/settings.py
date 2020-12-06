@@ -87,24 +87,27 @@ WSGI_APPLICATION = 'trial.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 ALLOWED_HOSTS = ['165.132.105.42', 'localhost', '127.0.0.1']
 # For MariaDB
-##DATABASES = {
-##     'default': {
-##         'ENGINE': 'mysql.connector.django',
-##         'NAME': 'team1',
-##         'USER':'team1',
-##         'PASSWORD':'610012',
-##         'HOST':'165.132.105.42',
-##         'PORT':'',
-##     }
-##}
-
-# default sqlite
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'team1',
+        'USER':'team1',
+        'PASSWORD':'610012',
+        'HOST':'165.132.105.42',
+        'PORT':'',
+	'OPTIONS': {
+            'use_pure':True
+        },
     }
 }
+
+# default sqlite
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

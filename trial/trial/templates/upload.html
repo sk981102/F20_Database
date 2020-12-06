@@ -37,7 +37,8 @@
 				<tr><td>제출할 파일</td>
 					<td>{{form.file}}</td></tr>
   				<tr><td>원본 데이터 타입</td>
-					<td>{{form.raw_data_type}}</td></tr>
+					<td>{{form.raw_data_type}}<br/>
+						제출할 데이터 타입이 없는 경우 관리자에게 요청해주세요 <a href = "{% url 'request' task.task_id %}">[요청하기]</a></td></tr>
   				<tr><td>제출 회차</td>
 					<td>{{form.round}} 회차</tr>
   				<tr><td>데이터 수집 기간</td>

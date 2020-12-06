@@ -72,9 +72,10 @@ def changepw(request):
 def changeinfo(request):
     if request.method == 'POST':
         form = ChangeInfoForm(request.POST, instance=request.user)
-        print(form)
         if form.is_valid():
             form.save()
+        else:
+            print("not")
         return redirect('myaccount')
     else:
         form = ChangeInfoForm(instance=request.user)

@@ -4,14 +4,14 @@ import string
 from django.shortcuts import render
 from django.views import generic
 from task.models import Task, ApplyTask
-from raw_data.models import RawDataType, RawDataSeqFile
+from raw_data.models import RawDataType, RawDataSeqFile, RawDataTypeRequest
 from submitter.models import Submitter
 from parsed_data.models import ParsedData
 from rater.models import Rater,AssignedTask
 from rater.views import calculate_auto_score
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
-from submitter.forms import UploadForm
+from submitter.forms import UploadForm, RequestForm
 from django.http import HttpResponse
 import numpy as np
 import pandas as pd
@@ -47,6 +47,25 @@ def upload_new_file(request, pk):
     return render(request, "upload.html", {"form": form, "task":task})
 
 
+def request(request, pk):
+    form = RequestForm()
+    task = get_object_or_404(Task, pk=pk)
+    return render(request, "request.html", {"form": form, "task":task})
+
+
+def requested(request, pk):
+    if request.method == 'POST':
+        task = get_object_or_404(Task, pk=pk)
+        form = RequestForm(request.POST)
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            requested = RawDataTypeRequest.objects.create(task=task, content=content)
+            requested.save()
+
+            return render(request, "requested.html", )
+
+
 def submitted(request, pk):
     if request.method == 'POST':
         task = get_object_or_404(Task, pk=pk)
@@ -62,19 +81,21 @@ def submitted(request, pk):
                 round = form.cleaned_data['round']
                 term_start = form.cleaned_data['term_start']
                 term_end = form.cleaned_data['term_end']
-                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type, round=round,
+                submitted = RawDataSeqFile.objects.create(submitter=submitter, file=file1, raw_data_type=raw_data_type,
+                                                          round=round,
                                                           term_start=term_start, term_end=term_end)
                 submitted.save()
                 if len(Rater.objects.all())>0:
                     while True:
                         random_rater = random.sample(list(Rater.objects.all()), 1)
-                        if len(AssignedTask.objects.filter(rater=random_rater[0], rated=0)) < 1:
-                            if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
-                                print("loop broken")
-                                break
+                        if not AssignedTask.objects.filter(rater=random_rater[0], raw_data=submitted).exists():
+                            print("loop broken")
+                            break
 
-                    assigned_task = AssignedTask.objects.create(rater=random_rater[0], raw_data=submitted, task=task, rated=0)
+                    assigned_task = AssignedTask.objects.create(rater=random_rater[0],
+                                                                raw_data=submitted, task=task)
                     assigned_task.save()
+
 
                 return render(request, "submitted.html", )
             else:
@@ -90,5 +111,7 @@ def is_csv(infile):
     try:
        a=pd.read_csv(infile.open())
        return True
+    except csv.Error:
+        return False
     except:
         return False

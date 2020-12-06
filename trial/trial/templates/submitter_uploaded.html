@@ -45,7 +45,6 @@
 						{% if a.raw_data == f %}
 						<tr><td></td>
 							<td>└ &nbsp 평가자: {{a.rater.user_id}}
-								{{a.rated}}
 							{% if a.rated == 0 %} 평가 중</td><td></td>
 							 {% else %}평가 완료 &nbsp
 								{% for p in parsed_files %}

@@ -1,10 +1,15 @@
 from django import forms
-from raw_data.models import RawDataType, RawDataSeqFile
+from raw_data.models import RawDataType, RawDataSeqFile, RawDataTypeRequest
 from submitter.models import Submitter
 from task.models import Task
 import datetime
 from django.shortcuts import get_object_or_404
 
+
+class RequestForm(forms.ModelForm):
+        class Meta:
+                model = RawDataTypeRequest
+                fields = ('content',)
 
 class UploadForm(forms.ModelForm):
         class Meta:

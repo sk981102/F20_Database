@@ -74,7 +74,6 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, username, PW,email,role,**extra_fields):
-        print(self)
         if role == 'A':
             self.create_superuser(self,username, PW,email, **extra_fields)
         extra_fields.setdefault('is_staff', False)
