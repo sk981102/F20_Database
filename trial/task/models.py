@@ -52,7 +52,7 @@ class TaskDataTableSchema(models.Model):
     FieldType = (('char', 'Char'), ('int','Int'), ('date','Date'), ('boolean', 'Boolean'))
 
     field_id = models.AutoField(primary_key=True)
-    task_id = models.ForeignKey('task.Task', models.DO_NOTHING)
+    task_id = models.ForeignKey('task.Task', models.DO_NOTHING, default=None)
     field_name = models.CharField(unique=True, max_length=30)
     field_type = models.CharField(max_length=30, choices=FieldType, default="na")
     null_valid = models.CharField(max_length=30, choices=NullValid, default="na")

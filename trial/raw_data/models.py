@@ -39,7 +39,7 @@ class RawDataTypeSchema(models.Model):
 	field_name = models.CharField(max_length=30)
 	field_type = models.CharField(max_length=30, choices=FieldType, default="na")
 	null_value = models.CharField(max_length=10, choices=NullValid, default="na")
-	mapping_field = models.ForeignKey('task.TaskDataTableSchema', models.DO_NOTHING)
+	mapping_field = models.ForeignKey('task.TaskDataTableSchema', models.DO_NOTHING, default=None)
 
 	class Meta:
 		db_table = 'raw_data_type_schema'
