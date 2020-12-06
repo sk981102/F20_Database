@@ -1,6 +1,10 @@
 from django import forms
 from raw_data.models import RawDataType, RawDataSeqFile
+from submitter.models import Submitter
+from task.models import Task
 import datetime
+from django.shortcuts import get_object_or_404
+
 
 class UploadForm(forms.ModelForm):
         class Meta:
@@ -8,10 +12,17 @@ class UploadForm(forms.ModelForm):
                 fields = ('file', 'raw_data_type', 'term_start', 'term_end', 'round')
                 widgets = {'term_start': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),'term_end': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),}
 
+        def __init__(self, task, submitter, *args, **kwargs):
+                super(UploadForm, self).__init__(*args, **kwargs)
+                self.fields['raw_data_type'].queryset = RawDataType.objects.filter(task=task).distinct()
+                self.task = task
+                self.submitter = submitter
+                
         def clean_round(self):
                 r = self.cleaned_data.get('round')
-
-                if RawDataSeqFile.objects.filter(round=r).exists():
+                data_types = RawDataType.objects.filter(task=self.task).values('type_id').distinct()
+                
+                if RawDataSeqFile.objects.filter(round=r, raw_data_type__in=data_types, submitter=self.submitter).exists():
                         raise forms.ValidationError('이미 제출한 회차입니다. 제출된 파일들의 회차를 확인한 후 다시 입력해주세요')
 
                 return r
