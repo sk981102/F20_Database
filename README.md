@@ -1,8 +1,12 @@
 # F20_Database
-연세대학교 2020년 가을학기 Database 조별과제
+Yonsei F20 Database project. Awarded 1st place and received scholarship for this project.
 
-#### 실행방법
-1. python 3.8 확인 후 requirements.txt 다운로드 
+#### Introduction
+
+This project is to create a data crowsourcing platform. The admin can create tasks to collect data by specifying schema and data type. The submitter can submit the csv file that matches to the schema given certain period of time. The rater can rate the quality of the submitted data and score submitter as well as the dataset.  
+
+#### 실행방법 (How to Run)
+1. python 3.8 확인 후 requirements.txt 실행
 ```
 #python version check
 python -v
