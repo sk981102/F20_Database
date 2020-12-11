@@ -1,9 +1,9 @@
 # F20_Database
-Yonsei F20 Database project. Awarded 1st place and received scholarship for this project.
+Yonsei F20 Database project. Received scholarship for this project.
 
-#### Introduction
+### Introduction
 
-This project is to create a data crowsourcing platform. The admin can create tasks to collect data by specifying schema and data type. The submitter can submit the csv file that matches to the schema given certain period of time. The rater can rate the quality of the submitted data and score submitter as well as the dataset.  
+In this era of big data, collecting high quality data is particularly important. This project is to create a data crowsourcing platform to meet those needs. The admin can create tasks to collect data by specifying schema and data type. The submitter can submit the csv file that matches to the schema given certain period of time. The rater can rate the quality of the submitted data and score submitter as well as the dataset.  
 
 #### 실행방법 (How to Run)
 1. python 3.8 확인 후 requirements.txt 실행
