@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!doctype html>
+<html>
+<head>
+<title>평가 페이지</title>
+</head>
+
+<body>
+<h1>평가할 파일 목록
+<table>
+
+<tr><th>파일이름</th><th>정성평가 점수</th><th>패스/논패스 여부</th></tr>
+
+<tr><td>파일1</td><td>
+<form action="">
+<label for="score">정성평가점수</label>
+<input type="text" id="score">
+</form>
+</td><td>
+<label for="pass">패스여부</label>
+<input type="text" id="pass">
+</td></tr>
+<tr><td>파일2</td><td>
+<label for="score">정성평가점수</label>
+<input type="text" id="score">
+</td><td>
+<label for="pass">패스여부</label>
+<input type="text" id="pass">
+</td></tr>
+</table>
+</body>
+</html>
+{% endblock %}
+
+
